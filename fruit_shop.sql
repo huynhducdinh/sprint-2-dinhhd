@@ -18,6 +18,13 @@ CREATE TABLE product_type(
 id BIGINT PRIMARY KEY AUTO_INCREMENT,
 name_type VARCHAR(255)NOT NULL);
 
+CREATE TABLE supplier(
+id BIGINT PRIMARY KEY AUTO_INCREMENT,
+code_supplier VARCHAR(10) NOT NULL,
+name_supplier VARCHAR(255) NOT NULL,
+address VARCHAR(255) NOT NULL,
+phone_number VARCHAR(10) NOT NULL  UNIQUE 
+);
 
 CREATE TABLE product_fruit(
 id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -31,7 +38,9 @@ image MEDIUMTEXT,
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 update_date DATETIME DEFAULT CURRENT_TIMESTAMP,
 id_type BIGINT NOT NULL,
-FOREIGN KEY (id_type) REFERENCES product_type(id)
+FOREIGN KEY (id_type) REFERENCES product_type(id),
+id_supplier BIGINT NOT NULL,
+FOREIGN KEY (id_supplier) REFERENCES supplier(id)
 );
 
 CREATE TABLE customers(
@@ -51,6 +60,7 @@ update_date DATETIME
 CREATE TABLE orders(
 id BIGINT AUTO_INCREMENT PRIMARY KEY,
 total_price BIGINT,
+code_orders VARCHAR(10) NOT NULL,
 id_customers BIGINT NOT NULL,
 FOREIGN KEY (id_customers)REFERENCES customers(id),
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -66,3 +76,13 @@ FOREIGN KEY(id_orders)REFERENCES orders(id),
 quantity INT,
 price BIGINT,
 create_date DATETIME DEFAULT CURRENT_TIMESTAMP);
+
+CREATE TABLE shopping_cart(
+id BIGINT AUTO_INCREMENT PRIMARY KEY,
+id_customers BIGINT NOT NULL,
+FOREIGN KEY (id_customers)REFERENCES customers(id),
+id_product_fruit BIGINT NOT NULL,
+FOREIGN KEY(id_product_fruit)REFERENCES product_fruit(id),
+quantity INT,
+is_delete BIT DEFAULT 0
+);
