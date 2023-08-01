@@ -6,15 +6,21 @@ import {Headers} from "./componments/headers";
 import {Footer} from "./componments/footer";
 import {Body} from "./componments/body";
 import {Login} from "./componments/login";
+import {Shopping_cart} from "./componments/shopping_cart";
+import {ImageSlide} from "./componments/ImageSlide";
+import {ProductDetail} from "./componments/productDetail";
 
 function App() {
   return (
    <>
    <Routes>
      <Route path="/" element={<Headers/>}/>
+     <Route path="/slide" element={<ImageSlide/>}/>
      <Route path="/footers" element={<Footer/>}/>
      <Route path="/body" element={<Body/>}/>
      <Route path="/login" element={<Login/>}/>
+     <Route path="/cart" element={<Shopping_cart/>}/>
+     <Route path="/detail" element={<ProductDetail/>}/>
    </Routes>
    </>
   );

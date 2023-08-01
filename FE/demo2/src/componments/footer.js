@@ -6,7 +6,7 @@ import React from "react";
     return(
         <>
             {/* ======= Footer ======= */}
-            <footer id="footer" className="footer">
+            <footer id="footer" className="footer" >
                 <div className="container">
                     <div className="row gy-3">
                         <div className="col-lg-3 col-md-6 d-flex">

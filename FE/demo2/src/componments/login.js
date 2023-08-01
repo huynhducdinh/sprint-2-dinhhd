@@ -1,13 +1,13 @@
 export function Login() {
     return(
         <>
-            <div className="container d-flex justify-content-center align-items-center min-vh-100">
-                <div className="row border rounded-5 p-3 bg-white shadow box-area">
+            <div className=" d-flex justify-content-center align-items-center min-vh-100"  style={{backgroundImage: "url(/img/login.jpg)",backgroundSize:"100vw"}}>
+                <div className="row border rounded-5 p-3  shadow box-area" style={{backgroundColor:"rgba(236,230,230,0.5)"}}>
                     <div
                         className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                     >
                         <div className="featured-image mb-3">
-                            <img src="/img/hinh.webp" className="img-fluid" style={{ width: 400 ,height:300}} />
+                            <img src="/img/fruit%20shop.png" className="img-fluid" style={{ width: 270 ,height:270}} />
                         </div>
 
                     </div>
@@ -46,15 +46,14 @@ export function Login() {
                                         </label>
                                     </div>
                                     <div className="forgot">
-                                        <small>
-                                            <a href="forgotPass.html">Quên mật khẩu?</a>
+                                        <small >
+                                            <a style={{color:"black"}} href="forgotPass.html">Quên mật khẩu?</a>
                                         </small>
                                     </div>
                                 </div>
-                                <div className="input-group mb-3 login">
+                                <div className="input-group mb-3 login" >
                                     <button
                                         className="btn btn-success  w-100 fs-6"
-
                                         type="submit"
                                     >
                                         Đăng nhập ngay
@@ -62,7 +61,7 @@ export function Login() {
                                 </div>
                                 <div className="input-group mb-3">
                                     <button className="btn btn-lg btn-light w-100 fs-6">
-                                        <img src="/img/gg.png" style={{ width: 50 }} className="me-2" />
+                                        <img src="/img/goo.png" style={{ width: 25 }} className="me-2" />
                                         <small>Sign In with Google</small>
                                     </button>
                                 </div>

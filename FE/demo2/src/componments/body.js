@@ -24,7 +24,7 @@ export function Body() {
                             >
                                 <div className="call-us position-absolute">
                                     <h4>Số điện thoại đặt hàng</h4>
-                                    <p>0555-777-666</p>
+                                    <p style={{color:"#00833e"}}>0555-777-666</p>
                                 </div>
                             </div>
                             <div
@@ -45,15 +45,14 @@ export function Body() {
                                         thượng hạng, chất lượng với tiêu chuẩn 3C: CHUẨN TƯƠI – CHUẨN NGON – CHUẨN SẠCH.
                                     </span>
 
-                                    <div className="position-relative mt-4">
+                                    <div className="position-relative mt-4" >
                                         <img
                                             src="/img/11.jpg"
                                             className="img-fluid"
                                             alt="" style={{height: "45vh", width: "100vw"}}
                                         />
                                         <a
-                                            href="https://www.youtube.com/watch?v=LXb3EKWsInQ"
-                                            className="glightbox play-btn"
+                                            className="glightbox play-btn btn-success"
                                         />
                                     </div>
                                 </div>

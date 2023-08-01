@@ -5,10 +5,10 @@
   --font-secondary: "Inter", sans-serif;
 }
 
-/*!* Colors *!*/
+
 :root {
   --color-default: #212529;
-  --color-primary: #ce1212;
+  --color-primary: #0cbb60;
   --color-secondary: #37373f;
 }
 
@@ -17,9 +17,9 @@
   scroll-behavior: smooth;
 }
 
-/*!*--------------------------------------------------------------*/
+/*/*--------------------------------------------------------------*/
 /*# General*/
-/*--------------------------------------------------------------*!*/
+/*--------------------------------------------------------------*/*/
 body {
   font-family: var(--font-default);
   color: var(--color-default);
@@ -31,7 +31,7 @@ a {
 }
 
 a:hover {
-  color: #ec2727;
+  color: black;
   text-decoration: none;
 }
 
@@ -44,9 +44,9 @@ h6 {
   font-family: var(--font-secondary);
 }
 
-/*!*--------------------------------------------------------------*/
+/*/*--------------------------------------------------------------*/
 /*# Sections & Section Header*/
-/*--------------------------------------------------------------*!*/
+/*--------------------------------------------------------------*/*/
 section {
   overflow: hidden;
   padding: 80px 0;
@@ -233,7 +233,7 @@ section {
 # Header
 --------------------------------------------------------------*/
 .header {
-  background: #00CC66;
+  background: #0cbb60;
   transition: all 0.5s;
   z-index: 997;
   height: 90px;
@@ -614,7 +614,7 @@ section {
 .about .play-btn {
   width: 94px;
   height: 94px;
-  background: radial-gradient(var(--color-primary) 50%, rgba(206, 18, 18, 0.4) 52%);
+  background: radial-gradient(var(--color-primary) 50%, rgba(28, 150, 7, 0.4) 52%);
   border-radius: 50%;
   display: block;
   position: absolute;
@@ -635,7 +635,7 @@ section {
   animation-timing-function: steps;
   opacity: 1;
   border-radius: 50%;
-  border: 5px solid rgba(206, 18, 18, 0.7);
+  border: 5px solid rgb(7, 112, 57);
   top: -15%;
   left: -15%;
   background: rgba(198, 16, 0, 0);
@@ -1560,6 +1560,7 @@ section {
   background-color: #1f1f24;
   padding: 50px 0;
   color: rgba(255, 255, 255, 0.7);
+
 }
 
 .footer .icon {
