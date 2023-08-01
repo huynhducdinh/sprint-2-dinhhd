@@ -1,14 +1,20 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/shoping_cart.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import React from "react";
+import React, {useEffect} from "react";
 import {Image} from "react-bootstrap";
+import {Headers} from "./headers";
+import {Footer} from "./footer";
 
 export function ProductDetail() {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <>
-            <main id="main" style={{marginTop: "5%"}}>
-                <section className="layout_padding ">
+            <Headers/>
+            <main id="main">
+                <section className="layout_padding" style={{marginTop: "10%"}}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
@@ -41,7 +47,7 @@ export function ProductDetail() {
 
                                                 <form action="">
                                                     <div className="d-flex ">
-                                                        <select style={{borderColor: "black", width: "50%",}}
+                                                        <select style={{width: "50%", border: "1px solid #03964c"}}
                                                                 name="contractType"
                                                                 className=" form-select">
                                                             <option value={""}>Chọn một tuỳ chọn</option>
@@ -53,16 +59,15 @@ export function ProductDetail() {
                                                         </select>
 
                                                         <div style={{marginLeft: "5%"}}>
-                                                            <button type="button" style={{height: "40px"}}
+                                                            <button type="button" style={{height: "40px",borderRadius:"5px 0 0 5px"}}
                                                                     className="minus"><span>-</span></button>
                                                             <input type="number" style={{height: "40px", width: "20%"}}
                                                                    className="input" step="1" min="0" max
                                                             />
-                                                            <button style={{height: "40px"}} type="button" value="+"
+                                                            <button style={{height: "40px",borderRadius:" 0 5px  5px 0"}} type="button" value="+"
                                                                     className="plus"><span>+</span></button>
-
-                                                        
                                                         </div>
+
                                                     </div>
                                                     <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
                                                             style={{width: "100%"}}><span style={{fontWeight: "bold"}}>
@@ -88,75 +93,84 @@ export function ProductDetail() {
                             <h2>Các sản phẩm khác</h2>
                         </div>
 
-                        <section id="why-us" className="why-us section-bg" >
-                            <div className="container" data-aos="fade-up">
-                                <div className="row gy-4">
-
-                                    {/* End Why Box */}
-                                    <div className="col-lg-12 d-flex align-items-center mb-5 mt-5 ">
-                                        <div className="row gy-4" >
-                                            <div className="col-xl-3"  data-aos="fade-up" data-aos-delay={200}>
-                                                <div
-                                                    className="icon-box d-flex flex-column justify-content-center align-items-center" style={{borderRadius:"30px",height:"95%"}}>
-                                                    <Image
-                                                        src="/img/6.jpg"
-                                                        className="img-fluid"
-                                                        alt=""
-                                                        style={{borderRadius:"30px"}}
-                                                    />
-                                                    <h4 className="mt-4">Lựu Peru</h4>
-                                                </div>
+                        <section id="chefs" className="chefs section-bg justify-content-center mb-5"
+                                 style={{marginTop: "2%"}}>
+                            <div className="container justify-content-center" data-aos="fade-up">
+                                <div className="row gy-4 justify-content-center ">
+                                    <div
+                                        className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                        data-aos="fade-up"
+                                        data-aos-delay={100}>
+                                        <div className="chef-member">
+                                            <div className="member-img">
+                                                <img
+                                                    src="/img/11.jpg"
+                                                    className="img-fluid"
+                                                    alt=""
+                                                />
                                             </div>
-                                            <div className="col-xl-3" data-aos="fade-up" data-aos-delay={200}>
-                                                <div
-                                                    className="icon-box d-flex flex-column justify-content-center align-items-center" style={{borderRadius:"30px",height:"95%"}}>
-
-                                                    <Image
-                                                        src="/img/6.jpg"
-                                                        className="img-fluid"
-                                                        alt=""
-                                                        style={{borderRadius:"30px"}}
-                                                    />
-                                                    <h4 className="mt-4">Lựu Peru</h4>
-
-                                                </div>
+                                            <div className="member-info">
+                                                <h4>Hồng New Zealand</h4>
                                             </div>
-                                            {/* End Icon Box */}
-                                            <div className="col-xl-3" data-aos="fade-up" data-aos-delay={300}>
-                                                <div
-                                                    className="icon-box d-flex flex-column justify-content-center align-items-center" style={{borderRadius:"30px",height:"95%"}}>
-                                                    <Image
-                                                        src="/img/6.jpg"
-                                                        className="img-fluid"
-                                                        alt=""
-                                                        style={{borderRadius:"30px"}}
-                                                    />
-                                                    <h4 className="mt-4">Lựu Peru</h4>
-                                                </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                        data-aos="fade-up"
+                                        data-aos-delay={100}>
+                                        <div className="chef-member">
+                                            <div className="member-img">
+                                                <img
+                                                    src="/img/11.jpg"
+                                                    className="img-fluid"
+                                                    alt=""
+                                                />
                                             </div>
-                                            {/* End Icon Box */}
-                                            <div className="col-xl-3" data-aos="fade-up" data-aos-delay={400}>
-                                                <div
-                                                    className="icon-box d-flex flex-column justify-content-center align-items-center" style={{borderRadius:"30px",height:"95%"}}>
-                                                    <Image
-                                                        src="/img/6.jpg"
-                                                        className="img-fluid"
-                                                        alt=""
-                                                        style={{borderRadius:"30px"}}
-                                                    />
-                                                    <h4 className="mt-4">Lựu Peru</h4>
-                                                </div>
+                                            <div className="member-info">
+                                                <h4>Hồng New Zealand</h4>
                                             </div>
-                                            {/* End Icon Box */}
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                        data-aos="fade-up"
+                                        data-aos-delay={100}>
+                                        <div className="chef-member">
+                                            <div className="member-img">
+                                                <img
+                                                    src="/img/11.jpg"
+                                                    className="img-fluid"
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div className="member-info">
+                                                <h4>Hồng New Zealand</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* End Chefs Member */}
+                                    <div
+                                        className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                        data-aos="fade-up"
+                                        data-aos-delay={200}>
+                                        <div className="chef-member">
+                                            <div className="member-img">
+                                                <img
+                                                    src="/img/6.jpg"
+                                                    className="img-fluid"
+                                                    alt=""
+                                                />
+                                            </div>
+                                            <div className="member-info">
+                                                <h4>Lựu Peru</h4>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </section>
-
                     </div>
                 </section>
-                {/* End Portfolio Section */}
             </main>
         </>
     )

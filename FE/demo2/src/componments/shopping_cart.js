@@ -1,21 +1,25 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/shoping_cart.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import React from "react";
+import React, {useEffect} from "react";
 import {Headers} from "./headers";
 import {Footer} from "./footer";
 
 
 export function Shopping_cart() {
-    return (<>
-            <Headers/>
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+    return (
+        <>
+
             <nav
                 class="breadcrumbs text-center h2">
-                <a href="https://vinfruits.com/cart" class="current"> Giỏ hàng</a>
+                <a href="https://vinfruits.com/cart" class="current"> Giỏ hàng </a>
                 <span >
                    <i className="fa-solid fa-angle-right"></i>
                 </span>
-                <a href="https://vinfruits.com/cart" className="current"> Chi tiết đơn hàng</a>
+                <a href="https://vinfruits.com/cart" className="current"> Chi tiết đơn hàng </a>
                 <span >
                    <i className="fa-solid fa-angle-right"></i>
                 </span>
@@ -50,11 +54,11 @@ export function Shopping_cart() {
                                         <td>200.000 đ</td>
                                         <td>
                                             <div className="d-flex">
-                                                <button type="button"  className="minus"><span>-</span></button>
+                                                <button type="button"  className="minus" style={{borderRadius:"5px 0 0 5px"}}><span>-</span></button>
                                                 <input type="number"
                                                        className="input" step="1" min="0" max
                                                        />
-                                                <button type="button" value="+" className="plus"><span>+</span></button>
+                                                <button type="button" value="+" className="plus" style={{borderRadius:" 0 5px 5px 0"}}><span>+</span></button>
                                             </div>
                                         </td>
                                         <td>200.000 đ</td>
@@ -74,13 +78,13 @@ export function Shopping_cart() {
                                         <td>200.000 đ</td>
                                         <td>
                                             <div className="d-flex">
-                                                <button type="button"  className="minus" ><span>-</span></button>
+                                                <button type="button"  className="minus" style={{borderRadius:"5px 0 0 5px"}} ><span>-</span></button>
                                                 <input type="number" id="quantity_64c88c2c676ec"
                                                        className="input" step="1" min="0" max
                                                        name="cart[9c994526d37b56cd609f904822ffbe53][qty]"
                                                        title="SL" size="4" placeholder inputMode="numeric"
                                                        fdprocessedid="pr6xgp"/>
-                                                <button type="button" value="+" className="plus"><span>+</span></button>
+                                                <button type="button" value="+" className="plus" tyle={{borderRadius:" 0 5px 5px 0"}}><span>+</span></button>
                                             </div>
                                         </td>
                                         <td>200.000 đ</td>
@@ -138,7 +142,6 @@ export function Shopping_cart() {
                     </div>
                 </div>
             </div>
-            <Footer/>
         </>
     )
 }

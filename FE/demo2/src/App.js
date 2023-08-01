@@ -13,15 +13,18 @@ import {ProductDetail} from "./componments/productDetail";
 function App() {
   return (
    <>
+       <Headers/>
    <Routes>
-     <Route path="/" element={<Headers/>}/>
+
      <Route path="/slide" element={<ImageSlide/>}/>
-     <Route path="/footers" element={<Footer/>}/>
+
      <Route path="/body" element={<Body/>}/>
      <Route path="/login" element={<Login/>}/>
      <Route path="/cart" element={<Shopping_cart/>}/>
      <Route path="/detail" element={<ProductDetail/>}/>
+
    </Routes>
+       <Footer/>
    </>
   );
 }

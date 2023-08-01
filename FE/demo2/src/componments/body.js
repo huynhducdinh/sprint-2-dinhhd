@@ -1,13 +1,21 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/main.css'
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
+import {Headers} from "./headers";
+import {Footer} from "./footer";
+import {ImageSlide} from "./ImageSlide";
+import React, {useEffect} from "react";
 
 export function Body() {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <>
-            <main id="main">
+            <ImageSlide/>
+            <main id="main" style={{marginTop:"2%"}}>
                 {/* ======= About Section ======= */}
-                <section id="about" className="about">
+                <section id="about" className="about ">
                     <div className="container" data-aos="fade-up">
                         <div className="section-header">
                             <h2>Hiểu hơn về chúng tôi</h2>
@@ -61,8 +69,8 @@ export function Body() {
                     </div>
                 </section>
 
-                <section id="why-us" className="why-us section-bg">
-                    <div className="container" data-aos="fade-up">
+                <section id="why-us" className="why-us  " style={{marginTop:"5%"}}>
+                    <div className="container " data-aos="fade-up">
                         <div className="row gy-4">
                             <div className="col-lg-4" data-aos="fade-up" data-aos-delay={100}>
                                 <div className="why-box">
@@ -126,7 +134,7 @@ export function Body() {
                 </section>
 
 
-                <section id="menu" className="menu">
+                <section id="menu" className="menu" style={{marginTop:"5%"}}>
                     <div className="container" data-aos="fade-up">
                         <div className="section-header">
                             <h2>Sản phẩm của chúng tôi</h2>
@@ -162,112 +170,86 @@ export function Body() {
                             {/* End tab nav item */}
 
                         </ul>
-                        <div className="tab-content" data-aos="fade-up" data-aos-delay={300}>
-                            <div className="tab-pane fade active show" id="menu-starters">
-                                <div className="tab-header text-center">
-                                    <p>Sản phẩm</p>
-                                    <h3>Tất cả các loại sản phẩm</h3>
-                                </div>
-                                <div className="row gy-5">
-                                    <div className="col-lg-4 menu-item">
-                                        <a href="/img/6.jpg" className="glightbox">
-                                            <img
-                                                src="/img/6.jpg"
-                                                className="menu-img img-fluid"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <h4>Lựu Peru</h4>
-
-                                        <p className="price">150.000 đ</p>
+                        <section id="portfolio" className="portfolio mb-5">
+                            <div className="container  mt-5">
+                                <section id="chefs" className="chefs section-bg justify-content-center mb-5"
+                                         style={{marginTop: "2%"}}>
+                                    <div className="container justify-content-center" data-aos="fade-up">
+                                        <div className="row gy-4 justify-content-center ">
+                                            <div
+                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                                data-aos="fade-up"
+                                                data-aos-delay={100}>
+                                                <div className="chef-member">
+                                                    <div className="member-img">
+                                                        <img
+                                                            src="/img/11.jpg"
+                                                            className="img-fluid"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="member-info">
+                                                        <h4>Hồng New Zealand</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                                data-aos="fade-up"
+                                                data-aos-delay={100}>
+                                                <div className="chef-member">
+                                                    <div className="member-img">
+                                                        <img
+                                                            src="/img/11.jpg"
+                                                            className="img-fluid"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="member-info">
+                                                        <h4>Hồng New Zealand</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                                data-aos="fade-up"
+                                                data-aos-delay={100}>
+                                                <div className="chef-member">
+                                                    <div className="member-img">
+                                                        <img
+                                                            src="/img/11.jpg"
+                                                            className="img-fluid"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="member-info">
+                                                        <h4>Hồng New Zealand</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {/* End Chefs Member */}
+                                            <div
+                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                                data-aos="fade-up"
+                                                data-aos-delay={200}>
+                                                <div className="chef-member">
+                                                    <div className="member-img">
+                                                        <img
+                                                            src="/img/6.jpg"
+                                                            className="img-fluid"
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="member-info">
+                                                        <h4>Lựu Peru</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    {/* Menu Item */}
-                                    <div className="col-lg-4 menu-item">
-                                        <a href="/img/11.jpg" className="glightbox">
-                                            <img
-                                                src="/img/11.jpg"
-                                                className="menu-img img-fluid"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <h4>Hồng New Zealand</h4>
-                                        <p className="price">200.000 đ</p>
-                                    </div>
-                                    {/* Menu Item */}
-                                    <div className="col-lg-4 menu-item">
-                                        <a href="../../public/img/menu-item-3.png" className="glightbox">
-                                            <img
-                                                src="/img/12.png"
-                                                className="menu-img img-fluid"
-                                                alt=""
-                                            />
-                                        </a>
-                                        <h4>Xoài Cát Chu</h4>
-
-
-                                        <p className="price">90.000 đ</p>
-                                    </div>
-                                </div>
+                                </section>
                             </div>
-                        </div>
-                    </div>
-                </section>
-                <section id="chefs" className="chefs section-bg justify-content-center">
-                    <div className="container justify-content-center" data-aos="fade-up">
-                        <div className="section-header">
-                            <h2>Các sản phẩm</h2>
-                            <p>
-                                Có <span>đa dạng</span> sản phẩm
-                            </p>
-                        </div>
-                        <div className="row gy-4 justify-content-center">
-                            <div
-                                className="col-lg-4 col-md-6 d-flex align-items-stretch"
-                                data-aos="fade-up"
-                                data-aos-delay={100}
-                            >
-                                <div className="chef-member">
-                                    <div className="member-img">
-                                        <img
-                                            src="../../public/img/chefs/chefs-1.jpg"
-                                            className="img-fluid"
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div className="member-info">
-                                        <h4>Trái cây việt</h4>
-
-                                        <p>
-                                            Với hàng nội địa, trái cây nước ta đang dạng phong phú
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* End Chefs Member */}
-                            <div
-                                className="col-lg-4 col-md-6 d-flex align-items-stretch"
-                                data-aos="fade-up"
-                                data-aos-delay={200}
-                            >
-                                <div className="chef-member">
-                                    <div className="member-img">
-                                        <img
-                                            src="../../public/img/chefs/chefs-2.jpg"
-                                            className="img-fluid"
-                                            alt=""
-                                        />
-
-                                    </div>
-                                    <div className="member-info">
-                                        <h4>Trái cây nhập khẩu</h4>
-                                        <span></span>
-                                        <p>
-                                            Với những loại trái cây mới lại cho ta những sự hấp dẫn riêng biệt
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </section>
                     </div>
                 </section>
             </main>

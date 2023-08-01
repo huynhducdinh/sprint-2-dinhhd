@@ -25,7 +25,7 @@ import React from "react";
                             <div>
                                 <h4>Liên hệ</h4>
                                 <p>
-                                    <strong>SĐT:</strong> 0555-777-666
+                                    <strong>SĐT:</strong> (+84) 0555-777-666
                                     <br />
                                     <strong>Email:</strong> fruitshop@gmail.com
                                     <br />
