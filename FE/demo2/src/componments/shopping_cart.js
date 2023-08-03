@@ -2,8 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/shoping_cart.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useEffect} from "react";
-import {Headers} from "./headers";
-import {Footer} from "./footer";
+
 
 
 export function Shopping_cart() {
@@ -14,19 +13,16 @@ export function Shopping_cart() {
         <>
 
             <nav
-                class="breadcrumbs text-center h2">
-                <a href="https://vinfruits.com/cart" class="current"> Giỏ hàng </a>
+                className="breadcrumbs text-center h2">
+                <a href="" className="current"> Giỏ hàng </a>
                 <span >
                    <i className="fa-solid fa-angle-right"></i>
                 </span>
-                <a href="https://vinfruits.com/cart" className="current"> Chi tiết đơn hàng </a>
+                <a href="" className="current"> Chi tiết đơn hàng </a>
                 <span >
                    <i className="fa-solid fa-angle-right"></i>
                 </span>
-                <a href="https://vinfruits.com/cart" className="current"> Đặt hàng thành công </a>
-                <span>
-
-                </span>
+                <a href="" className="current"> Đặt hàng thành công </a>
             </nav>
             <div className="container-fluid">
                 <div className="row">

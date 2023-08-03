@@ -36,14 +36,11 @@
     transform: rotate(360deg);
   }
 }
-.active {
+.active
+ {
   background-color: #0f5034;
   border-radius: 30px;
   width: 8vw;
   height: 5vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  vertical-align: middle;
 }
+

@@ -15,27 +15,31 @@ export function Headers() {
                             <img src="/img/fruit%20shop.png" alt="" style={{height: "10.5vh", width: "10.5vh"}}/>
                         </Link>
                     </div>
-                    <nav id="navbar" className="navbar">
-                        <ul style={{marginLeft: "-50%"}}>
+                    <nav id="navbar" className="navbar-cart">
+                        <ul style={{marginLeft: "-35%"}}>
                             <li>
-                                <NavLink to="/body" className="text-white" href="#hero">Trang chủ</NavLink>
+                                <NavLink to="/body" style={{justifyContent:"center"}} className="text-white " href="#hero">Trang chủ</NavLink>
                             </li>
                             <li>
-                                <NavLink to="/detail " className="text-white" href="#about">Sản phẩm</NavLink>
+                                <NavLink to="/card" style={{justifyContent:"center"}} className="text-white " href="#about">Sản phẩm</NavLink>
                             </li>
                             <li>
-                                <a className="text-white" href="#events">Tin tức</a>
+                                <NavLink to="" className="text-white " style={{justifyContent:"center"}} href="#events">Tin tức</NavLink>
                             </li>
                             <li>
-                                <a className="text-white" href="#chefs">Liên hệ</a>
+                                <a className="text-white " style={{justifyContent:"center"}} href="#chefs">Liên hệ</a>
                             </li>
                             <li>
-                                <NavLink to="/login" className="text-white">Đăng nhập</NavLink>
+                                <a className="text-white " style={{justifyContent:"center"}} href="#chefs">Câu chuyện</a>
                             </li>
-
-                            <div style={{marginLeft: "30%"}}>
+                            <div style={{marginLeft: "20%"}}>
+                            <li>
+                                <NavLink to="/login" className="text-white " style={{justifyContent:"center"}}>Đăng nhập</NavLink>
+                            </li>
+                            </div>
+                            <div style={{marginLeft: "5%"}}>
                                 <li>
-                                    <NavLink to="/cart" className="text-white">
+                                    <NavLink to="/cart" className="text-white " style={{justifyContent:"center"}}>
                                         Giỏ hàng <i className='fa fa-shopping-basket'></i>
                                     </NavLink>
                                 </li>
