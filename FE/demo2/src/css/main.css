@@ -274,11 +274,11 @@ section {
 # Desktop Navigation
 --------------------------------------------------------------*/
 @media (min-width: 1280px) {
-    .navbar-cart {
+    .navbar {
         padding: 0;
     }
 
-    .navbar-cart ul {
+    .navbar ul {
         margin: 0;
         padding: 0;
         display: flex;
@@ -286,21 +286,20 @@ section {
         align-items: center;
     }
 
-    .navbar-cart li {
+     li {
         position: relative;
     }
 
-    .navbar-cart > ul > li {
+     ul > li {
         white-space: nowrap;
         padding: 10px 0 10px 28px;
     }
 
-    .navbar-cart a,
-    .navbar-cart a:focus {
+     a,
+     a:focus {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 3px;
         font-family: var(--font-secondary);
         font-size: 16px;
         font-weight: 600;
@@ -310,40 +309,40 @@ section {
         position: relative;
     }
 
-    .navbar-cart a i,
-    .navbar-cart a:focus i {
+     a i,
+     a:focus i {
         font-size: 12px;
         line-height: 0;
         margin-left: 5px;
     }
 
-    .navbar-cart > ul > li > a:before {
+      ul > li > a:before {
         content: "";
         position: absolute;
         width: 100%;
         height: 2px;
-        bottom: -6px;
+        /*bottom: -6px;*/
         left: 0;
-        background-color: var(--color-primary);
+        /*background-color: var(--color-primary);*/
         visibility: hidden;
         transition: all 0.3s ease-in-out 0s;
     }
 
-    .navbar-cart a:hover:before,
-    .navbar-cart li:hover > a:before,
-    .navbar-cart .active:before {
+     a:hover:before,
+     li:hover > a:before,
+     .active:before {
         visibility: visible;
         width: 100%;
     }
 
-    .navbar-cart a:hover,
-    .navbar-cart .active,
-    .navbar-cart .active:focus,
-    .navbar-cart li:hover > a {
+     a:hover,
+     .active,
+     .active:focus,
+     li:hover > a {
         color: #000;
     }
 
-    .navbar-cart .dropdown ul {
+     .dropdown ul {
         display: block;
         position: absolute;
         left: 28px;
@@ -353,46 +352,48 @@ section {
         z-index: 99;
         opacity: 0;
         visibility: hidden;
+         text-decoration:none;
+         list-style-type: none  ;
 
 
         transition: 0.3s;
         border-radius: 4px;
     }
 
-    .navbar-cart .dropdown ul li {
+     .dropdown ul li {
         min-width: 200px;
     }
 
-    .navbar-cart .dropdown ul a {
+     .dropdown ul a {
         padding: 10px 20px;
         font-size: 15px;
         text-transform: none;
         font-weight: 600;
     }
 
-    .navbar-cart .dropdown ul a i {
+     .dropdown ul a i {
         font-size: 12px;
     }
 
-    .navbar-cart .dropdown ul a:hover,
-    .navbar-cart .dropdown ul .active:hover,
-    .navbar-cart .dropdown ul li:hover > a {
+     .dropdown ul a:hover,
+     .dropdown ul .active:hover,
+     .dropdown ul li:hover > a {
         color: black;
     }
 
-    .navbar-cart .dropdown:hover > ul {
+     .dropdown:hover > ul {
         opacity: 1;
         top: 100%;
         visibility: visible;
     }
 
-    .navbar-cart .dropdown .dropdown ul {
+     .dropdown .dropdown ul {
         top: 0;
         left: calc(100% - 30px);
         visibility: hidden;
     }
 
-    .navbar-cart .dropdown .dropdown:hover > ul {
+     .dropdown .dropdown:hover > ul {
         opacity: 1;
         top: 0;
         left: 100%;
@@ -401,11 +402,11 @@ section {
 }
 
 @media (min-width: 1280px) and (max-width: 1366px) {
-    .navbar-cart .dropdown .dropdown ul {
+     .dropdown .dropdown ul {
         left: -90%;
     }
 
-    .navbar-cart .dropdown .dropdown:hover > ul {
+     .dropdown .dropdown:hover > ul {
         left: -100%;
     }
 }
@@ -422,19 +423,9 @@ section {
 # Mobile Navigation
 --------------------------------------------------------------*/
 @media (max-width: 1279px) {
-    .navbar-cart {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 100%;
-        max-width: 400px;
-        border-left: 1px solid #666;
-        bottom: 0;
-        transition: 0.3s;
-        z-index: 9997;
-    }
 
-    .navbar-cart ul {
+
+     ul {
         position: absolute;
         inset: 0;
         padding: 50px 0 10px 0;
@@ -445,14 +436,14 @@ section {
         z-index: 9998;
     }
 
-    .navbar-cart a,
-    .navbar-cart a:focus {
+     a,
+     a:focus {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 10px 20px;
+        /*padding: 10px 20px;*/
         font-family: var(--font-secondary);
-        border-bottom: 2px solid rgba(255, 255, 255, 0.8);
+        /*border-bottom: 2px solid rgba(255, 255, 255, 0.8);*/
         font-size: 16px;
         font-weight: 600;
         color: white;
@@ -460,26 +451,25 @@ section {
         transition: 0.3s;
     }
 
-    .navbar-cart a i,
-    .navbar-cart a:focus i {
+     a i, a:focus i {
         font-size: 12px;
         line-height: 0;
         margin-left: 5px;
     }
 
-    .navbar-cart a:hover,
-    .navbar-cart li:hover > a {
+     a:hover,
+     li:hover > a {
         color: white;
     }
 
-    .navbar-cart .active,
-    .navbar-cart .active:focus {
+     .active,
+     .active:focus {
         color: white;
         border-color: var(--color-primary);
     }
 
-    .navbar-cart .dropdown ul,
-    .navbar-cart .dropdown .dropdown ul {
+     .dropdown ul,
+     .dropdown .dropdown ul {
         position: static;
         display: none;
         padding: 10px 0;
@@ -488,8 +478,8 @@ section {
         border: 1px solid #eee;
     }
 
-    .navbar-cart .dropdown > .dropdown-active,
-    .navbar-cart .dropdown .dropdown > .dropdown-active {
+     .dropdown > .dropdown-active,
+     .dropdown .dropdown > .dropdown-active {
         display: block;
     }
 
@@ -519,11 +509,11 @@ section {
         overflow: hidden;
     }
 
-    .mobile-nav-active .navbar-cart {
+    .mobile-nav-active  {
         right: 0;
     }
 
-    .mobile-nav-active .navbar-cart:before {
+    .mobile-nav-active  {
         content: "";
         position: fixed;
         inset: 0;

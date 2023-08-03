@@ -9,6 +9,7 @@ export  function ImageSlide() {
     }, [])
     return(
         <>
+
             <section id="hero" className="hero d-flex align-items-center section-bg">
                 <div className="container">
                     <div className="row justify-content-between gy-5">
