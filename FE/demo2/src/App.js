@@ -3,7 +3,7 @@ import './App.css';
 import {Route, Routes} from "react-router-dom";
 
 
-import {Footer} from "./componments/footer";
+
 import {Body} from "./componments/body";
 import {Login} from "./componments/login";
 import {Shopping_cart} from "./componments/shopping_cart";
@@ -12,11 +12,14 @@ import {ProductDetail} from "./componments/productDetail";
 import {CardProduct} from "./componments/cardProduct";
 import {Headers} from "./componments/headers";
 
+
 function App() {
   return (
    <>
        <Headers/>
+
    <Routes>
+
 
      <Route path="/slide" element={<ImageSlide/>}/>
      <Route path="/body" element={<Body/>}/>
@@ -26,7 +29,7 @@ function App() {
      <Route path="/card" element={<CardProduct/>}/>
 
    </Routes>
-       <Footer/>
+       {/*<Footer/>*/}
    </>
   );
 }

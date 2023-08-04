@@ -13,16 +13,16 @@ export function Shopping_cart() {
         <>
 
             <nav
-                className="breadcrumbs text-center h2">
-                <a href="" className="current"> Giỏ hàng </a>
+                className="breadcrumbs text-center h2 d-flex justify-content-center" >
+                <a href="" className="current" style={{color:"#03964c"}}> Giỏ hàng </a>
                 <span >
                    <i className="fa-solid fa-angle-right"></i>
                 </span>
-                <a href="" className="current"> Chi tiết đơn hàng </a>
+                <a href="" className="current" style={{color:"#03964c"}}>&nbsp; Chi tiết đơn hàng </a>
                 <span >
                    <i className="fa-solid fa-angle-right"></i>
                 </span>
-                <a href="" className="current"> Đặt hàng thành công </a>
+                <a href="" className="current" style={{color:"#03964c"}}>&nbsp; Đặt hàng thành công </a>
             </nav>
             <div className="container-fluid">
                 <div className="row">

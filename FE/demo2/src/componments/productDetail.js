@@ -14,7 +14,7 @@ export function ProductDetail() {
         <>
             <Headers/>
             <main id="main">
-                <section className="layout_padding" style={{marginTop: "10%"}}>
+                <section className="layout_padding" style={{marginTop: "5%"}}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
@@ -87,13 +87,13 @@ export function ProductDetail() {
                     </div>
                 </section>
                 {/* ======= Portfolio Section ======= */}
-                <section id="portfolio" className="portfolio mb-5">
+                <section id="portfolio" className="portfolio mb-1">
                     <div className="container  ">
-                        <div className="section-title mt-4 mb-5" data-aos="fade-up">
+                        <div className="section-title " style={{marginTop:"-6%"}} data-aos="fade-up">
                             <h2>Các sản phẩm khác</h2>
                         </div>
 
-                        <section id="chefs" className="chefs section-bg justify-content-center mb-5"
+                        <section id="chefs" className="chefs section-bg justify-content-center "
                                  style={{marginTop: "2%"}}>
                             <div className="container justify-content-center" data-aos="fade-up">
                                 <div className="row gy-4 justify-content-center ">

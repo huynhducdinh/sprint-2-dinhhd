@@ -22,7 +22,6 @@
 /*--------------------------------------------------------------*/
 
 
-
 body {
     background-color: #fdfdfd;
     font-family: var(--font-default);
@@ -51,7 +50,6 @@ h6 {
 /*/*--------------------------------------------------------------*/
 /*# Sections & Section Header*/
 /*--------------------------------------------------------------*/
-
 
 
 section {
@@ -131,23 +129,6 @@ section {
     content: "/";
 }
 
-@media (max-width: 992px) {
-    .breadcrumbs .d-flex {
-        display: block !important;
-    }
-
-    .breadcrumbs h2 {
-        margin-bottom: 10px;
-    }
-
-    .breadcrumbs ol {
-        display: block;
-    }
-
-    .breadcrumbs ol li {
-        display: inline-block;
-    }
-}
 
 /*--------------------------------------------------------------
 # Scroll top button
@@ -210,6 +191,11 @@ section {
     }
 }
 
+.header-image {
+    max-width: 100%;
+    height: auto;
+}
+
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -233,8 +219,8 @@ section {
 }
 
 .header .logo img {
-    max-height: 40px;
-    margin-right: 6px;
+    height: 10.5vh;
+    width: 10.5vh;
 }
 
 .header .logo h1 {
@@ -286,17 +272,17 @@ section {
         align-items: center;
     }
 
-     li {
+    li {
         position: relative;
     }
 
-     ul > li {
+    ul > li {
         white-space: nowrap;
         padding: 10px 0 10px 28px;
     }
 
-     a,
-     a:focus {
+    a,
+    a:focus {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -309,14 +295,14 @@ section {
         position: relative;
     }
 
-     a i,
-     a:focus i {
+    a i,
+    a:focus i {
         font-size: 12px;
         line-height: 0;
         margin-left: 5px;
     }
 
-      ul > li > a:before {
+    ul > li > a:before {
         content: "";
         position: absolute;
         width: 100%;
@@ -328,21 +314,21 @@ section {
         transition: all 0.3s ease-in-out 0s;
     }
 
-     a:hover:before,
-     li:hover > a:before,
-     .active:before {
+    a:hover:before,
+    li:hover > a:before,
+    .active:before {
         visibility: visible;
         width: 100%;
     }
 
-     a:hover,
-     .active,
-     .active:focus,
-     li:hover > a {
+    a:hover,
+    .active,
+    .active:focus,
+    li:hover > a {
         color: #000;
     }
 
-     .dropdown ul {
+    .dropdown ul {
         display: block;
         position: absolute;
         left: 28px;
@@ -352,48 +338,48 @@ section {
         z-index: 99;
         opacity: 0;
         visibility: hidden;
-         text-decoration:none;
-         list-style-type: none  ;
+        text-decoration: none;
+        list-style-type: none;
 
 
         transition: 0.3s;
         border-radius: 4px;
     }
 
-     .dropdown ul li {
+    .dropdown ul li {
         min-width: 200px;
     }
 
-     .dropdown ul a {
+    .dropdown ul a {
         padding: 10px 20px;
         font-size: 15px;
         text-transform: none;
         font-weight: 600;
     }
 
-     .dropdown ul a i {
+    .dropdown ul a i {
         font-size: 12px;
     }
 
-     .dropdown ul a:hover,
-     .dropdown ul .active:hover,
-     .dropdown ul li:hover > a {
+    .dropdown ul a:hover,
+    .dropdown ul .active:hover,
+    .dropdown ul li:hover > a {
         color: black;
     }
 
-     .dropdown:hover > ul {
+    .dropdown:hover > ul {
         opacity: 1;
         top: 100%;
         visibility: visible;
     }
 
-     .dropdown .dropdown ul {
+    .dropdown .dropdown ul {
         top: 0;
         left: calc(100% - 30px);
         visibility: hidden;
     }
 
-     .dropdown .dropdown:hover > ul {
+    .dropdown .dropdown:hover > ul {
         opacity: 1;
         top: 0;
         left: 100%;
@@ -402,11 +388,11 @@ section {
 }
 
 @media (min-width: 1280px) and (max-width: 1366px) {
-     .dropdown .dropdown ul {
+    .dropdown .dropdown ul {
         left: -90%;
     }
 
-     .dropdown .dropdown:hover > ul {
+    .dropdown .dropdown:hover > ul {
         left: -100%;
     }
 }
@@ -422,10 +408,39 @@ section {
 /*--------------------------------------------------------------
 # Mobile Navigation
 --------------------------------------------------------------*/
-@media (max-width: 1279px) {
+@media (max-width: 990px) {
+    .dd{
+        display: flex;
+        justify-content: center;
+    }
+    .ddd {
+        margin-top: -3%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
 
+    }
 
-     ul {
+    .dddd {
+        display: flex;
+        justify-content: center;
+
+        z-index: 100;
+        top:0;
+    }
+.from-d{
+    display: block;
+
+}
+.dinh{
+    margin-top:5%;
+   margin-right: 20%;
+}
+}
+
+@media (max-width: 1280px) {
+
+    ul {
         position: absolute;
         inset: 0;
         padding: 50px 0 10px 0;
@@ -436,8 +451,8 @@ section {
         z-index: 9998;
     }
 
-     a,
-     a:focus {
+    a,
+    a:focus {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -451,25 +466,25 @@ section {
         transition: 0.3s;
     }
 
-     a i, a:focus i {
+    a i, a:focus i {
         font-size: 12px;
         line-height: 0;
         margin-left: 5px;
     }
 
-     a:hover,
-     li:hover > a {
+    a:hover,
+    li:hover > a {
         color: white;
     }
 
-     .active,
-     .active:focus {
+    .active,
+    .active:focus {
         color: white;
         border-color: var(--color-primary);
     }
 
-     .dropdown ul,
-     .dropdown .dropdown ul {
+    .dropdown ul,
+    .dropdown .dropdown ul {
         position: static;
         display: none;
         padding: 10px 0;
@@ -478,8 +493,8 @@ section {
         border: 1px solid #eee;
     }
 
-     .dropdown > .dropdown-active,
-     .dropdown .dropdown > .dropdown-active {
+    .dropdown > .dropdown-active,
+    .dropdown .dropdown > .dropdown-active {
         display: block;
     }
 
@@ -509,11 +524,11 @@ section {
         overflow: hidden;
     }
 
-    .mobile-nav-active  {
+    .mobile-nav-active {
         right: 0;
     }
 
-    .mobile-nav-active  {
+    .mobile-nav-active {
         content: "";
         position: fixed;
         inset: 0;

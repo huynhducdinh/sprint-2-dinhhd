@@ -3,6 +3,7 @@ import '../css/main.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React from "react";
 import {Link, NavLink} from "react-router-dom";
+import {Image} from "react-bootstrap";
 
 
 export function Headers() {
@@ -10,9 +11,9 @@ export function Headers() {
         <>
             <header id="header" className="header fixed-top d-flex align-items-center">
                 <div className="container d-flex align-items-center justify-content-between">
-                    <div id="header-nav-logo" className="col-md-2">
+                    <div id="header-nav-logo " className="col-md-2 img logo">
                         <Link >
-                            <img src="/img/fruit%20shop.png" alt="" style={{height: "10.5vh", width: "10.5vh"}}/>
+                            <Image src="/img/fruit%20shop.png" alt="" />
                         </Link>
                     </div>
                     <nav id="navbar" className="navbar">
@@ -32,9 +33,9 @@ export function Headers() {
                             <li>
                                 <a className="text-white " style={{justifyContent:"center"}} href="#chefs">Câu chuyện</a>
                             </li>
-                            <div style={{marginLeft: "20%"}}>
+                            <div style={{marginLeft: "20%",borderRadius:"30px"}}>
                                 <li>
-                                    <NavLink to="/login" className="text-white " style={{justifyContent:"center"}}>Đăng nhập</NavLink>
+                                    <NavLink to="/login" className="text-white btn btn-outline-info"  style={{justifyContent:"center"}}>Đăng nhập</NavLink>
                                 </li>
                             </div>
                             <div style={{marginLeft: "5%"}}>

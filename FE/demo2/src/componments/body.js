@@ -13,7 +13,7 @@ export function Body() {
     return (
         <>
             <ImageSlide/>
-            <main id="main" style={{marginTop:"2%"}}>
+            <main id="main">
                 {/* ======= About Section ======= */}
                 <section id="about" className="about ">
                     <div className="container" data-aos="fade-up">
@@ -69,7 +69,7 @@ export function Body() {
                     </div>
                 </section>
 
-                <section id="why-us" className="why-us  " style={{marginTop:"5%"}}>
+                <section id="why-us" className="why-us  ">
                     <div className="container " data-aos="fade-up">
                         <div className="row gy-4">
                             <div className="col-lg-4" data-aos="fade-up" data-aos-delay={100}>
@@ -134,7 +134,7 @@ export function Body() {
                 </section>
 
 
-                <section id="menu" className="menu" style={{marginTop:"5%"}}>
+                <section id="menu" className="menu" >
                     <div className="container" data-aos="fade-up">
                         <div className="section-header">
                             <h2>Sản phẩm của chúng tôi</h2>
@@ -147,7 +147,6 @@ export function Body() {
                             data-aos="fade-up"
                             data-aos-delay={200}
                         >
-                            {/* End tab nav item */}
                             <li className="nav-item">
                                 <a
                                     className="nav-link"
@@ -156,7 +155,6 @@ export function Body() {
                                 >
                                     <h4>Trái cây nhập khẩu</h4>
                                 </a>
-                                {/* End tab nav item */}
                             </li>
                             <li className="nav-item">
                                 <a
@@ -167,11 +165,9 @@ export function Body() {
                                     <h4>Trái cây nội</h4>
                                 </a>
                             </li>
-                            {/* End tab nav item */}
-
                         </ul>
-                        <section id="portfolio" className="portfolio mb-5">
-                            <div className="container  mt-5">
+                        <section id="portfolio" className="portfolio ">
+                            <div className="container  ">
                                 <section id="chefs" className="chefs section-bg justify-content-center mb-5"
                                          style={{marginTop: "2%"}}>
                                     <div className="container justify-content-center" data-aos="fade-up">
