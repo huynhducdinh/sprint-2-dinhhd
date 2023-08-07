@@ -38,6 +38,9 @@ public class ProductFruit {
     @ManyToOne
     @JoinColumn(name = "id_supplier")
     private Supplier supplier;
+    @ManyToOne
+    @JoinColumn(name = "id_size")
+    private SizeProduct sizeProduct;
 
     public ProductFruit() {
     }
@@ -46,7 +49,7 @@ public class ProductFruit {
         this.id = id;
     }
 
-    public ProductFruit(Long id, String nameFruit, Long price, String startDay, String endDay, String note, String image, Integer quantity, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate, ProductType productType, Supplier supplier) {
+    public ProductFruit(Long id, String nameFruit, Long price, String startDay, String endDay, String note, String image, Integer quantity, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate, ProductType productType, Supplier supplier, SizeProduct sizeProduct) {
         this.id = id;
         this.nameFruit = nameFruit;
         this.price = price;
@@ -60,6 +63,7 @@ public class ProductFruit {
         this.updateDate = updateDate;
         this.productType = productType;
         this.supplier = supplier;
+        this.sizeProduct = sizeProduct;
     }
 
     public Long getId() {
@@ -156,6 +160,14 @@ public class ProductFruit {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public SizeProduct getSizeProduct() {
+        return sizeProduct;
+    }
+
+    public void setSizeProduct(SizeProduct sizeProduct) {
+        this.sizeProduct = sizeProduct;
     }
 
     public boolean isDelete() {

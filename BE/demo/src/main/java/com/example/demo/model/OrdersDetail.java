@@ -10,6 +10,7 @@ public class OrdersDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Integer quantity;
     private Long price;
     @CreationTimestamp

@@ -1,12 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/main.css'
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
-import {Headers} from "./headers";
-import {Footer} from "./footer";
 import {ImageSlide} from "./ImageSlide";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {Image} from "react-bootstrap";
+import * as card from "../service/Product";
 
 export function Body() {
+    const [productList, setProduct] = useState([])
+
+    const listGetAll = async () => {
+        const res = await card.listAll()
+        setProduct(res)
+    }
+    useEffect(()=>{
+        listGetAll()
+    },[])
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -172,75 +182,27 @@ export function Body() {
                                          style={{marginTop: "2%"}}>
                                     <div className="container justify-content-center" data-aos="fade-up">
                                         <div className="row gy-4 justify-content-center ">
+                                            {productList.map((list)=>(
                                             <div
                                                 className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
                                                 data-aos="fade-up"
                                                 data-aos-delay={100}>
                                                 <div className="chef-member">
                                                     <div className="member-img">
-                                                        <img
-                                                            src="/img/11.jpg"
-                                                            className="img-fluid"
-                                                            alt=""
-                                                        />
+                                                        <Link  to={`/detail/${list.id}/product`}>
+                                                            <Image
+                                                                src={list.image}
+                                                                className="img-fluid"
+                                                                alt=""
+                                                            />
+                                                        </Link>
                                                     </div>
                                                     <div className="member-info">
-                                                        <h4>Hồng New Zealand</h4>
+                                                        <h4>{list.nameFruit}</h4>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div
-                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
-                                                data-aos="fade-up"
-                                                data-aos-delay={100}>
-                                                <div className="chef-member">
-                                                    <div className="member-img">
-                                                        <img
-                                                            src="/img/11.jpg"
-                                                            className="img-fluid"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="member-info">
-                                                        <h4>Hồng New Zealand</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div
-                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
-                                                data-aos="fade-up"
-                                                data-aos-delay={100}>
-                                                <div className="chef-member">
-                                                    <div className="member-img">
-                                                        <img
-                                                            src="/img/11.jpg"
-                                                            className="img-fluid"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="member-info">
-                                                        <h4>Hồng New Zealand</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* End Chefs Member */}
-                                            <div
-                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
-                                                data-aos="fade-up"
-                                                data-aos-delay={200}>
-                                                <div className="chef-member">
-                                                    <div className="member-img">
-                                                        <img
-                                                            src="/img/6.jpg"
-                                                            className="img-fluid"
-                                                            alt=""
-                                                        />
-                                                    </div>
-                                                    <div className="member-info">
-                                                        <h4>Lựu Peru</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            ))}
                                         </div>
                                     </div>
                                 </section>
