@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.ProductFruit;
 import com.example.demo.model.ProductType;
 import com.example.demo.repository.IProductRepository;
 import com.example.demo.repository.IProductTypeRepository;
@@ -14,8 +15,7 @@ import java.util.List;
 public class ProductTypeService implements IProductTypeService {
     @Autowired
     private IProductTypeRepository iProductTypeRepository;
-    @Override
-    public List<ProductType> getAll() {
-        return iProductTypeRepository.findAll();
-    }
+
+
+
 }

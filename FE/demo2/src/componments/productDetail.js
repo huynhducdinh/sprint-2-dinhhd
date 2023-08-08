@@ -47,7 +47,7 @@ export function ProductDetail() {
         <>
 
             <main id="main">
-                <section className="layout_padding" style={{marginTop: "5%"}}>
+                <section className="layout_padding" style={{marginTop: "-1%"}}>
                     <div className="container">
                         <div className="row">
                             <div className="col-md-12">
@@ -135,15 +135,15 @@ export function ProductDetail() {
                                             data-aos="fade-up"
                                             data-aos-delay={100}>
                                             <div className="chef-member">
+                                                <Link to={`/detail/${list.id}/product`}>
                                                 <div className="member-img">
-                                                  <Link  to={`/detail/${list.id}/product`}>
                                                     <Image
                                                         src={list.image}
                                                         className="img-fluid"
                                                         alt=""
                                                    />
-                                                </Link>
                                                 </div>
+                                                </Link>
                                                 <div className="member-info">
                                                     <h4>{list.nameFruit}</h4>
                                                 </div>

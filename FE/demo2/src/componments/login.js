@@ -17,12 +17,12 @@ export function Login() {
             <div className=" d-flex justify-content-center align-items-center min-vh-100"
                  style={{backgroundImage: "url(/img/login.jpg)", backgroundSize: "100vw"}}>
                 <div className="row border rounded-5 p-3  shadow box-area"
-                     style={{backgroundColor: "rgba(236,230,230,0.5)", marginTop: "6%"}}>
+                     style={{backgroundColor: "rgba(236,230,230,0.5)", marginTop: "-5%",width:"60%"}}>
                     <div
                         className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                     >
                         <div className="featured-image mb-3">
-                            <Image src="/img/fruit%20shop.png" className="img-fluid" style={{width: 270, height: 270}}/>
+                            <Image src="/img/image.png" className="img-fluid" style={{width: 300, height: 300}}/>
                         </div>
 
                     </div>
@@ -43,7 +43,7 @@ export function Login() {
                                                 localStorage.setItem("username", res.username)
                                                 localStorage.setItem("role", res.role)
                                             }
-                                            nav("/body")
+                                            nav("/")
                                             toast.success('Đăng nhập thành công')
                                         } catch (e) {
                                             toast.error(e.res.data);
@@ -96,13 +96,7 @@ export function Login() {
                                             type="submit"
                                         >Đăng nhập ngay</button>
                                     </div>
-                                    <div className="input-group mb-3">
-                                        <button className="btn btn-lg btn-light w-100 fs-6" style={{height: "37px"}}>
-                                            <Image src="/img/goo.png" style={{width: 25, marginTop: "-2%"}}
-                                                   className="me-2"/>
-                                            <span>Sign In with Google</span>
-                                        </button>
-                                    </div>
+
                                 </Form>
                             </Formik>
                         </div>

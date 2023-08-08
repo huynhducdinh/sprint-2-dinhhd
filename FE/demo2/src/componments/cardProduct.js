@@ -9,82 +9,60 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export function CardProduct() {
     const [cardProduct, setCardProduct] = useState([])
+    const [page, setPage] = useState(0);
+
 
     const findAllProduct = async () => {
-        const res = await card.getAllProduct()
-        setCardProduct(res.content)
+        const res = await card.getAllProduct(page)
+        await setCardProduct(res.totalPages)
+        await setPage(prevState => prevState+1)
+        await setCardProduct([ ...cardProduct,...res.content])
     }
-
     useEffect(() => {
         findAllProduct()
-
     }, [])
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
 
 
-    const dropDownOption = (options) => {
-        let ulElement;
-        let ulIcon;
-        switch (options) {
-            case "fullface":
-                ulElement = document.getElementById('fullface')
-                ulIcon = document.getElementById('fullface-icon')
-                break;
-            case "armor":
-                ulElement = document.getElementById('armor')
-                ulIcon = document.getElementById('armor-icon')
-                break;
-            case "different":
-                ulElement = document.getElementById('different')
-                ulIcon = document.getElementById('different-icon')
-                break;
-        }
-        ulIcon.style.transition = "transform 0.5s";
-        if (ulElement.style.display === 'none') {
-            ulElement.style.display = 'block';
-            ulIcon.style.transform = 'rotate(180deg)';
-        } else {
-            ulElement.style.display = 'none';
-            ulIcon.style.transform = 'rotate(0deg)';
-        }
-    }
     return (
         <>
-            <nav className="breadcrumbs text-center h2 from-d" style={{position: "sticky", top: 90, zIndex: 1000}}>
+            <nav className="breadcrumbs text-center h2 from-d" style={{marginTop: "0%"}}>
                 <div style={{marginRight: "2.5%"}} className="d-flex justify-content-between ">
                     <div style={{marginLeft: "6.6%"}} className="d-flex  ">
                         <div style={{padding: " 0px 15px 0px"}}>
-                            <Link style={{marginTop: "15%"}}><span className="text-black">Trang chủ</span></Link>
+                            <NavLink onClick={() => {
+
+                            }}>
+                                <span className="btn btn-success">Trái cây nội địa</span>
+                            </NavLink>
                         </div>
                         <div style={{padding: " 0px 15px 0px"}}>
-                            <button className="btn btn-success" type="submit">
-                                <span>Trái cây việt</span>
-                            </button>
+                            <NavLink onClick={() => {
+
+                            }}>
+                                <span className="btn btn-success ">Trái cây nhập khẩu</span>
+                            </NavLink>
                         </div>
-                        <div style={{padding: " 0px 15px 0px"}}>
-                            <button className="btn btn-success " type="submit">
-                                <span>Trái cây nhập khẩu</span>
-                            </button>
-                        </div>
-                        <div style={{padding: " 0px 15px 0px"}}>
-                            <button className="btn btn-success dropdown" type="submit">
-                                <span>Giỏ trái cây &nbsp; <i className="fa-solid fa-chevron-down"></i></span>
-                                <ul style={{backgroundColor: "#077039"}}>
-                                    <li><a href="#">Giỏ trái cây</a></li>
-                                    <li><a href="#">Giỏ trái cây + hoa tươi</a></li>
-                                    <li><a href="#">Hộp trái cây</a></li>
-                                    <li><a href="#">Khuy trái cây</a></li>
-                                    <li><a href="#">Sweet box</a></li>
-                                </ul>
-                            </button>
-                        </div>
+                        {/*<div style={{padding: " 0px 15px 0px"}}>*/}
+                        {/*    <button className="btn btn-success dropdown" type="submit">*/}
+                        {/*        <span>Giỏ trái cây &nbsp; <i className="fa-solid fa-chevron-down"></i></span>*/}
+                        {/*        <ul style={{backgroundColor: "#077039"}}>*/}
+                        {/*            <li><a href="#">Giỏ trái cây</a></li>*/}
+                        {/*            <li><a href="#">Giỏ trái cây + hoa tươi</a></li>*/}
+                        {/*            <li><a href="#">Hộp trái cây</a></li>*/}
+                        {/*            <li><a href="#">Khuy trái cây</a></li>*/}
+                        {/*            <li><a href="#">Sweet box</a></li>*/}
+                        {/*        </ul>*/}
+                        {/*    </button>*/}
+                        {/*</div>*/}
                     </div>
-                    <div className="d-flex justify-content-end" style={{marginRight:"6.4%"}}>
-                        <form className="from-d  d-flex justify-content-between" >
+                    <div className="d-flex justify-content-end" style={{marginRight: "6.4%"}}>
+                        <form className="from-d  d-flex justify-content-between">
                             <select name="orderby" className=" form-select select-d "
-                                    style={{border: "1px solid #03964c" ,marginRight:"3%"}}>
+                                    style={{border: "1px solid #03964c", marginRight: "3%"}}>
                                 <option>Chọn giá (đ)</option>
                                 <option>1 trăm đến 2 trăm</option>
                                 <option>2 trăm đến 5 trăm</option>
@@ -106,9 +84,11 @@ export function CardProduct() {
             </nav>
             <div className="container mb-4 justify-content-center d-flex">
                 <div className="row">
-                    {cardProduct.map((list) => (
-                        <div
-                            className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+
+
+                    {cardProduct.map((list, index) => (
+                        <div key={index}
+                             className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
                             <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
                                 <Link to={`/detail/${list.id}/product`}>
                                     <Image className="img-fluid" style={{borderRadius: " 10px 10px 0 0"}}
@@ -134,7 +114,12 @@ export function CardProduct() {
                             </div>
                         </div>
                     ))}
+
                 </div>
+            </div>
+            <div className="btn btn-success mb-4" style={{borderRadius: "30px", marginLeft: "45%"}}>
+                <span className="" onClick={() => findAllProduct(page)}>Xem thêm các sản phẩm khác <i
+                    className="fa-solid fa-angle-up fa-rotate-180"></i></span>
             </div>
         </>
     )

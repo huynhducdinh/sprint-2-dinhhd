@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.model.ProductFruit;
+import com.example.demo.model.ProductType;
 import com.example.demo.repository.IProductRepository;
 import com.example.demo.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,4 +30,15 @@ public class ProductService implements IProductService {
     public List<ProductFruit> getAll() {
         return iProductRepository.getAllList();
     }
+
+    @Override
+    public List<ProductFruit> getAllList(Long id) {
+        return iProductRepository.getAllList(id);
+    }
+
+    @Override
+    public Page<ProductFruit> getAllFruit(Pageable pageable, Long id) {
+        return iProductRepository.getAllFruit(pageable, id);
+    }
+
 }

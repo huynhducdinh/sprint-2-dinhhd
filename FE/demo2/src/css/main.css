@@ -203,7 +203,7 @@ section {
     background: #03964c;
     transition: all 0.5s;
     z-index: 997;
-    height: 90px;
+    height: 95px;
     border-bottom: 1px solid #03964c;
 }
 
@@ -219,9 +219,11 @@ section {
 }
 
 .header .logo img {
-    height: 10.5vh;
-    width: 10.5vh;
+    height: 19.5vh;
+    width: 19.5vh;
+
 }
+img {  display: block;  margin-left: auto;  margin-right: auto}
 
 .header .logo h1 {
     font-size: 28px;

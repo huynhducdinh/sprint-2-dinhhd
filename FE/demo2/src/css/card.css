@@ -1,13 +1,15 @@
 /*@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');*/
 
-.card:hover{
+.card:hover {
     transform: scale(1.08);
     transition: all 0.4s ease-in-out;
 }
-.fa-heart{
+
+.fa-heart {
     font-size: 1.2rem;
 }
-.h6{
+
+.h6 {
     margin: 0;
 }
 

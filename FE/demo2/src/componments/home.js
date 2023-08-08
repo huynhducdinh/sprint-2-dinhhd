@@ -3,20 +3,32 @@ import '../css/main.css'
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
 import {ImageSlide} from "./ImageSlide";
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {Image} from "react-bootstrap";
 import * as card from "../service/Product";
+import {getAllTypeProduct} from "../service/Product";
 
-export function Body() {
+export function Home() {
+    const [typeList, setTypeList] = useState([])
     const [productList, setProduct] = useState([])
-
     const listGetAll = async () => {
         const res = await card.listAll()
         setProduct(res)
     }
-    useEffect(()=>{
+
+    const handType1 = async () => {
+        const res = await card.getAllTypeProduct(2)
+        setTypeList(res)
+    }
+    const handType2 = async () => {
+        const res = await card.getAllTypeProduct(1)
+        setTypeList(res)
+
+    }
+    useEffect(() => {
         listGetAll()
-    },[])
+    }, [])
+
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
@@ -36,13 +48,13 @@ export function Body() {
                         <div className="row gy-4">
                             <div
                                 className="col-lg-6 position-relative about-img"
-                                style={{backgroundImage: "url(/img/6.jpg)",}}
+                                style={{backgroundImage: "url(/img/6.jpg)"}}
                                 data-aos="fade-up"
                                 data-aos-delay={150}
                             >
                                 <div className="call-us position-absolute">
                                     <h4>Số điện thoại đặt hàng</h4>
-                                    <p style={{color:"#00833e"}}>0555-777-666</p>
+                                    <p style={{color: "#00833e"}}>0555-777-666</p>
                                 </div>
                             </div>
                             <div
@@ -63,7 +75,7 @@ export function Body() {
                                         thượng hạng, chất lượng với tiêu chuẩn 3C: CHUẨN TƯƠI – CHUẨN NGON – CHUẨN SẠCH.
                                     </span>
 
-                                    <div className="position-relative mt-4" >
+                                    <div className="position-relative mt-4">
                                         <img
                                             src="/img/11.jpg"
                                             className="img-fluid"
@@ -144,7 +156,7 @@ export function Body() {
                 </section>
 
 
-                <section id="menu" className="menu" >
+                <section id="menu" className="menu">
                     <div className="container" data-aos="fade-up">
                         <div className="section-header">
                             <h2>Sản phẩm của chúng tôi</h2>
@@ -158,51 +170,88 @@ export function Body() {
                             data-aos-delay={200}
                         >
                             <li className="nav-item">
-                                <a
-                                    className="nav-link"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#menu-breakfast"
+                                <Link onClick={(event) => {
+                                    handType2(event)
+                                }}
+                                      value={2}
+                                      className="nav-link"
+                                      data-bs-toggle="tab"
+                                      data-bs-target="#menu-breakfast"
                                 >
                                     <h4>Trái cây nhập khẩu</h4>
-                                </a>
+                                </Link>
+
                             </li>
                             <li className="nav-item">
-                                <a
-                                    className="nav-link"
-                                    data-bs-toggle="tab"
-                                    data-bs-target="#menu-lunch"
+                                <Link onClick={(event) => {
+                                    handType1(event)
+                                }}
+                                      value={1}
+                                      className="nav-link"
+                                      data-bs-toggle="tab"
+                                      data-bs-target="#menu-lunch"
                                 >
-                                    <h4>Trái cây nội</h4>
-                                </a>
+                                    <h4>Trái cây nội địa</h4>
+                                </Link>
                             </li>
                         </ul>
                         <section id="portfolio" className="portfolio ">
                             <div className="container  ">
-                                <section id="chefs" className="chefs section-bg justify-content-center mb-5"
+                                <section id="chefs" className="chefs section-bg justify-content-center"
                                          style={{marginTop: "2%"}}>
                                     <div className="container justify-content-center" data-aos="fade-up">
+
                                         <div className="row gy-4 justify-content-center ">
-                                            {productList.map((list)=>(
-                                            <div
-                                                className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
-                                                data-aos="fade-up"
-                                                data-aos-delay={100}>
-                                                <div className="chef-member">
-                                                    <div className="member-img">
-                                                        <Link  to={`/detail/${list.id}/product`}>
-                                                            <Image
-                                                                src={list.image}
-                                                                className="img-fluid"
-                                                                alt=""
-                                                            />
-                                                        </Link>
-                                                    </div>
-                                                    <div className="member-info">
-                                                        <h4>{list.nameFruit}</h4>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            ))}
+                                            {typeList == '' ?
+                                                <>
+                                                    {productList.map((list) => (
+                                                        <div
+                                                            className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                                            data-aos="fade-up"
+                                                            data-aos-delay={100}>
+                                                            <div className="chef-member">
+                                                                <Link to={`/detail/${list.id}/product`}>
+                                                                    <div className="member-img">
+                                                                        <Image
+                                                                            src={list.image}
+                                                                            className="img-fluid"
+                                                                            alt=""
+                                                                        />
+                                                                    </div>
+                                                                </Link>
+                                                                <div className="member-info">
+                                                                    <h4>{list.nameFruit}</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </>
+
+                                                :
+                                                <>
+                                                    {typeList.map((list) => (
+                                                        <div
+                                                            className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                                            data-aos="fade-up"
+                                                            data-aos-delay={100}>
+                                                            <div className="chef-member">
+                                                                <Link to={`/detail/${list.id}/product`}>
+                                                                    <div className="member-img">
+                                                                        <Image
+                                                                            src={list.image}
+                                                                            className="img-fluid"
+                                                                            alt=""
+                                                                        />
+                                                                    </div>
+                                                                </Link>
+                                                                <div className="member-info">
+                                                                    <h4>{list.nameFruit}</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </>
+                                            }
                                         </div>
                                     </div>
                                 </section>

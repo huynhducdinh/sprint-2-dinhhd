@@ -13,11 +13,5 @@ import java.util.List;
 @CrossOrigin("*")
 @RequestMapping("/api/type")
 public class ProductTypeController {
-    @Autowired
-    private IProductTypeService iProductTypeService;
-    @GetMapping("")
-    public ResponseEntity<List<ProductType>> getAll(){
-        List<ProductType>productTypeList=iProductTypeService.getAll();
-        return  new ResponseEntity<>(productTypeList,HttpStatus.OK);
-    }
+
 }

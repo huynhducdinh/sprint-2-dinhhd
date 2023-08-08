@@ -9,7 +9,7 @@ import DropdownToggle from "react-bootstrap/DropdownToggle";
 import {toast} from "react-toastify";
 
 
-export function Headers() {
+export function HeadersPhu() {
     const [isLogin, setIsLogin] = useState();
     const token = localStorage.getItem('token');
     const currentUserName = localStorage.getItem('username');
@@ -46,17 +46,17 @@ export function Headers() {
     }
     return (
         <>
-            <header id="header" className="header fixed-top d-flex align-items-center">
+            <header id="header" className="header  d-flex align-items-center" style={{position: "sticky", top: 0, zIndex: 200}}>
                 <div className="container d-flex align-items-center justify-content-between">
                     <div id="header-nav-logo " className="col-md-2 img logo">
                         <Link>
-                            <Image src="/img/fruit%20shop.png" alt=""/>
+                            <img src="/img/image.png" alt=""/>
                         </Link>
                     </div>
                     <nav id="navbar" className="navbar">
                         <ul style={{marginLeft: "-35%"}}>
                             <li>
-                                <NavLink to="/body" style={{justifyContent: "center"}} className="text-white "
+                                <NavLink to="/" style={{justifyContent: "center"}} className="text-white "
                                          href="#hero">Trang chủ</NavLink>
                             </li>
                             <li>
@@ -64,8 +64,8 @@ export function Headers() {
                                          href="#about">Sản phẩm</NavLink>
                             </li>
                             <li>
-                                <NavLink to="" className="text-white " style={{justifyContent: "center"}}
-                                         href="#events">Tin tức</NavLink>
+                                <a to="" className="text-white " style={{justifyContent: "center"}}
+                                         href="#events">Tin tức</a>
                             </li>
                             <li>
                                 <a className="text-white " style={{justifyContent: "center"}} href="#chefs">Liên hệ</a>
@@ -80,21 +80,27 @@ export function Headers() {
                                     {isLogin ? (
                                             <>
                                                 <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}
-                                                          className="nav-info-user">
+                                                          className="nav-info-user" style={{zIndex:1000}}>
+
                                                     <DropdownToggle
                                                         style={{
                                                             backgroundColor:"#03964CFF",
                                                             color: "white",
                                                             borderColor: "white",
                                                             fontWeight: "700",
-                                                            fontSize: "17px",
+                                                            fontSize: "20px",
                                                             fontFamily: "var(--font-secondary)"
                                                         }}
                                                         className="nav-link"
                                                     >
-                                                        <span>  {currentUserName}</span>
+                                                        <i className="fa-solid fa-circle-user"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu className="abc">
+                                                        <Link className="dropdown-item "
+                                                              style={{color: "black"}}>
+                                                            <span>  {currentUserName} <i
+                                                                className="fa-solid fa-user"></i></span>
+                                                        </Link>
                                                         <Link to="/nav/info-store" className="dropdown-item "
                                                               style={{color: "black"}}>Quản lý cửa hàng<i
                                                             className="fa-solid fa-list-check"></i></Link>
@@ -107,8 +113,8 @@ export function Headers() {
                                             </>
                                         )
                                         :
-                                        <NavLink to="/login" className="text-white  "
-                                                 style={{justifyContent: "center"}}>Đăng nhập
+                                        <NavLink to="/login" className="text-white btn btn-outline-success "
+                                                 style={{justifyContent: "center" ,border:"1px solid #00CC33",borderRadius:"30px"}}>Đăng nhập
                                             <i className="fa-solid fa-user"></i></NavLink>
                                     }
                                 </li>
