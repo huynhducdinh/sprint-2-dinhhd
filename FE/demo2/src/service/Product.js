@@ -17,7 +17,7 @@ export const getAllProduct = async (page) => {
 export const findAllProductType = async (page,id) => {
     const token = localStorage.getItem('token');
     try {
-        const res = (await axios.get(`http://localhost:8080/api/page=${page}/${id}/fruit`,
+        const res = (await axios.get(`http://localhost:8080/api/${id}/fruit?page=${page}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

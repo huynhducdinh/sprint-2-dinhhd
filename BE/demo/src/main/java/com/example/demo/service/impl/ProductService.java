@@ -6,7 +6,9 @@ import com.example.demo.repository.IProductRepository;
 import com.example.demo.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public class ProductService implements IProductService {
     private IProductRepository iProductRepository;
 
     @Override
-    public Page<ProductFruit> findAll(Pageable pageable) {
-        return iProductRepository.findAll(pageable);
+    public Page<ProductFruit> findAll(Integer page) {
+        return iProductRepository.findAll(PageRequest.of(page,4));
     }
 
     @Override

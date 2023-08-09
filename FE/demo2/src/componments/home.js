@@ -16,10 +16,17 @@ export function Home() {
         setProduct(res)
     }
 
-    const handType1 = async () => {
-        const res = await card.getAllTypeProduct(2)
-        setTypeList(res)
+    const handType1 = async (id) => {
+        if (id === 1) {
+            const res = await card.getAllTypeProduct(1);
+            setTypeList(res)
+        } else if (id === 2) {
+            const res = await card.getAllTypeProduct(2);
+            setTypeList(res)
+        }
+
     }
+
     const handType2 = async () => {
         const res = await card.getAllTypeProduct(1)
         setTypeList(res)
@@ -170,8 +177,8 @@ export function Home() {
                             data-aos-delay={200}
                         >
                             <li className="nav-item">
-                                <Link onClick={(event) => {
-                                    handType2(event)
+                                <Link onClick={() => {
+                                    handType1(1)
                                 }}
                                       value={2}
                                       className="nav-link"
@@ -183,8 +190,8 @@ export function Home() {
 
                             </li>
                             <li className="nav-item">
-                                <Link onClick={(event) => {
-                                    handType1(event)
+                                <Link onClick={() => {
+                                    handType1(2)
                                 }}
                                       value={1}
                                       className="nav-link"

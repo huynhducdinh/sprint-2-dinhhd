@@ -22,7 +22,7 @@ export  function ImageSlide() {
                             </p>
                             <div className="d-flex" data-aos="fade-up" data-aos-delay={200}>
                                 <Link to="/cart" href="#book-a-table" className="btn btn-success" style={{borderRadius:"30px"}}>
-                                    Thêm vào giỏ hàng
+                                  Xem thêm các sản phẩm khác
                                 </Link>
                                 <a
                                     href="https://www.youtube.com/watch?v=LXb3EKWsInQ"

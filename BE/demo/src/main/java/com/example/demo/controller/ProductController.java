@@ -22,23 +22,25 @@ public class ProductController {
     private IProductService iProductService;
 
     @GetMapping()
-    public ResponseEntity<Page<ProductFruit>> getAll(@PageableDefault(size =8) Pageable pageable) {
-        Page<ProductFruit> productFruitPage = iProductService.findAll(pageable);
+    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page",defaultValue = "0") Integer page) {
+        Page<ProductFruit> productFruitPage = iProductService.findAll(page);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else {
+            return new ResponseEntity<>(productFruitPage,HttpStatus.BAD_REQUEST);
+        } else {
             return new ResponseEntity<>(productFruitPage, HttpStatus.OK);
         }
     }
-    @GetMapping("/page/{id}/fruit")
-    public ResponseEntity<Page<ProductFruit>> findAll(@PageableDefault(size =4) Pageable pageable,@PathVariable("id") Long id) {
-        Page<ProductFruit> productFruitPage = iProductService.getAllFruit(pageable,id);
+
+    @GetMapping("/{id}/fruit")
+    public ResponseEntity<Page<ProductFruit>> findAll(@PageableDefault(size = 4) Pageable pageable, @PathVariable("id") Long id) {
+        Page<ProductFruit> productFruitPage = iProductService.getAllFruit(pageable, id);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else {
+        } else {
             return new ResponseEntity<>(productFruitPage, HttpStatus.OK);
         }
     }
+
     @GetMapping("/list/top4")
     public ResponseEntity<List<ProductFruit>> listResponseEntity() {
         List<ProductFruit> productFruitList = iProductService.getAll();

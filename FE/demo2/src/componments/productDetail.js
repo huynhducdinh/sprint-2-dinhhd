@@ -15,10 +15,13 @@ export function ProductDetail() {
     }, [])
 
     const [productDetail, setProductDetail] = useState()
+
     const [size, setSize] = useState([])
     const [description, setDescription] = useState([])
     const params = useParams();
     const [productList, setProduct] = useState([])
+
+
 
     const detailProduct = async () => {
         const res = await card.detail(params.id)
@@ -45,7 +48,6 @@ export function ProductDetail() {
     }
     return (
         <>
-
             <main id="main">
                 <section className="layout_padding" style={{marginTop: "-1%"}}>
                     <div className="container">

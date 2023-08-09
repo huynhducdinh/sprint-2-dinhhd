@@ -10,23 +10,68 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 export function CardProduct() {
     const [cardProduct, setCardProduct] = useState([])
     const [page, setPage] = useState(0);
+    const [totalPage, setTotalPage] = useState();
 
+    const [pages, setPages] = useState(0);
+    const [totalPages, setTotalPages] = useState();
+    const [typeList, setTypeList] = useState([])
+
+
+    const productType = async (page,id) => {
+        if (id === 1) {
+            const res = await card.findAllProductType(pages,1);
+            setTypeList(res.content)
+            // setTotalPages(res.totalPages)
+        } else if (id === 2) {
+            const res = await card.findAllProductType(pages,2);
+            setTypeList(res.content)
+            // setTotalPage(res.totalPages)
+        }
+    }
+    const productType1 = async (id) => {
+        if (id === 1) {
+            const res = await card.findAllProductType(pages,1);
+            setTypeList(res.totalPage)
+            setTotalPages(res.totalPage)
+            setPages((prevState) => prevState + 1)
+            setTypeList(() => [...typeList, ...res.content])
+        } else if (id === 2) {
+            const res = await card.findAllProductType(pages,2);
+            setTypeList(res.totalPage)
+            setTotalPage(res.totalPage)
+            setPages((prevState) => prevState + 1)
+            setTypeList(() => [...typeList, ...res.content])
+        }
+    }
+    console.log("so trang"+pages)
+    console.log("tong lai"+totalPage)
 
     const findAllProduct = async () => {
         const res = await card.getAllProduct(page)
-        await setCardProduct(res.totalPages)
-        await setPage(prevState => prevState+1)
-        await setCardProduct([ ...cardProduct,...res.content])
+        setCardProduct(res.content)
+        setTotalPage(res.totalPages)
     }
+
+    const loadMore = async (page) => {
+        const res = await card.getAllProduct(page)
+        setCardProduct(res.totalPages)
+        setTotalPage(res.totalPages)
+        setPage((prevState) => prevState + 1)
+        setCardProduct(() => [...cardProduct, ...res.content])
+    }
+
     useEffect(() => {
         findAllProduct()
+        productType()
     }, [])
 
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
 
-
+    if (!cardProduct) {
+        return null;
+    }
     return (
         <>
             <nav className="breadcrumbs text-center h2 from-d" style={{marginTop: "0%"}}>
@@ -34,14 +79,14 @@ export function CardProduct() {
                     <div style={{marginLeft: "6.6%"}} className="d-flex  ">
                         <div style={{padding: " 0px 15px 0px"}}>
                             <NavLink onClick={() => {
-
+                                productType(pages,1)
                             }}>
                                 <span className="btn btn-success">Trái cây nội địa</span>
                             </NavLink>
                         </div>
                         <div style={{padding: " 0px 15px 0px"}}>
                             <NavLink onClick={() => {
-
+                                productType(pages,2)
                             }}>
                                 <span className="btn btn-success ">Trái cây nhập khẩu</span>
                             </NavLink>
@@ -80,46 +125,84 @@ export function CardProduct() {
                         </form>
                     </div>
                 </div>
-
             </nav>
-            <div className="container mb-4 justify-content-center d-flex">
+            <div className="container mb-5 justify-content-center d-flex">
                 <div className="row">
-
-
-                    {cardProduct.map((list, index) => (
-                        <div key={index}
-                             className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                            <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
-                                <Link to={`/detail/${list.id}/product`}>
-                                    <Image className="img-fluid" style={{borderRadius: " 10px 10px 0 0"}}
-                                           src={list.image}/>
-                                </Link>
-                                <div className="card-body">
-                                    <div className=" mb-2 d-flex justify-content-between">
+                    {typeList == '' ?
+                        <>
+                            {cardProduct.map((list, index) => (
+                                <div key={index}
+                                     className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+                                    <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
+                                        <Link to={`/detail/${list.id}/product`}>
+                                            <Image className="img-fluid" style={{borderRadius: " 10px 10px 0 0"}}
+                                                   src={list.image}/>
+                                        </Link>
+                                        <div className="card-body">
+                                            <div className=" mb-2 d-flex justify-content-between">
                                 <span className=""
                                       style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
-                                        <span style={{fontWeight: "bold"}}>
+                                                <span style={{fontWeight: "bold"}}>
                                                     <FormattedNumber
                                                         value={list.price} disabled
                                                         thousandSeparator={true} currency="VND"
                                                         minimumFractionDigits={0}
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
-                                    </div>
-                                    <div className="d-flex justify-content-between">
-                                        <button className="btn btn-success">Thêm vào giỏ</button>
-                                        <button className="btn btn-success">Mua ngay</button>
+                                            </div>
+                                            <div className="d-flex justify-content-between">
+                                                <button className="btn btn-success">Thêm vào giỏ</button>
+                                                <button className="btn btn-success">Mua ngay</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    ))}
+                            ))}
+                            {page === totalPage - 1 ? ('') :
+                                (<div className="btn btn-success mb-4 mt-5" style={{borderRadius: "30px",width:"21%",marginLeft:"38%"}}>
+                <span className="" onClick={() => loadMore(page + 1)}>Xem thêm các sản phẩm khác &nbsp;
+                    <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
+                                </div>)
 
+                            }
+                        </>
+                        :
+                        <>
+                            {typeList.map((list, index) => (
+                                <div key={index}
+                                     className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+                                    <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
+                                        <Link to={`/detail/${list.id}/product`}>
+                                            <Image className="img-fluid" style={{borderRadius: " 10px 10px 0 0"}}
+                                                   src={list.image}/>
+                                        </Link>
+                                        <div className="card-body">
+                                            <div className=" mb-2 d-flex justify-content-between">
+                                <span className=""
+                                      style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
+                                                <span style={{fontWeight: "bold"}}>
+                                                    <FormattedNumber
+                                                        value={list.price} disabled
+                                                        thousandSeparator={true} currency="VND"
+                                                        minimumFractionDigits={0}
+                                                    >
+                                                    </FormattedNumber>&nbsp;đ</span>
+                                            </div>
+                                            <div className="d-flex justify-content-between">
+                                                <button className="btn btn-success">Thêm vào giỏ</button>
+                                                <button className="btn btn-success">Mua ngay</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="btn btn-success mb-4 mt-5" style={{borderRadius: "30px",width:"21%",marginLeft:"38%"}}>
+                <span className="" onClick={() => productType1(pages + 1)}>Xem thêm các sản phẩm khác &nbsp;
+                    <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
+                        </div>
+                        </>
+                    }
                 </div>
-            </div>
-            <div className="btn btn-success mb-4" style={{borderRadius: "30px", marginLeft: "45%"}}>
-                <span className="" onClick={() => findAllProduct(page)}>Xem thêm các sản phẩm khác <i
-                    className="fa-solid fa-angle-up fa-rotate-180"></i></span>
             </div>
         </>
     )
