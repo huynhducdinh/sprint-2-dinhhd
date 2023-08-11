@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
 import {Route, Routes} from "react-router-dom";
+import 'react-toastify/dist/ReactToastify.min.css'
+
 
 
 
@@ -27,6 +29,7 @@ function App() {
      <Route path="/detail" element={<ProductDetail/>}/>
      <Route path="/card" element={<CardProduct/>}/>
      <Route path="/detail/:id/product" element={<ProductDetail/>}/>
+     <Route path="/:id/product" element={<CardProduct/>}/>
 
    </Routes>
        <ToastContainer/>

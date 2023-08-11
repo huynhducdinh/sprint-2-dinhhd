@@ -1,51 +1,27 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-public class Customers {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CustomersDto {
+
     private Long id;
-    @Column(name = "name_customer")
+
     private String nameCustomer;
 
     private String birthday;
     private Integer gender;
-    @Column(name = "phone_number")
 
     private String phoneNumber;
     private String address;
     private String email;
-    @Column(name = "is_delete", columnDefinition = "BIT DEFAULT 0")
-
     private boolean isDelete;
-    @CreationTimestamp
-    @Column(name = "create_date", columnDefinition = "TIMESTAMP DEFAULT now()")
     private LocalDateTime createDate;
-
-    @Column(name = "update_date")
     private LocalDateTime updateDate;
 
-    public Customers() {
+    public CustomersDto() {
     }
 
-    public Customers(Long id) {
-        this.id = id;
-    }
-
-    @JoinColumn
-    @OneToOne
-    private Users users;
-    public Customers(String nameCustomer) {
-        this.nameCustomer = nameCustomer;
-    }
-
-    public Customers(Long id, String nameCustomer, String birthday, Integer gender, String phoneNumber, String address, String email, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate) {
+    public CustomersDto(Long id, String nameCustomer, String birthday, Integer gender, String phoneNumber, String address, String email, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate) {
         this.id = id;
         this.nameCustomer = nameCustomer;
         this.birthday = birthday;
@@ -56,28 +32,6 @@ public class Customers {
         this.isDelete = isDelete;
         this.createDate = createDate;
         this.updateDate = updateDate;
-    }
-
-    public Customers(Long id, String nameCustomer, String birthday, Integer gender, String phoneNumber, String address, String email, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate, Users users) {
-        this.id = id;
-        this.nameCustomer = nameCustomer;
-        this.birthday = birthday;
-        this.gender = gender;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.email = email;
-        this.isDelete = isDelete;
-        this.createDate = createDate;
-        this.updateDate = updateDate;
-        this.users = users;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
     }
 
     public Long getId() {

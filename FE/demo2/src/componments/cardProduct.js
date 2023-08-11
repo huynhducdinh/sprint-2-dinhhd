@@ -3,54 +3,64 @@ import React, {useEffect, useState} from "react";
 import * as card from '../service/Product'
 import {DropdownButton, Image} from "react-bootstrap";
 import {FormattedNumber} from "react-intl";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
+import {productType} from "../service/Type";
+import * as shoppingCart from "../service/ShoppingCart";
+import {toast} from "react-toastify";
 
 
 export function CardProduct() {
     const [cardProduct, setCardProduct] = useState([])
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState();
+    const [id, setId] = useState(0);
 
     const [pages, setPages] = useState(0);
+    const [pageType, setPageType] = useState(0);
     const [totalPages, setTotalPages] = useState();
     const [typeList, setTypeList] = useState([])
 
 
-    const productType = async (page,id) => {
+    const [quantity, setQuantity] = useState(1)
+    const param=useParams();
+    const nav = useNavigate();
+
+    const productType = async (id) => {
         if (id === 1) {
-            const res = await card.findAllProductType(pages,1);
+            const res = await card.findAllProductType(1, pages);
+            setId(id)
             setTypeList(res.content)
-            // setTotalPages(res.totalPages)
+            setTotalPages(res.totalPages)
         } else if (id === 2) {
-            const res = await card.findAllProductType(pages,2);
+            const res = await card.findAllProductType(2, pageType);
+            setId(id)
             setTypeList(res.content)
-            // setTotalPage(res.totalPages)
+            setTotalPages(res.totalPages)
         }
     }
-    const productType1 = async (id) => {
+    const productType1 = async (id, pages) => {
         if (id === 1) {
-            const res = await card.findAllProductType(pages,1);
-            setTypeList(res.totalPage)
-            setTotalPages(res.totalPage)
+            const res = await card.findAllProductType(1, pages);
+            setTypeList(res.totalPages)
+            setTotalPages(res.totalPages)
             setPages((prevState) => prevState + 1)
             setTypeList(() => [...typeList, ...res.content])
         } else if (id === 2) {
-            const res = await card.findAllProductType(pages,2);
-            setTypeList(res.totalPage)
-            setTotalPage(res.totalPage)
-            setPages((prevState) => prevState + 1)
+            const res = await card.findAllProductType(2, pages);
+            setTypeList(res.totalPages)
+            setTotalPages(res.totalPages)
+            setPageType((prevState) => prevState + 1)
             setTypeList(() => [...typeList, ...res.content])
         }
     }
-    console.log("so trang"+pages)
-    console.log("tong lai"+totalPage)
 
     const findAllProduct = async () => {
         const res = await card.getAllProduct(page)
         setCardProduct(res.content)
         setTotalPage(res.totalPages)
     }
+
 
     const loadMore = async (page) => {
         const res = await card.getAllProduct(page)
@@ -60,9 +70,17 @@ export function CardProduct() {
         setCardProduct(() => [...cardProduct, ...res.content])
     }
 
+    const addCart = async (quantity,idFruit) => {
+            await shoppingCart.addShoppingCart(quantity,idFruit)
+        await nav("/card")
+        toast.success("Thêm vào giỏ hàng thành công")
+    }
+
+
     useEffect(() => {
         findAllProduct()
         productType()
+        productType1()
     }, [])
 
     useEffect(() => {
@@ -72,24 +90,27 @@ export function CardProduct() {
     if (!cardProduct) {
         return null;
     }
+    if (!typeList) {
+        return null;
+    }
     return (
         <>
             <nav className="breadcrumbs text-center h2 from-d" style={{marginTop: "0%"}}>
                 <div style={{marginRight: "2.5%"}} className="d-flex justify-content-between ">
                     <div style={{marginLeft: "6.6%"}} className="d-flex  ">
                         <div style={{padding: " 0px 15px 0px"}}>
-                            <NavLink onClick={() => {
-                                productType(pages,1)
+                            <Link onClick={() => {
+                                productType(1)
                             }}>
-                                <span className="btn btn-success">Trái cây nội địa</span>
-                            </NavLink>
+                                <span className="btn btn-outline-success">Trái cây nội địa</span>
+                            </Link>
                         </div>
                         <div style={{padding: " 0px 15px 0px"}}>
-                            <NavLink onClick={() => {
-                                productType(pages,2)
+                            <Link onClick={() => {
+                                productType(2)
                             }}>
-                                <span className="btn btn-success ">Trái cây nhập khẩu</span>
-                            </NavLink>
+                                <span className="btn btn-outline-success ">Trái cây nhập khẩu</span>
+                            </Link>
                         </div>
                         {/*<div style={{padding: " 0px 15px 0px"}}>*/}
                         {/*    <button className="btn btn-success dropdown" type="submit">*/}
@@ -151,7 +172,12 @@ export function CardProduct() {
                                                     </FormattedNumber>&nbsp;đ</span>
                                             </div>
                                             <div className="d-flex justify-content-between">
-                                                <button className="btn btn-success">Thêm vào giỏ</button>
+
+                                                    <button  className="btn btn-success" onClick={() => addCart(quantity,list.id)}>Thêm vào
+                                                        giỏ
+                                                    </button>
+
+
                                                 <button className="btn btn-success">Mua ngay</button>
                                             </div>
                                         </div>
@@ -159,7 +185,8 @@ export function CardProduct() {
                                 </div>
                             ))}
                             {page === totalPage - 1 ? ('') :
-                                (<div className="btn btn-success mb-4 mt-5" style={{borderRadius: "30px",width:"21%",marginLeft:"38%"}}>
+                                (<div className="btn btn-success mb-4 mt-5"
+                                      style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
                 <span className="" onClick={() => loadMore(page + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
                                 </div>)
@@ -189,17 +216,35 @@ export function CardProduct() {
                                                     </FormattedNumber>&nbsp;đ</span>
                                             </div>
                                             <div className="d-flex justify-content-between">
-                                                <button className="btn btn-success">Thêm vào giỏ</button>
+                                                <button className="btn btn-success" onClick={() => addCart()}>Thêm vào giỏ</button>
                                                 <button className="btn btn-success">Mua ngay</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             ))}
-                            <div className="btn btn-success mb-4 mt-5" style={{borderRadius: "30px",width:"21%",marginLeft:"38%"}}>
-                <span className="" onClick={() => productType1(pages + 1)}>Xem thêm các sản phẩm khác &nbsp;
+                            {pages === totalPages - 1 ? ('') :
+                                <>
+                                    {id === 1 ? <div className="btn btn-success mb-4 mt-5"
+                                                     style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
+                <span className="" onClick={() => productType1(1, pages + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                        </div>
+                                    </div> : ""
+                                    }
+                                </>
+                            }
+                            {pageType === totalPages - 1 ? ('') :
+                                <>
+                                    {id === 2 ? <div className="btn btn-success mb-4 mt-5"
+                                                     style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
+                <span className="" onClick={() => productType1(2, pageType + 1)}>Xem thêm các sản phẩm khác &nbsp;
+                    <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
+                                    </div> : ""
+                                    }
+                                </>
+                            }
+
+
                         </>
                     }
                 </div>

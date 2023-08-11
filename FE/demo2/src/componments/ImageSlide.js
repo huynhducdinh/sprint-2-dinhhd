@@ -21,7 +21,7 @@ export  function ImageSlide() {
                                 Bạn không nên bỏ lỡ, hãy nếm thử những hương vị đó!
                             </p>
                             <div className="d-flex" data-aos="fade-up" data-aos-delay={200}>
-                                <Link to="/cart" href="#book-a-table" className="btn btn-success" style={{borderRadius:"30px"}}>
+                                <Link to="/card" href="#book-a-table" className="btn btn-success" style={{borderRadius:"30px"}}>
                                   Xem thêm các sản phẩm khác
                                 </Link>
                                 <a

@@ -1,59 +1,37 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
+import com.example.demo.model.ProductType;
+import com.example.demo.model.SizeProduct;
+import com.example.demo.model.Supplier;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import java.time.LocalDateTime;
 
-@Entity
-public class ProductFruit {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ProductFruitDto {
+
     private Long id;
-    @Column(name = "name_fruit")
     private String nameFruit;
     private Long price;
-    @Column(name = "start_day")
-
     private String startDay;
-    @Column(name = "end_day")
-
     private String endDay;
     private String note;
     private String image;
     private Integer quantity;
-    @Column(name = "is_delete",columnDefinition = "BIT DEFAULT 0")
     private boolean isDelete = false;
-    @CreationTimestamp
-    @Column(name = "create_date", columnDefinition = "TIMESTAMP DEFAULT now()")
     private LocalDateTime createDate;
-    @UpdateTimestamp
-    @Column(name = "update_date", columnDefinition = "TIMESTAMP DEFAULT now()")
     private LocalDateTime updateDate;
-    @ManyToOne
-    @JoinColumn(name = "id_type")
     private ProductType productType;
-    @ManyToOne
-    @JoinColumn(name = "id_supplier")
     private Supplier supplier;
-    @ManyToOne
-    @JoinColumn(name = "id_size")
     private SizeProduct sizeProduct;
 
-    public ProductFruit() {
+    public ProductFruitDto() {
     }
 
-    public ProductFruit(Long id) {
-        this.id = id;
-    }
-
-    public ProductFruit(String nameFruit) {
-        this.nameFruit = nameFruit;
-    }
-
-    public ProductFruit(Long id, String nameFruit, Long price, String startDay, String endDay, String note, String image, Integer quantity, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate, ProductType productType, Supplier supplier, SizeProduct sizeProduct) {
+    public ProductFruitDto(Long id, String nameFruit, Long price, String startDay, String endDay, String note, String image, Integer quantity, boolean isDelete, LocalDateTime createDate, LocalDateTime updateDate, ProductType productType, Supplier supplier, SizeProduct sizeProduct) {
         this.id = id;
         this.nameFruit = nameFruit;
         this.price = price;
@@ -134,6 +112,14 @@ public class ProductFruit {
         this.quantity = quantity;
     }
 
+    public boolean isDelete() {
+        return isDelete;
+    }
+
+    public void setDelete(boolean delete) {
+        isDelete = delete;
+    }
+
     public LocalDateTime getCreateDate() {
         return createDate;
     }
@@ -172,13 +158,5 @@ public class ProductFruit {
 
     public void setSizeProduct(SizeProduct sizeProduct) {
         this.sizeProduct = sizeProduct;
-    }
-
-    public boolean isDelete() {
-        return isDelete;
-    }
-
-    public void setDelete(boolean delete) {
-        isDelete = delete;
     }
 }

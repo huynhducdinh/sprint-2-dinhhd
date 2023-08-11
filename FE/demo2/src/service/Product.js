@@ -14,7 +14,7 @@ export const getAllProduct = async (page) => {
         console.log(e)
     }
 }
-export const findAllProductType = async (page,id) => {
+export const findAllProductType = async (id,page) => {
     const token = localStorage.getItem('token');
     try {
         const res = (await axios.get(`http://localhost:8080/api/${id}/fruit?page=${page}`,

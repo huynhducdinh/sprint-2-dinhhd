@@ -32,6 +32,12 @@ public class ShoppingCart {
         this.productFruit = productFruit;
     }
 
+    public ShoppingCart(Integer quantity, Customers customers, ProductFruit productFruit) {
+        this.quantity = quantity;
+        this.customers = customers;
+        this.productFruit = productFruit;
+    }
+
     public Long getId() {
         return id;
     }

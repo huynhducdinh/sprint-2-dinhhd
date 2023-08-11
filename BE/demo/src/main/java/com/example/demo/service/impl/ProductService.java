@@ -39,8 +39,14 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductFruit> getAllFruit(Pageable pageable, Long id) {
-        return iProductRepository.getAllFruit(pageable, id);
+    public Page<ProductFruit> getAllFruitProduct(Long id, Integer page) {
+        return iProductRepository.getAllFruitProduct(id,PageRequest.of(page,4));
     }
+
+    @Override
+    public ProductFruit findShoppingCartByProductFruitId(Long idFruit) {
+        return iProductRepository.findShoppingCartByProductFruitId(idFruit);
+    }
+
 
 }

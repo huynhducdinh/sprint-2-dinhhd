@@ -5,9 +5,11 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useEffect, useState} from "react";
 import {Image} from "react-bootstrap";
 import * as card from "../service/Product";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import * as type from '../service/Type'
 import {FormattedNumber} from "react-intl";
+import * as shoppingCart from "../service/ShoppingCart";
+import {toast} from "react-toastify";
 
 export function ProductDetail() {
     useEffect(() => {
@@ -15,13 +17,20 @@ export function ProductDetail() {
     }, [])
 
     const [productDetail, setProductDetail] = useState()
-
     const [size, setSize] = useState([])
     const [description, setDescription] = useState([])
     const params = useParams();
     const [productList, setProduct] = useState([])
+    const [tong, setTong] = useState(1)
+    const [quantity, setQuantity] = useState(1)
+    const nav = useNavigate();
 
 
+    const addCart = async () => {
+        await shoppingCart.addShoppingCart(quantity, productDetail.id);
+        nav("/card")
+        toast.success('Thêm vào giỏ hàng thành công')
+    }
 
     const detailProduct = async () => {
         const res = await card.detail(params.id)
@@ -37,15 +46,25 @@ export function ProductDetail() {
         const res = await type.sizeProduct()
         setSize(res)
     }
+    const onCilck1 = async (value) => {
+        if (value === 1) {
+            setTong(tong + 1)
+        } else {
+            setTong(tong - 1)
+        }
+    }
+
+
     useEffect(() => {
         detailProduct()
         sizePro()
         listGetAll()
 
-    }, [])
+    }, [params.id])
     if (!productDetail) {
         return null;
     }
+
     return (
         <>
             <main id="main">
@@ -79,39 +98,43 @@ export function ProductDetail() {
 
                                                 {/*    <li className="li-item" key={index}>{val}</li>*/}
                                                 {/*</ul>*/}
-                                                <form action="">
-                                                    <div className="d-flex ">
-                                                        <select style={{width: "50%", border: "1px solid #03964c"}}
-                                                                name="contractType"
-                                                                as="select"
-                                                                className=" form-select">
-                                                            <option value={""}>Chọn size</option>
-                                                            {size.map((list, index) => (
-                                                                <option key={index}
-                                                                        value={list.id}>{list.size} kg</option>
-                                                            ))}
-                                                        </select>
-
-                                                        <div style={{marginLeft: "5%"}}>
-                                                            <button type="button" style={{
-                                                                height: "40px",
-                                                                borderRadius: "5px 0 0 5px"
-                                                            }}
-                                                                    className="minus"><span>-</span></button>
-                                                            <input type="number" style={{height: "40px", width: "20%"}}
-                                                                   className="input" step="1" min="0" max
-                                                            />
-                                                            <button
-                                                                style={{height: "40px", borderRadius: " 0 5px  5px 0"}}
+                                                <div className="d-flex ">
+                                                    {/*<select style={{width: "50%", border: "1px solid #03964c"}}*/}
+                                                    {/*        name="contractType"*/}
+                                                    {/*        as="select"*/}
+                                                    {/*        className=" form-select">*/}
+                                                    {/*    <option value={""}>Chọn size</option>*/}
+                                                    {/*    {size.map((list, index) => (*/}
+                                                    {/*        <option key={index}*/}
+                                                    {/*                value={list.id}>{list.size} kg</option>*/}
+                                                    {/*    ))}*/}
+                                                    {/*</select>*/}
+                                                    <h6>Chọn kg:</h6>
+                                                    <div style={{marginLeft: "5%"}}>
+                                                        <button type="button" style={{
+                                                            height: "40px",
+                                                            borderRadius: "5px 0 0 5px"
+                                                        }}
+                                                                onClick={() => onCilck1(0)} className="minus"><span
+                                                        >-</span></button>
+                                                        <input type="number" style={{height: "40px", width: "20%"}}
+                                                               className="input" min={1} value={tong}
+                                                        />
+                                                        <button onClick={() => onCilck1(1)}
+                                                                style={{
+                                                                    height: "40px",
+                                                                    borderRadius: " 0 5px  5px 0"
+                                                                }}
                                                                 type="button" value="+"
-                                                                className="plus"><span>+</span></button>
-                                                        </div>
+                                                                className="plus"><span
+                                                        >+</span></button>
                                                     </div>
-                                                    <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
-                                                            style={{width: "100%"}}><span style={{fontWeight: "bold"}}>
+                                                </div>
+                                                <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
+                                                        style={{width: "100%"}}><span style={{fontWeight: "bold"}}
+                                                                                      onClick={() => addCart()}>
                                                   <i className='fa fa-shopping-basket'></i> Thêm vào giỏ hàng</span>
-                                                    </button>
-                                                </form>
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -131,20 +154,20 @@ export function ProductDetail() {
                                  style={{marginTop: "2%"}}>
                             <div className="container justify-content-center" data-aos="fade-up">
                                 <div className="row gy-4 justify-content-center ">
-                                    {productList.map((list)=>(
-                                        <div
-                                            className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
-                                            data-aos="fade-up"
-                                            data-aos-delay={100}>
+                                    {productList.map((list, index) => (
+                                        <div key={index}
+                                             className="col-lg-3 col-md-6 d-flex align-items-stretch mb-3 justify-content-center"
+                                             data-aos="fade-up"
+                                             data-aos-delay={100}>
                                             <div className="chef-member">
                                                 <Link to={`/detail/${list.id}/product`}>
-                                                <div className="member-img">
-                                                    <Image
-                                                        src={list.image}
-                                                        className="img-fluid"
-                                                        alt=""
-                                                   />
-                                                </div>
+                                                    <div className="member-img">
+                                                        <Image
+                                                            src={list.image}
+                                                            className="img-fluid"
+                                                            alt=""
+                                                        />
+                                                    </div>
                                                 </Link>
                                                 <div className="member-info">
                                                     <h4>{list.nameFruit}</h4>

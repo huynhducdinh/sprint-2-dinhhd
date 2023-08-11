@@ -13,6 +13,6 @@ public interface IProductService {
     ProductFruit findById(Long id);
     List<ProductFruit> getAll();
     List<ProductFruit> getAllList(Long id);
-    Page<ProductFruit> getAllFruit(Pageable pageable,Long id);
-
+    Page<ProductFruit> getAllFruitProduct(Long id,Integer page);
+    ProductFruit findShoppingCartByProductFruitId(Long idFruit);
 }

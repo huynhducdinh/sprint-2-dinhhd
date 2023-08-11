@@ -49,7 +49,7 @@ export function HeadersPhu() {
             <header id="header" className="header  d-flex align-items-center" style={{position: "sticky", top: 0, zIndex: 200}}>
                 <div className="container d-flex align-items-center justify-content-between">
                     <div id="header-nav-logo " className="col-md-2 img logo">
-                        <Link>
+                        <Link to="/">
                             <img src="/img/image.png" alt=""/>
                         </Link>
                     </div>
@@ -61,7 +61,7 @@ export function HeadersPhu() {
                             </li>
                             <li>
                                 <NavLink to="/card" style={{justifyContent: "center"}} className="text-white "
-                                         href="#about">Sản phẩm</NavLink>
+                                         href="#about">Sản phẩm </NavLink>
                             </li>
                             <li>
                                 <a to="" className="text-white " style={{justifyContent: "center"}}

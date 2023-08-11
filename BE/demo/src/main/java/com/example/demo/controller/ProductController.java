@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ProductFruit;
 import com.example.demo.model.ProductType;
+import com.example.demo.model.ShoppingCart;
 import com.example.demo.service.IProductService;
 import com.example.demo.service.IProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("*")
@@ -22,18 +25,18 @@ public class ProductController {
     private IProductService iProductService;
 
     @GetMapping()
-    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page",defaultValue = "0") Integer page) {
+    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page", defaultValue = "0") Integer page) {
         Page<ProductFruit> productFruitPage = iProductService.findAll(page);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
-            return new ResponseEntity<>(productFruitPage,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(productFruitPage, HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(productFruitPage, HttpStatus.OK);
         }
     }
 
     @GetMapping("/{id}/fruit")
-    public ResponseEntity<Page<ProductFruit>> findAll(@PageableDefault(size = 4) Pageable pageable, @PathVariable("id") Long id) {
-        Page<ProductFruit> productFruitPage = iProductService.getAllFruit(pageable, id);
+    public ResponseEntity<Page<ProductFruit>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer pageable, @PathVariable("id") Long id) {
+        Page<ProductFruit> productFruitPage = iProductService.getAllFruitProduct(id, pageable);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -73,4 +76,5 @@ public class ProductController {
 
         }
     }
+
 }

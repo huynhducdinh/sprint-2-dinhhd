@@ -27,11 +27,6 @@ export function Home() {
 
     }
 
-    const handType2 = async () => {
-        const res = await card.getAllTypeProduct(1)
-        setTypeList(res)
-
-    }
     useEffect(() => {
         listGetAll()
     }, [])
@@ -109,9 +104,9 @@ export function Home() {
                                     <p>Trái cây, thực phẩm đảm bảo vệ sinh an toàn thực phẩm</p>
 
                                     <div className="text-center">
-                                        <a href="#" className="more-btn">
+                                        <Link to="/card" href="#" className="more-btn">
                                             Xem sản phẩm tại đây <i className="bx bx-chevron-right"/>
-                                        </a>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
