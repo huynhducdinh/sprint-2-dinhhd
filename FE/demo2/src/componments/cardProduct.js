@@ -25,6 +25,7 @@ export function CardProduct() {
     const [quantity, setQuantity] = useState(1)
     const param=useParams();
     const nav = useNavigate();
+    // sổ loại sản phẩm
 
     const productType = async (id) => {
         if (id === 1) {
@@ -39,6 +40,7 @@ export function CardProduct() {
             setTotalPages(res.totalPages)
         }
     }
+    // sổ loại sản phẩm
     const productType1 = async (id, pages) => {
         if (id === 1) {
             const res = await card.findAllProductType(1, pages);
@@ -54,14 +56,14 @@ export function CardProduct() {
             setTypeList(() => [...typeList, ...res.content])
         }
     }
-
+    // sổ page sản phẩm
     const findAllProduct = async () => {
         const res = await card.getAllProduct(page)
         setCardProduct(res.content)
         setTotalPage(res.totalPages)
     }
 
-
+    // load thêm sản phẩm
     const loadMore = async (page) => {
         const res = await card.getAllProduct(page)
         setCardProduct(res.totalPages)
@@ -69,7 +71,7 @@ export function CardProduct() {
         setPage((prevState) => prevState + 1)
         setCardProduct(() => [...cardProduct, ...res.content])
     }
-
+    // thêm voà trong giỏ hàng
     const addCart = async (quantity,idFruit) => {
             await shoppingCart.addShoppingCart(quantity,idFruit)
         await nav("/card")

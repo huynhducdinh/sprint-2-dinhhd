@@ -48,33 +48,41 @@ public class ShoppingCartController {
         return new ResponseEntity<>(shoppingCarts, HttpStatus.OK);
     }
 
-
     @PostMapping("/add")
-    public ResponseEntity<?> addShoppingCart(HttpServletRequest httpServletRequest, @RequestParam(value = "quantity" ) Integer quantity,
-                                             @RequestParam(value = "idFruit") Long idFruit
-    ) {
+    public ResponseEntity<?> add(HttpServletRequest httpServletRequest,
+                                 @RequestParam(value = "quantity") Integer quantity,
+                                 @RequestParam(value = "idFruit") Long idFruit) {
         ProductFruit productFruit = iProductService.findById(idFruit);
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         Customers customers = iCustomerService.findUsersId(username);
-
-//        ProductFruit productFruit1 = iProductService.findShoppingCartByProductFruitId(idFruit);
-//        List<ShoppingCart> shoppingCarts = ishoppingCartService.findAll();
-//        for (int i = 0; i <shoppingCarts.size() ; i++) {
-//          if (idFruit==shoppingCarts.get(i).getProductFruit().getId()){
-//              ShoppingCart shoppingCart = new ShoppingCart(shoppingCarts.get(i).getQuantity()+1, customers, productFruit);
-//              ishoppingCartService.remove(shoppingCarts.get(i).getId());
-//              ishoppingCartService.add(shoppingCart);
-//          }
-//        }
-//          if (productFruit==null){
-//
-//              ShoppingCart shoppingCart = new ShoppingCart(quantity, customers, productFruit);
-//              ishoppingCartService.add(shoppingCart);
-//          }
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        if (quantity > 0) {
+            ShoppingCart shoppingCart = ishoppingCartService.findByCustomersAndProductFruit(customers, productFruit);
+            if (shoppingCart != null) {
+                Integer amount = shoppingCart.getQuantity() + quantity;
+                shoppingCart.setQuantity(amount);
+                ishoppingCartService.add(shoppingCart);
+                return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
+            }
+        }
+        ShoppingCart shoppingCartNew = new ShoppingCart(quantity, customers, productFruit);
+        ishoppingCartService.add(shoppingCartNew);
+        return new ResponseEntity<>(shoppingCartNew, HttpStatus.CREATED);
     }
 
-
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteShopping(@PathVariable("id") Long id) {
+        ishoppingCartService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PatchMapping("/{setQuantity}/{id}")
+    public ResponseEntity<?> setQuantityCart(@PathVariable Integer setQuantity, @PathVariable Long id) {
+        try {
+            ishoppingCartService.setQuantityShoppingCart(setQuantity, id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

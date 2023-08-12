@@ -20,10 +20,5 @@ public interface IShoppingCartRepository extends JpaRepository<ShoppingCart, Lon
             "where u.user_name=:username", nativeQuery = true)
     List<ShoppingCart> findByUserCustomer(@Param("username") String username);
 
-    @Transactional
-    @Modifying
-    @Query(value = "INSERT INTO shopping_cart(quantity,id_customers,id_product_fruit) values(:quantity,:customers,:productFruit)", nativeQuery = true)
-    void createShopping(@Param("quantity") Integer quantity, @Param("customers") Long customers, @Param("productFruit") Long productFruit);
-
-
+    ShoppingCart findByCustomersAndProductFruit(Customers customers, ProductFruit productFruit);
 }

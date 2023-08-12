@@ -24,7 +24,7 @@ public class ShoppingCartService implements IShoppingCartService {
 
     @Override
     public void add(ShoppingCart shoppingCart) {
-       iShoppingCartRepository.save(shoppingCart);
+        iShoppingCartRepository.save(shoppingCart);
     }
 
     @Override
@@ -38,10 +38,21 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
-    public List<ShoppingCart> findByUserCustomer(String username) {
-        return iShoppingCartRepository.findByUserCustomer(username);
+    public ShoppingCart findByCustomersAndProductFruit(Customers customers, ProductFruit productFruit) {
+        return iShoppingCartRepository.findByCustomersAndProductFruit(customers, productFruit);
     }
 
+    @Override
+    public void setQuantityShoppingCart(Integer quantity, Long id) {
+        ShoppingCart shoppingCart=iShoppingCartRepository.findById(id).get();
+        if (quantity==0){
+            shoppingCart.setQuantity(shoppingCart.getQuantity()-1);
+            iShoppingCartRepository.save(shoppingCart);
+        }else {
+            shoppingCart.setQuantity(shoppingCart.getQuantity()+1);
+            iShoppingCartRepository.save(shoppingCart);
+        }
+    }
 
 
 }

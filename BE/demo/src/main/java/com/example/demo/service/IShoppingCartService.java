@@ -15,6 +15,7 @@ public interface IShoppingCartService {
 
     List<ShoppingCart> findAll();
 
-    List<ShoppingCart> findByUserCustomer(String username);
+    ShoppingCart findByCustomersAndProductFruit(Customers customers, ProductFruit productFruit);
 
+    void setQuantityShoppingCart(Integer quantity, Long id);
 }

@@ -30,9 +30,7 @@ public interface IProductRepository extends JpaRepository<ProductFruit, Long> {
             "limit 4", nativeQuery = true)
     List<ProductFruit> getAllList(@Param("id") Long id);
 
-    @Query(value = "SELECT * FROM product_fruit as pf\n" +
-            "WHERE pf.id=:id AND is_delete=false", nativeQuery = true)
-    ProductFruit findProductFruitByNameFruit(@Param("id") Long id);
+
 
     @Query(value = "SELECT * From product_fruit as s\n" +
             "INNER JOIN shopping_cart sc on s.id = sc.id_product_fruit\n" +

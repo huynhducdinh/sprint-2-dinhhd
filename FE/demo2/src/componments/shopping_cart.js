@@ -1,25 +1,65 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 import '../css/shoping_cart.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useEffect, useState} from "react";
-
 import * as shoppingCart from "../service/ShoppingCart"
 import {FormattedNumber} from "react-intl";
+import Swal from "sweetalert2";
+
 
 export function Shopping_cart() {
     const [totalPrice, setTotalPrice] = useState(0)
     const [cart, setCart] = useState([])
 
+    // sổ list và tính tổng tiền của sản phẩm
     const getAll = async () => {
         const res = await shoppingCart.listShoppingCart();
         setTotalPrice(0)
-        if (res !== null){
-            {res.map((list)=>(
-                setTotalPrice((prevState)=>(prevState+list.productFruit.price))
-            ))}
+        if (res !== null) {
+            {
+                res.map((list) => (
+                    setTotalPrice((prevState) => (prevState + list.productFruit.price * list.quantity))
+                ))
+            }
         }
         setCart(res)
     }
+    // xoá sản phẩm trong gior hàng
+    const deleteShoppingCart = async (id) => {
+        const res = await shoppingCart.deleteShopping(id);
+        getAll();
+        await result(res.data);
+    }
+    // chỉnh sửa quantity
+    const setQuantity = async (value, id, quantity) => {
+        if (quantity > 1 || value === 1) {
+            await shoppingCart.setQuantityShopping(value, id)
+            getAll()
+        }
+    }
+    const result = async () => {
+        await Swal.fire({
+            icon: "success",
+            timer: "2000",
+            text: "Xoá sản phẩm thành công"
+        })
+    }
+    const deleteShopping = async (id, name) => {
+        await Swal.fire({
+            icon: "warning",
+            title: "Xác nhận xóa",
+            html: `Bạn có muốn xoá sản phẩm <span style="color: red">${name}</span> mà bạn đã thêm voà giỏ hàng không?`,
+            showCancelButton: true,
+            confirmButtonText: 'Có',
+            cancelButtonText: 'Không',
+            reverseButtons: true
+        }).then((res) => {
+            if (res.isConfirmed) {
+                deleteShoppingCart(id)
+            }
+        })
+    }
+
     useEffect(() => {
         getAll()
     }, [])
@@ -27,14 +67,7 @@ export function Shopping_cart() {
         window.scrollTo(0, 0)
     }, [])
 
-    // const quantityProduct = async (value) => {
-    //     if (value === 1) {
-    //         setQuantity(quantity + 1)
-    //     } else {
-    //         setQuantity(quantity - 1)
-    //
-    //     }
-    // }
+
     return (
         <>
 
@@ -74,22 +107,28 @@ export function Shopping_cart() {
                                                      alt=""/>
                                             </td>
                                             <td>{list.productFruit.nameFruit}</td>
-                                            <td>  <FormattedNumber
+                                            <td><FormattedNumber
                                                 value={list.productFruit.price}>
                                                 thousandSeparator={true} currency="VND"
                                                 minimumFractionDigits={0}
-                                            </FormattedNumber> đ</td>
+                                            </FormattedNumber> đ
+                                            </td>
                                             <td>
                                                 <div className="d-flex">
-                                                    <button  type="button"
+                                                    <button type="button"
+                                                            onClick={() => setQuantity(0, list.id, list.quantity)}
                                                             className="minus" style={{borderRadius: "5px 0 0 5px"}}>
+
                                                         <span>-</span></button>
                                                     <input type="number"
-                                                           className="input" step="1" min="0" max value={list.quantity}
+                                                           className="input" step="1" min="0" max
+                                                           value={list.quantity}
                                                     />
-                                                    <button  type="button" value="+"
+                                                    <button type="button" value="+"
+                                                            onClick={() => setQuantity(1, list.id, list.quantity)}
                                                             className="plus" style={{borderRadius: " 0 5px 5px 0"}}>
-                                                        <span>+</span></button>
+                                                        <span>+</span>
+                                                    </button>
                                                 </div>
                                             </td>
                                             <td>
@@ -100,7 +139,9 @@ export function Shopping_cart() {
                                                 </FormattedNumber> đ
                                             </td>
                                             <td>
-                                                <div className="btn" data-bs-dismiss="alert">
+                                                <div
+                                                    onClick={() => deleteShopping(list?.id, list.productFruit.nameFruit)}
+                                                    className="btn" data-bs-dismiss="alert">
                                                     <span className="fas fa-times"></span>
                                                 </div>
                                             </td>
@@ -124,11 +165,12 @@ export function Shopping_cart() {
                                     <tbody>
                                     <tr>
                                         <th>Tạm tính</th>
-                                        <td className="justify-content-end d-flex"> <FormattedNumber
+                                        <td className="justify-content-end d-flex"><FormattedNumber
                                             value={totalPrice}>
                                             thousandSeparator={true} currency="VND"
                                             minimumFractionDigits={0}
-                                        </FormattedNumber> đ</td>
+                                        </FormattedNumber> đ
+                                        </td>
                                     </tr>
                                     <tr>
                                         <th>Giao hàng</th>
@@ -141,7 +183,8 @@ export function Shopping_cart() {
                                                 value={totalPrice}>
                                                 thousandSeparator={true} currency="VND"
                                                 minimumFractionDigits={0}
-                                            </FormattedNumber> đ</td>
+                                            </FormattedNumber> đ
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>

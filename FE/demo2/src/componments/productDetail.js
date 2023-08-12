@@ -21,7 +21,6 @@ export function ProductDetail() {
     const [description, setDescription] = useState([])
     const params = useParams();
     const [productList, setProduct] = useState([])
-    const [tong, setTong] = useState(1)
     const [quantity, setQuantity] = useState(1)
     const nav = useNavigate();
 
@@ -48,9 +47,14 @@ export function ProductDetail() {
     }
     const onCilck1 = async (value) => {
         if (value === 1) {
-            setTong(tong + 1)
-        } else {
-            setTong(tong - 1)
+            if (quantity<productDetail.quantity){
+                setQuantity(quantity + 1)
+            }
+        }
+        else {
+            if (quantity>0)
+                setQuantity(quantity - 1)
+
         }
     }
 
@@ -118,7 +122,7 @@ export function ProductDetail() {
                                                                 onClick={() => onCilck1(0)} className="minus"><span
                                                         >-</span></button>
                                                         <input type="number" style={{height: "40px", width: "20%"}}
-                                                               className="input" min={1} value={tong}
+                                                               className="input" min={1} value={quantity}
                                                         />
                                                         <button onClick={() => onCilck1(1)}
                                                                 style={{
