@@ -17,7 +17,6 @@ export function ProductDetail() {
     }, [])
 
     const [productDetail, setProductDetail] = useState()
-    const [size, setSize] = useState([])
     const [description, setDescription] = useState([])
     const params = useParams();
     const [productList, setProduct] = useState([])
@@ -25,27 +24,25 @@ export function ProductDetail() {
     const nav = useNavigate();
 
 
+    // thêm vào giỏ hàng
     const addCart = async () => {
         await shoppingCart.addShoppingCart(quantity, productDetail.id);
         nav("/card")
         toast.success('Thêm vào giỏ hàng thành công')
     }
-
+    // 1 sản phẩm
     const detailProduct = async () => {
         const res = await card.detail(params.id)
         setProductDetail(res)
         await setDescription(res.note.split("."))
     }
+    // các loại sản phẩm khác
     const listGetAll = async () => {
         const res = await card.listAll()
         setProduct(res)
     }
-
-    const sizePro = async () => {
-        const res = await type.sizeProduct()
-        setSize(res)
-    }
-    const onCilck1 = async (value) => {
+    // tăng giảm quantity
+    const onClickQuantity = async (value) => {
         if (value === 1) {
             if (quantity<productDetail.quantity){
                 setQuantity(quantity + 1)
@@ -58,10 +55,8 @@ export function ProductDetail() {
         }
     }
 
-
     useEffect(() => {
         detailProduct()
-        sizePro()
         listGetAll()
 
     }, [params.id])
@@ -119,12 +114,12 @@ export function ProductDetail() {
                                                             height: "40px",
                                                             borderRadius: "5px 0 0 5px"
                                                         }}
-                                                                onClick={() => onCilck1(0)} className="minus"><span
+                                                                onClick={() => onClickQuantity(0)} className="minus"><span
                                                         >-</span></button>
                                                         <input type="number" style={{height: "40px", width: "20%"}}
                                                                className="input" min={1} value={quantity}
                                                         />
-                                                        <button onClick={() => onCilck1(1)}
+                                                        <button onClick={() => onClickQuantity(1)}
                                                                 style={{
                                                                     height: "40px",
                                                                     borderRadius: " 0 5px  5px 0"

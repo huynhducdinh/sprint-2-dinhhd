@@ -2,10 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import {Route, Routes} from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.min.css'
-
-
-
-
+import "bootstrap/dist/css/bootstrap.min.css";
 import {Home} from "./componments/home";
 import {Login} from "./componments/login";
 import {Shopping_cart} from "./componments/shopping_cart";

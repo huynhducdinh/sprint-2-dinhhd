@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {productType} from "../service/Type";
 import * as shoppingCart from "../service/ShoppingCart";
 import {toast} from "react-toastify";
+import {Field, Form, Formik} from "formik";
 
 
 export function CardProduct() {
@@ -20,36 +21,35 @@ export function CardProduct() {
     const [pageType, setPageType] = useState(0);
     const [totalPages, setTotalPages] = useState();
     const [typeList, setTypeList] = useState([])
-
-
     const [quantity, setQuantity] = useState(1)
-    const param=useParams();
-    const nav = useNavigate();
-    // sổ loại sản phẩm
+    const [name, setName] = useState('')
+    const [price, setPrice] = useState('')
 
+
+    // sổ loại sản phẩm
     const productType = async (id) => {
-        if (id === 1) {
-            const res = await card.findAllProductType(1, pages);
+        if (id == 1) {
+            const res = await card.findAllProductType(1, pages, name, price);
             setId(id)
             setTypeList(res.content)
             setTotalPages(res.totalPages)
-        } else if (id === 2) {
-            const res = await card.findAllProductType(2, pageType);
+        } else if (id == 2) {
+            const res = await card.findAllProductType(2, pageType, name, price);
             setId(id)
             setTypeList(res.content)
             setTotalPages(res.totalPages)
         }
     }
-    // sổ loại sản phẩm
+    // sổ loại sản phẩm load
     const productType1 = async (id, pages) => {
-        if (id === 1) {
-            const res = await card.findAllProductType(1, pages);
+        if (id == 1) {
+            const res = await card.findAllProductType(1, pages, name, price);
             setTypeList(res.totalPages)
             setTotalPages(res.totalPages)
             setPages((prevState) => prevState + 1)
             setTypeList(() => [...typeList, ...res.content])
-        } else if (id === 2) {
-            const res = await card.findAllProductType(2, pages);
+        } else if (id == 2) {
+            const res = await card.findAllProductType(2, pages, name, price);
             setTypeList(res.totalPages)
             setTotalPages(res.totalPages)
             setPageType((prevState) => prevState + 1)
@@ -58,32 +58,35 @@ export function CardProduct() {
     }
     // sổ page sản phẩm
     const findAllProduct = async () => {
-        const res = await card.getAllProduct(page)
+        const res = await card.getAllProduct(page, name, price)
         setCardProduct(res.content)
         setTotalPage(res.totalPages)
     }
 
     // load thêm sản phẩm
     const loadMore = async (page) => {
-        const res = await card.getAllProduct(page)
+        const res = await card.getAllProduct(page, name, price)
         setCardProduct(res.totalPages)
         setTotalPage(res.totalPages)
         setPage((prevState) => prevState + 1)
         setCardProduct(() => [...cardProduct, ...res.content])
     }
     // thêm voà trong giỏ hàng
-    const addCart = async (quantity,idFruit) => {
-            await shoppingCart.addShoppingCart(quantity,idFruit)
-        await nav("/card")
+    const addCart = async (quantity, idFruit) => {
+        await shoppingCart.addShoppingCart(quantity, idFruit)
         toast.success("Thêm vào giỏ hàng thành công")
     }
-
-
     useEffect(() => {
         findAllProduct()
+    }, [name, price])
+
+    useEffect(() => {
         productType()
-        productType1()
-    }, [])
+    }, [pages, name, price])
+
+    useEffect(() => {
+        productType()
+    }, [pageType, name, price])
 
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -127,125 +130,217 @@ export function CardProduct() {
                         {/*    </button>*/}
                         {/*</div>*/}
                     </div>
-                    <div className="d-flex justify-content-end" style={{marginRight: "6.4%"}}>
-                        <form className="from-d  d-flex justify-content-between">
-                            <select name="orderby" className=" form-select select-d "
-                                    style={{border: "1px solid #03964c", marginRight: "3%"}}>
-                                <option>Chọn giá (đ)</option>
-                                <option>1 trăm đến 2 trăm</option>
-                                <option>2 trăm đến 5 trăm</option>
-                                <option>5 trăm đến 1 triệu</option>
-                                <option>Trên 1 triệu</option>
-                            </select>
-                            <input
-                                style={{border: "1px solid #03964c"}}
-                                className="form-control me-1 input-d "
-                                type="text"
-                                name="name"
-                                placeholder="Nhập tên sản phẩm"
-                                aria-label="Search"
-                            />
-                        </form>
+                    <div className="d-flex justify-content-end" style={{marginRight: "5%"}}>
+                        {typeList == '' ?
+                            <Formik initialValues={{
+                                name: '',
+                                price: ''
+                            }}
+                                    onSubmit={async (values) => {
+                                        const searchName = async () => {
+                                            setName(values.name);
+                                            setPrice(values.price)
+                                            const res = await card.getAllProduct(page, values.name, values.price);
+                                            setCardProduct(res.content);
+                                            setPage(0)
+                                        }
+                                        searchName()
+                                    }}>
+                                <Form className="from-d  d-flex justify-content-between">
+                                    <Field name="price" className=" form-select select-d " as="select"
+                                           style={{border: "1px solid #03964c", marginRight: "3%"}}>
+                                        <option>Chọn giá (đ)</option>
+                                        <option name="price" value={1}>50 nghìn đến 2 trăm</option>
+                                        <option name="price" value={2}>2 trăm đến 5 trăm</option>
+                                        <option name="price" value={3}>5 trăm đến 1 triệu</option>
+                                        <option name="price" value={4}>Trên 1 triệu</option>
+                                    </Field>
+                                    <Field
+                                        style={{border: "1px solid #03964c"}}
+                                        className="form-control me-1 input-d "
+                                        type="text"
+                                        name="name"
+                                        placeholder="Nhập tên sản phẩm"
+                                        aria-label="Search"
+                                    />
+                                    <button className="btn btn-outline-success" type="submit">
+                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </Form>
+                            </Formik>
+                            :
+                            <Formik initialValues={{
+                                name: '',
+                                price: ''
+                            }}
+                                    onSubmit={async (values,{resetForm}) => {
+                                        const searchName = async () => {
+                                            setName(values.name);
+                                            setPrice(values.price)
+                                            if (id == 1) {
+                                                const res = await card.findAllProductType(1, page, values.name, values.price);
+                                                setTypeList(res.content);
+                                                setPages(0)
+                                                resetForm();
+                                            } else if (id == 2) {
+                                                const res = await card.findAllProductType(2, page, values.name, values.price);
+                                                setTypeList(res.content);
+                                                setPageType(0)
+                                                resetForm();
+                                            }
+                                        }
+                                        searchName()
+                                    }}>
+                                <Form className="from-d  d-flex justify-content-between">
+                                    <Field name="price" className=" form-select select-d " as="select"
+                                           style={{border: "1px solid #03964c", marginRight: "3%"}}>
+                                        <option>Chọn giá (đ)</option>
+                                        <option name="price" value={1}>50 nghìn đến 2 trăm</option>
+                                        <option name="price" value={2}>2 trăm đến 5 trăm</option>
+                                        <option name="price" value={3}>5 trăm đến 1 triệu</option>
+                                        <option name="price" value={4}>Trên 1 triệu</option>
+                                    </Field>
+                                    <Field
+                                        style={{border: "1px solid #03964c"}}
+                                        className="form-control me-1 input-d "
+                                        type="text"
+                                        name="name"
+                                        placeholder="Nhập tên sản phẩm"
+                                        aria-label="Search"
+                                    />
+                                    <button className="btn btn-outline-success" type="submit">
+                                        <i className="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </Form>
+
+                            </Formik>
+                        }
+
                     </div>
                 </div>
             </nav>
             <div className="container mb-5 justify-content-center d-flex">
                 <div className="row">
+
                     {typeList == '' ?
                         <>
-                            {cardProduct.map((list, index) => (
-                                <div key={index}
-                                     className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                                    <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
-                                        <Link to={`/detail/${list.id}/product`}>
-                                            <Image className="img-fluid" style={{borderRadius: " 10px 10px 0 0"}}
-                                                   src={list.image}/>
-                                        </Link>
-                                        <div className="card-body">
-                                            <div className=" mb-2 d-flex justify-content-between">
+                            {cardProduct.length === 0 ?
+                                <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn tại</h3> :
+                                <>
+                                    {cardProduct.map((list, index) => (
+                                        <div key={index}
+                                             className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+                                            <div className="card mt-4" style={{width: "auto", borderRadius: "10px"}}>
+                                                <Link to={`/detail/${list.id}/product`}>
+                                                    <Image className="img-fluid"
+                                                           style={{borderRadius: " 10px 10px 0 0"}}
+                                                           src={list.image}/>
+                                                </Link>
+                                                <div className="card-body">
+                                                    <div className=" mb-2 d-flex justify-content-between">
                                 <span className=""
                                       style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
-                                                <span style={{fontWeight: "bold"}}>
+                                                        <span style={{fontWeight: "bold"}}>
                                                     <FormattedNumber
                                                         value={list.price} disabled
                                                         thousandSeparator={true} currency="VND"
                                                         minimumFractionDigits={0}
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
-                                            </div>
-                                            <div className="d-flex justify-content-between">
+                                                    </div>
+                                                    <div className="d-flex justify-content-between">
 
-                                                    <button  className="btn btn-success" onClick={() => addCart(quantity,list.id)}>Thêm vào
-                                                        giỏ
-                                                    </button>
+                                                        <button className="btn btn-success"
+                                                                onClick={() => addCart(quantity, list.id)}>Thêm vào
+                                                            giỏ
+                                                        </button>
 
 
-                                                <button className="btn btn-success">Mua ngay</button>
+                                                        {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
-                            {page === totalPage - 1 ? ('') :
-                                (<div className="btn btn-success mb-4 mt-5"
-                                      style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
+                                    ))}
+                                    {page === totalPage - 1 ? ('') :
+                                        (
+                                            <div className="btn btn-success mb-4 mt-5"
+                                                 style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
                 <span className="" onClick={() => loadMore(page + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                                </div>)
-
+                                            </div>
+                                        )
+                                    }
+                                </>
                             }
                         </>
                         :
                         <>
-                            {typeList.map((list, index) => (
-                                <div key={index}
-                                     className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                                    <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
-                                        <Link to={`/detail/${list.id}/product`}>
-                                            <Image className="img-fluid" style={{borderRadius: " 10px 10px 0 0"}}
-                                                   src={list.image}/>
-                                        </Link>
-                                        <div className="card-body">
-                                            <div className=" mb-2 d-flex justify-content-between">
+                            {typeList.length === 0 ?
+                                <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn tại</h3> :
+                                <>
+                                    {typeList.map((list, index) => (
+                                        <div key={index}
+                                             className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+                                            <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
+                                                <Link to={`/detail/${list.id}/product`}>
+                                                    <Image className="img-fluid"
+                                                           style={{borderRadius: " 10px 10px 0 0"}}
+                                                           src={list.image}/>
+                                                </Link>
+                                                <div className="card-body">
+                                                    <div className=" mb-2 d-flex justify-content-between">
                                 <span className=""
                                       style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
-                                                <span style={{fontWeight: "bold"}}>
+                                                        <span style={{fontWeight: "bold"}}>
                                                     <FormattedNumber
                                                         value={list.price} disabled
                                                         thousandSeparator={true} currency="VND"
                                                         minimumFractionDigits={0}
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
-                                            </div>
-                                            <div className="d-flex justify-content-between">
-                                                <button className="btn btn-success" onClick={() => addCart()}>Thêm vào giỏ</button>
-                                                <button className="btn btn-success">Mua ngay</button>
+                                                    </div>
+                                                    <div className="d-flex justify-content-between">
+                                                        <button className="btn btn-success"
+                                                                onClick={() => addCart()}>Thêm vào
+                                                            giỏ
+                                                        </button>
+                                                        {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            ))}
-                            {pages === totalPages - 1 ? ('') :
-                                <>
-                                    {id === 1 ? <div className="btn btn-success mb-4 mt-5"
-                                                     style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
+                                    ))}
+                                    {pages === totalPages - 1 ? ('') :
+                                        <>
+                                            {id === 1 ? <div className="btn btn-success mb-4 mt-5"
+                                                             style={{
+                                                                 borderRadius: "30px",
+                                                                 width: "21%",
+                                                                 marginLeft: "38%"
+                                                             }}>
                 <span className="" onClick={() => productType1(1, pages + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                                    </div> : ""
+                                            </div> : ""
+                                            }
+                                        </>
                                     }
-                                </>
-                            }
-                            {pageType === totalPages - 1 ? ('') :
-                                <>
-                                    {id === 2 ? <div className="btn btn-success mb-4 mt-5"
-                                                     style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
+                                    {pageType === totalPages - 1 ? ('') :
+                                        <>
+                                            {id === 2 ? <div className="btn btn-success mb-4 mt-5"
+                                                             style={{
+                                                                 borderRadius: "30px",
+                                                                 width: "21%",
+                                                                 marginLeft: "38%"
+                                                             }}>
                 <span className="" onClick={() => productType1(2, pageType + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                                    </div> : ""
+                                            </div> : ""
+                                            }
+                                        </>
                                     }
                                 </>
                             }
-
 
                         </>
                     }

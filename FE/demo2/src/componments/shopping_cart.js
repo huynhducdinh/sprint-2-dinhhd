@@ -1,4 +1,3 @@
-import "bootstrap/dist/css/bootstrap.min.css";
 import '../css/shoping_cart.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useEffect, useState} from "react";
@@ -37,6 +36,7 @@ export function Shopping_cart() {
             getAll()
         }
     }
+    // xoá sản phẩm
     const result = async () => {
         await Swal.fire({
             icon: "success",
@@ -53,9 +53,9 @@ export function Shopping_cart() {
             confirmButtonText: 'Có',
             cancelButtonText: 'Không',
             reverseButtons: true
-        }).then((res) => {
+        }).then(async (res) => {
             if (res.isConfirmed) {
-                deleteShoppingCart(id)
+                await deleteShoppingCart(id)
             }
         })
     }
@@ -140,7 +140,7 @@ export function Shopping_cart() {
                                             </td>
                                             <td>
                                                 <div
-                                                    onClick={() => deleteShopping(list?.id, list.productFruit.nameFruit)}
+                                                    onClick={() => deleteShopping(list?.id, list?.productFruit.nameFruit)}
                                                     className="btn" data-bs-dismiss="alert">
                                                     <span className="fas fa-times"></span>
                                                 </div>

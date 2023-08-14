@@ -11,6 +11,8 @@ import {getAllTypeProduct} from "../service/Product";
 export function Home() {
     const [typeList, setTypeList] = useState([])
     const [productList, setProduct] = useState([])
+
+
     const listGetAll = async () => {
         const res = await card.listAll()
         setProduct(res)

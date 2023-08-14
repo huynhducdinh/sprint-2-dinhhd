@@ -13,12 +13,6 @@ import java.util.List;
 
 
 public interface IShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
-    @Query(value = "SELECT *\n" +
-            "from shopping_cart as s\n" +
-            "         INNER JOIN customers c on s.id_customers = c.id\n" +
-            "         INNER JOIN users u on c.users_id = u.id\n" +
-            "where u.user_name=:username", nativeQuery = true)
-    List<ShoppingCart> findByUserCustomer(@Param("username") String username);
 
     ShoppingCart findByCustomersAndProductFruit(Customers customers, ProductFruit productFruit);
 }

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-export const getAllProduct = async (page) => {
+export const getAllProduct = async (page,name,price) => {
     const token = localStorage.getItem('token');
     try {
-        const res = (await axios.get(`http://localhost:8080/api?page=${page}`,
+        const res = (await axios.get(`http://localhost:8080/api?page=${page}&name=${name}&price=${price}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -14,10 +14,10 @@ export const getAllProduct = async (page) => {
         console.log(e)
     }
 }
-export const findAllProductType = async (id,page) => {
+export const findAllProductType = async (id,page,name,price) => {
     const token = localStorage.getItem('token');
     try {
-        const res = (await axios.get(`http://localhost:8080/api/${id}/fruit?page=${page}`,
+        const res = (await axios.get(`http://localhost:8080/api/${id}/fruit?page=${page}&name=${name}&price=${price}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,

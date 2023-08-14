@@ -13,9 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @CrossOrigin("*")
@@ -25,18 +24,24 @@ public class ProductController {
     private IProductService iProductService;
 
     @GetMapping()
-    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page", defaultValue = "0") Integer page) {
-        Page<ProductFruit> productFruitPage = iProductService.findAll(page);
+    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page",defaultValue = "0") Integer page,
+                                                     @RequestParam(value = "name",defaultValue = "") String name,
+                                                     @RequestParam(value = "price",defaultValue = "0") String price
+    ) {
+        Page<ProductFruit> productFruitPage = iProductService.getAllFruit(page, name, price);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
-            return new ResponseEntity<>(productFruitPage, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             return new ResponseEntity<>(productFruitPage, HttpStatus.OK);
         }
     }
 
     @GetMapping("/{id}/fruit")
-    public ResponseEntity<Page<ProductFruit>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer pageable, @PathVariable("id") Long id) {
-        Page<ProductFruit> productFruitPage = iProductService.getAllFruitProduct(id, pageable);
+    public ResponseEntity<Page<ProductFruit>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer pageable,
+                                                      @PathVariable("id") Long id,
+                                                      @RequestParam(value = "name",defaultValue = "") String name,
+                                                      @RequestParam(value = "price",defaultValue = "0") String price) {
+        Page<ProductFruit> productFruitPage = iProductService.getAllFruitProduct(id, pageable, name, price);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -74,6 +79,15 @@ public class ProductController {
         } else {
             return new ResponseEntity<>(productFruit, HttpStatus.OK);
 
+        }
+    }
+    @GetMapping("/pageFruitAdmin")
+    public ResponseEntity<Page<ProductFruit>> getAll(@PageableDefault(size = 8)Pageable pageable) {
+        Page<ProductFruit> productFruitPage = iProductService.getAllPageFruitAdmin(pageable);
+        if (productFruitPage == null && productFruitPage.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        } else {
+            return new ResponseEntity<>(productFruitPage, HttpStatus.OK);
         }
     }
 

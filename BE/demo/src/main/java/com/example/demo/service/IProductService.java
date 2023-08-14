@@ -9,10 +9,15 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface IProductService {
-    Page<ProductFruit> findAll(Integer page);
+    Page<ProductFruit> getAllFruit(Integer page, String name, String price);
+
     ProductFruit findById(Long id);
+
     List<ProductFruit> getAll();
+
     List<ProductFruit> getAllList(Long id);
-    Page<ProductFruit> getAllFruitProduct(Long id,Integer page);
-    ProductFruit findShoppingCartByProductFruitId(Long idFruit);
+
+    Page<ProductFruit> getAllFruitProduct(Long id, Integer page, String name, String price);
+
+    Page<ProductFruit> getAllPageFruitAdmin( Pageable page);
 }

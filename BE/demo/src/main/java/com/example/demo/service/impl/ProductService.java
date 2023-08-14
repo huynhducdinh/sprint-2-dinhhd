@@ -19,8 +19,19 @@ public class ProductService implements IProductService {
     private IProductRepository iProductRepository;
 
     @Override
-    public Page<ProductFruit> findAll(Integer page) {
-        return iProductRepository.findAll(PageRequest.of(page,4));
+    public Page<ProductFruit> getAllFruit(Integer page, String name, String price) {
+        switch (price) {
+            case "1":
+                return iProductRepository.getAllFruit(PageRequest.of(page, 8), name, "50000", "200000");
+            case "2":
+                return iProductRepository.getAllFruit(PageRequest.of(page, 8), name, "200000", "500000");
+            case "3":
+                return iProductRepository.getAllFruit(PageRequest.of(page, 8), name, "500000", "1000000");
+            case "4":
+                return iProductRepository.getAllFruit(PageRequest.of(page, 8), name, "1000000", "1000000000000");
+            default:
+                return iProductRepository.getAllFruit(PageRequest.of(page, 8), name, "0", "1000000000000");
+        }
     }
 
     @Override
@@ -39,14 +50,24 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Page<ProductFruit> getAllFruitProduct(Long id, Integer page) {
-        return iProductRepository.getAllFruitProduct(id,PageRequest.of(page,4));
+    public Page<ProductFruit> getAllFruitProduct(Long id, Integer page, String name, String price) {
+
+        switch (price) {
+            case "1":
+                return iProductRepository.getAllFruitProduct(id, PageRequest.of(page, 8), name, "50000", "200000");
+            case "2":
+                return iProductRepository.getAllFruitProduct(id, PageRequest.of(page, 8), name, "200000", "500000");
+            case "3":
+                return iProductRepository.getAllFruitProduct(id, PageRequest.of(page, 8), name, "500000", "1000000");
+            case "4":
+                return iProductRepository.getAllFruitProduct(id, PageRequest.of(page, 8), name, "1000000", "1000000000000");
+            default:
+                return iProductRepository.getAllFruitProduct(id, PageRequest.of(page, 8), name, "0", "1000000000000");
+        }
     }
 
     @Override
-    public ProductFruit findShoppingCartByProductFruitId(Long idFruit) {
-        return iProductRepository.findShoppingCartByProductFruitId(idFruit);
+    public Page<ProductFruit> getAllPageFruitAdmin(Pageable page) {
+        return iProductRepository.getAllPageFruitAdmin(page);
     }
-
-
 }

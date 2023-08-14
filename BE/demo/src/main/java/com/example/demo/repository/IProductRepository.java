@@ -7,21 +7,36 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
 public interface IProductRepository extends JpaRepository<ProductFruit, Long> {
+
+    @Query(value = "SELECT * FROM product_fruit as pf\n" +
+            "WHERE pf.name_fruit LIKE CONCAT('%',:name,'%')\n" +
+            "AND (pf.price BETWEEN :about AND :abouts)", nativeQuery = true)
+    Page<ProductFruit> getAllFruit(Pageable page,
+                                   @Param("name") String name,
+                                   @Param("about") String about,
+                                   @Param("abouts") String abouts);
+
 
     @Query(value = "SELECT * FROM product_fruit as p\n" +
             "order by create_date desc\n" +
             "limit 4", nativeQuery = true)
     List<ProductFruit> getAllList();
 
-    @Query(value = "SELECT * FROM product_fruit as p\n" +
-            "        INNER JOIN product_type pt on p.id_type = pt.id\n" +
-            "WHERE p.id_type=:id\n"
+    @Query(value = "SELECT * FROM product_fruit as pf\n" +
+            "INNER JOIN product_type pt on pf.id_type = pt.id\n" +
+            "WHERE pf.id_type=:id\n" +
+            "AND pf.name_fruit LIKE CONCAT('%',:name,'%')\n" +
+            "AND pf.price BETWEEN :about AND :abouts\n"
             , nativeQuery = true)
-    Page<ProductFruit> getAllFruitProduct(@Param("id") Long id, Pageable page);
+    Page<ProductFruit> getAllFruitProduct(@Param("id") Long id, Pageable page,
+                                          @Param("name") String name,
+                                          @Param("about") String about,
+                                          @Param("abouts") String abouts);
 
     @Query(value = "SELECT * FROM product_fruit as p\n" +
             "        INNER JOIN product_type pt on p.id_type = pt.id\n" +
@@ -29,12 +44,7 @@ public interface IProductRepository extends JpaRepository<ProductFruit, Long> {
             "order by p.create_date desc\n" +
             "limit 4", nativeQuery = true)
     List<ProductFruit> getAllList(@Param("id") Long id);
-
-
-
-    @Query(value = "SELECT * From product_fruit as s\n" +
-            "INNER JOIN shopping_cart sc on s.id = sc.id_product_fruit\n" +
-            "INNER JOIN customers c on sc.id_customers = c.id\n" +
-            "WHERE s.id=:idFruit",nativeQuery = true)
-    ProductFruit findShoppingCartByProductFruitId(@Param("idFruit")Long idFruit);
+    @Query(value = "SELECT * FROM product_fruit as p\n" +
+            "           WHERE p.is_delete=false",nativeQuery = true)
+    Page<ProductFruit> getAllPageFruitAdmin( Pageable page);
 }
