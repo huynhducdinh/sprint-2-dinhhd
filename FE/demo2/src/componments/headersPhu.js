@@ -12,12 +12,12 @@ import {toast} from "react-toastify";
 export function HeadersPhu() {
     const [isLogin, setIsLogin] = useState();
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
     const currentUserName = localStorage.getItem('username');
     // const [userName, setUserName] = useState(currentUserName);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const nav = useNavigate();
-
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -48,7 +48,8 @@ export function HeadersPhu() {
     }
     return (
         <>
-            <header id="header" className="header  d-flex align-items-center" style={{position: "sticky", top: 0, zIndex: 200}}>
+            <header id="header" className="header  d-flex align-items-center"
+                    style={{position: "sticky", top: 0, zIndex: 200}}>
                 <div className="container d-flex align-items-center justify-content-between">
                     <div id="header-nav-logo " className="col-md-2 img logo">
                         <Link to="/">
@@ -67,7 +68,7 @@ export function HeadersPhu() {
                             </li>
                             <li>
                                 <a to="" className="text-white " style={{justifyContent: "center"}}
-                                         href="#events">Tin tức</a>
+                                   href="#events">Tin tức</a>
                             </li>
                             <li>
                                 <a className="text-white " style={{justifyContent: "center"}} href="#chefs">Liên hệ</a>
@@ -82,11 +83,11 @@ export function HeadersPhu() {
                                     {isLogin ? (
                                             <>
                                                 <Dropdown isOpen={dropdownOpen} toggle={toggleDropdown}
-                                                          className="nav-info-user" style={{zIndex:1000}}>
+                                                          className="nav-info-user" style={{zIndex: 1000}}>
 
                                                     <DropdownToggle
                                                         style={{
-                                                            backgroundColor:"#03964CFF",
+                                                            backgroundColor: "#03964CFF",
                                                             color: "white",
                                                             borderColor: "white",
                                                             fontWeight: "700",
@@ -103,9 +104,12 @@ export function HeadersPhu() {
                                                             <span>  {currentUserName} <i
                                                                 className="fa-solid fa-user"></i></span>
                                                         </Link>
-                                                        <Link to="/nav/info-store" className="dropdown-item "
-                                                              style={{color: "black"}}>Quản lý cửa hàng<i
-                                                            className="fa-solid fa-list-check"></i></Link>
+                                                        {role !== 'CUSTOMER' ?
+                                                            <Link to="/homeAdmin" className="dropdown-item "
+                                                                  style={{color: "black"}}>Quản lý cửa hàng<i
+                                                                className="fa-solid fa-list-check"></i></Link>
+                                                            : ''
+                                                        }
                                                         <Link className="dropdown-item " onClick={() => handlerLogout()}
                                                               style={{color: "black"}}>Đăng xuất<i
                                                             className="fa-solid fa-right-from-bracket"></i></Link>
@@ -116,7 +120,11 @@ export function HeadersPhu() {
                                         )
                                         :
                                         <NavLink to="/login" className="text-white btn btn-outline-success "
-                                                 style={{justifyContent: "center" ,border:"1px solid #00CC33",borderRadius:"30px"}}>Đăng nhập
+                                                 style={{
+                                                     justifyContent: "center",
+                                                     border: "1px solid #00CC33",
+                                                     borderRadius: "30px"
+                                                 }}>Đăng nhập
                                             <i className="fa-solid fa-user"></i></NavLink>
                                     }
                                 </li>

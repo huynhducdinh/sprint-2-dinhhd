@@ -12,27 +12,29 @@ import {CardProduct} from "./componments/cardProduct";
 import {Footer} from "./componments/footer";
 import {ToastContainer} from "react-toastify";
 import {HeadersPhu} from "./componments/headersPhu";
+import {HomePageAdmin} from "./componments/HomePageAdmin";
 
 
 function App() {
-  return (
-   <>
-       <HeadersPhu/>
-   <Routes>
-       <Route path="/" element={<Home/>}/>
-       <Route path="/login" element={<Login/>}/>
-     <Route path="/slide" element={<ImageSlide/>}/>
-     <Route path="/cart" element={<Shopping_cart/>}/>
-     <Route path="/detail" element={<ProductDetail/>}/>
-     <Route path="/card" element={<CardProduct/>}/>
-     <Route path="/detail/:id/product" element={<ProductDetail/>}/>
-     <Route path="/:id/product" element={<CardProduct/>}/>
 
-   </Routes>
-       <ToastContainer/>
-       <Footer/>
-   </>
-  );
+    return (
+        <>
+            <HeadersPhu/>
+            <Routes>
+                <Route path="/" element={<Home/>}/>
+                <Route path="/login" element={<Login/>}/>
+                <Route path="/slide" element={<ImageSlide/>}/>
+                <Route path="/cart" element={<Shopping_cart/>}/>
+                <Route path="/detail" element={<ProductDetail/>}/>
+                <Route path="/card" element={<CardProduct/>}/>
+                <Route path="/detail/:id/product" element={<ProductDetail/>}/>
+                <Route path="/:id/product" element={<CardProduct/>}/>
+                <Route path="/homeAdmin" element={<HomePageAdmin/>}/>
+            </Routes>
+            <ToastContainer/>
+            <Footer/>
+        </>
+    );
 }
 
 export default App;

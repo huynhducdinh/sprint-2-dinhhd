@@ -66,8 +66,6 @@ export function Shopping_cart() {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
-
-
     return (
         <>
 

@@ -67,3 +67,11 @@ export const getAllTypeProduct = async (id) => {
         console.log(e)
     }
 }
+export const homePageAdmin =async () => {
+  try {
+      const res=(await axios.get(`http://localhost:8080/api/pageFruitAdmin`)).data
+      return res
+  }catch (e) {
+      console.log(e)
+  }
+}

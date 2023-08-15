@@ -1,10 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.ProductFruit;
-import com.example.demo.model.ProductType;
-import com.example.demo.model.ShoppingCart;
 import com.example.demo.service.IProductService;
-import com.example.demo.service.IProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

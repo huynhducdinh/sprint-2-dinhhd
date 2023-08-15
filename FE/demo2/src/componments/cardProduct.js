@@ -1,14 +1,15 @@
 import '../css/card.css'
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, C} from "react";
 import * as card from '../service/Product'
 import {DropdownButton, Image} from "react-bootstrap";
 import {FormattedNumber} from "react-intl";
 import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import {productType} from "../service/Type";
+
 import * as shoppingCart from "../service/ShoppingCart";
 import {toast} from "react-toastify";
 import {Field, Form, Formik} from "formik";
+import DotLoader from "react-spinners/ClipLoader";
 
 
 export function CardProduct() {
@@ -24,6 +25,8 @@ export function CardProduct() {
     const [quantity, setQuantity] = useState(1)
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
+
+    // const [loading, setLoading] = useState(true);
 
 
     // sổ loại sản phẩm
@@ -76,6 +79,14 @@ export function CardProduct() {
         await shoppingCart.addShoppingCart(quantity, idFruit)
         toast.success("Thêm vào giỏ hàng thành công")
     }
+
+
+    // useEffect(() => {
+    //     setLoading(true)
+    //     setTimeout(() => {
+    //         setLoading(true)
+    //     })
+    // })
     useEffect(() => {
         findAllProduct()
     }, [name, price])
@@ -100,251 +111,272 @@ export function CardProduct() {
     }
     return (
         <>
-            <nav className="breadcrumbs text-center h2 from-d" style={{marginTop: "0%"}}>
-                <div style={{marginRight: "2.5%"}} className="d-flex justify-content-between ">
-                    <div style={{marginLeft: "6.6%"}} className="d-flex  ">
-                        <div style={{padding: " 0px 15px 0px"}}>
-                            <Link onClick={() => {
-                                productType(1)
-                            }}>
-                                <span className="btn btn-outline-success">Trái cây nội địa</span>
-                            </Link>
-                        </div>
-                        <div style={{padding: " 0px 15px 0px"}}>
-                            <Link onClick={() => {
-                                productType(2)
-                            }}>
-                                <span className="btn btn-outline-success ">Trái cây nhập khẩu</span>
-                            </Link>
-                        </div>
-                        {/*<div style={{padding: " 0px 15px 0px"}}>*/}
-                        {/*    <button className="btn btn-success dropdown" type="submit">*/}
-                        {/*        <span>Giỏ trái cây &nbsp; <i className="fa-solid fa-chevron-down"></i></span>*/}
-                        {/*        <ul style={{backgroundColor: "#077039"}}>*/}
-                        {/*            <li><a href="#">Giỏ trái cây</a></li>*/}
-                        {/*            <li><a href="#">Giỏ trái cây + hoa tươi</a></li>*/}
-                        {/*            <li><a href="#">Hộp trái cây</a></li>*/}
-                        {/*            <li><a href="#">Khuy trái cây</a></li>*/}
-                        {/*            <li><a href="#">Sweet box</a></li>*/}
-                        {/*        </ul>*/}
-                        {/*    </button>*/}
-                        {/*</div>*/}
-                    </div>
-                    <div className="d-flex justify-content-end" style={{marginRight: "5%"}}>
-                        {typeList == '' ?
-                            <Formik initialValues={{
-                                name: '',
-                                price: ''
-                            }}
-                                    onSubmit={async (values) => {
-                                        const searchName = async () => {
-                                            setName(values.name);
-                                            setPrice(values.price)
-                                            const res = await card.getAllProduct(page, values.name, values.price);
-                                            setCardProduct(res.content);
-                                            setPage(0)
-                                        }
-                                        searchName()
-                                    }}>
-                                <Form className="from-d  d-flex justify-content-between">
-                                    <Field name="price" className=" form-select select-d " as="select"
-                                           style={{border: "1px solid #03964c", marginRight: "3%"}}>
-                                        <option>Chọn giá (đ)</option>
-                                        <option name="price" value={1}>50 nghìn đến 2 trăm</option>
-                                        <option name="price" value={2}>2 trăm đến 5 trăm</option>
-                                        <option name="price" value={3}>5 trăm đến 1 triệu</option>
-                                        <option name="price" value={4}>Trên 1 triệu</option>
-                                    </Field>
-                                    <Field
-                                        style={{border: "1px solid #03964c"}}
-                                        className="form-control me-1 input-d "
-                                        type="text"
-                                        name="name"
-                                        placeholder="Nhập tên sản phẩm"
-                                        aria-label="Search"
-                                    />
-                                    <button className="btn btn-outline-success" type="submit">
-                                        <i className="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                </Form>
-                            </Formik>
-                            :
-                            <Formik initialValues={{
-                                name: '',
-                                price: ''
-                            }}
-                                    onSubmit={async (values,{resetForm}) => {
-                                        const searchName = async () => {
-                                            setName(values.name);
-                                            setPrice(values.price)
-                                            if (id == 1) {
-                                                const res = await card.findAllProductType(1, page, values.name, values.price);
-                                                setTypeList(res.content);
-                                                setPages(0)
-                                                resetForm();
-                                            } else if (id == 2) {
-                                                const res = await card.findAllProductType(2, page, values.name, values.price);
-                                                setTypeList(res.content);
-                                                setPageType(0)
-                                                resetForm();
-                                            }
-                                        }
-                                        searchName()
-                                    }}>
-                                <Form className="from-d  d-flex justify-content-between">
-                                    <Field name="price" className=" form-select select-d " as="select"
-                                           style={{border: "1px solid #03964c", marginRight: "3%"}}>
-                                        <option>Chọn giá (đ)</option>
-                                        <option name="price" value={1}>50 nghìn đến 2 trăm</option>
-                                        <option name="price" value={2}>2 trăm đến 5 trăm</option>
-                                        <option name="price" value={3}>5 trăm đến 1 triệu</option>
-                                        <option name="price" value={4}>Trên 1 triệu</option>
-                                    </Field>
-                                    <Field
-                                        style={{border: "1px solid #03964c"}}
-                                        className="form-control me-1 input-d "
-                                        type="text"
-                                        name="name"
-                                        placeholder="Nhập tên sản phẩm"
-                                        aria-label="Search"
-                                    />
-                                    <button className="btn btn-outline-success" type="submit">
-                                        <i className="fa-solid fa-magnifying-glass"></i>
-                                    </button>
-                                </Form>
+            <div style={{height: "900px"}} className="sweet-loading">
+                {/*{loading ?*/}
+                {/*    <DotLoader*/}
+                {/*        color={'#36d7b7'}*/}
+                {/*        loading={loading}*/}
+                {/*    /> :*/}
+                {/*    <>*/}
+                        <nav className="breadcrumbs text-center h2 from-d" style={{marginTop: "0%"}}>
+                            <div style={{marginRight: "2.5%"}} className="d-flex justify-content-between ">
+                                <div style={{marginLeft: "6.6%"}} className="d-flex  ">
+                                    <div style={{padding: " 0px 15px 0px"}}>
+                                        <Link onClick={() => {
+                                            productType(1)
+                                        }}>
+                                            <span className="btn btn-outline-success">Trái cây nội địa</span>
+                                        </Link>
+                                    </div>
+                                    <div style={{padding: " 0px 15px 0px"}}>
+                                        <Link onClick={() => {
+                                            productType(2)
+                                        }}>
+                                            <span className="btn btn-outline-success ">Trái cây nhập khẩu</span>
+                                        </Link>
+                                    </div>
+                                    {/*<div style={{padding: " 0px 15px 0px"}}>*/}
+                                    {/*    <button className="btn btn-success dropdown" type="submit">*/}
+                                    {/*        <span>Giỏ trái cây &nbsp; <i className="fa-solid fa-chevron-down"></i></span>*/}
+                                    {/*        <ul style={{backgroundColor: "#077039"}}>*/}
+                                    {/*            <li><a href="#">Giỏ trái cây</a></li>*/}
+                                    {/*            <li><a href="#">Giỏ trái cây + hoa tươi</a></li>*/}
+                                    {/*            <li><a href="#">Hộp trái cây</a></li>*/}
+                                    {/*            <li><a href="#">Khuy trái cây</a></li>*/}
+                                    {/*            <li><a href="#">Sweet box</a></li>*/}
+                                    {/*        </ul>*/}
+                                    {/*    </button>*/}
+                                    {/*</div>*/}
+                                </div>
+                                <div className="d-flex justify-content-end" style={{marginRight: "5%"}}>
+                                    {typeList == '' ?
+                                        <Formik initialValues={{
+                                            name: '',
+                                            price: ''
+                                        }}
+                                                onSubmit={async (values) => {
+                                                    const searchName = async () => {
+                                                        setName(values.name);
+                                                        setPrice(values.price)
+                                                        const res = await card.getAllProduct(page, values.name, values.price);
+                                                        setCardProduct(res.content);
+                                                        setPage(0)
+                                                    }
+                                                    searchName()
+                                                }}>
+                                            <Form className="from-d  d-flex justify-content-between">
+                                                <Field name="price" className=" form-select select-d " as="select"
+                                                       style={{border: "1px solid #03964c", marginRight: "3%"}}>
+                                                    <option>Chọn giá (đ)</option>
+                                                    <option name="price" value={1}>50 nghìn đến 2 trăm</option>
+                                                    <option name="price" value={2}>2 trăm đến 5 trăm</option>
+                                                    <option name="price" value={3}>5 trăm đến 1 triệu</option>
+                                                    <option name="price" value={4}>Trên 1 triệu</option>
+                                                </Field>
+                                                <Field
+                                                    style={{border: "1px solid #03964c"}}
+                                                    className="form-control me-1 input-d "
+                                                    type="text"
+                                                    name="name"
+                                                    placeholder="Nhập tên sản phẩm"
+                                                    aria-label="Search"
+                                                />
+                                                <button className="btn btn-outline-success" type="submit">
+                                                    <i className="fa-solid fa-magnifying-glass"></i>
+                                                </button>
+                                            </Form>
+                                        </Formik>
+                                        :
+                                        <Formik initialValues={{
+                                            name: '',
+                                            price: ''
+                                        }}
+                                                onSubmit={async (values, {resetForm}) => {
+                                                    const searchName = async () => {
+                                                        setName(values.name);
+                                                        setPrice(values.price)
+                                                        if (id == 1) {
+                                                            const res = await card.findAllProductType(1, page, values.name, values.price);
+                                                            setTypeList(res.content);
+                                                            setPages(0)
+                                                            resetForm();
+                                                        } else if (id == 2) {
+                                                            const res = await card.findAllProductType(2, page, values.name, values.price);
+                                                            setTypeList(res.content);
+                                                            setPageType(0)
+                                                            resetForm();
+                                                        }
+                                                    }
+                                                    searchName()
+                                                }}>
+                                            <Form className="from-d  d-flex justify-content-between">
+                                                <Field name="price" className=" form-select select-d " as="select"
+                                                       style={{border: "1px solid #03964c", marginRight: "3%"}}>
+                                                    <option>Chọn giá (đ)</option>
+                                                    <option name="price" value={1}>50 nghìn đến 2 trăm</option>
+                                                    <option name="price" value={2}>2 trăm đến 5 trăm</option>
+                                                    <option name="price" value={3}>5 trăm đến 1 triệu</option>
+                                                    <option name="price" value={4}>Trên 1 triệu</option>
+                                                </Field>
+                                                <Field
+                                                    style={{border: "1px solid #03964c"}}
+                                                    className="form-control me-1 input-d "
+                                                    type="text"
+                                                    name="name"
+                                                    placeholder="Nhập tên sản phẩm"
+                                                    aria-label="Search"
+                                                />
+                                                <button className="btn btn-outline-success" type="submit">
+                                                    <i className="fa-solid fa-magnifying-glass"></i>
+                                                </button>
+                                            </Form>
 
-                            </Formik>
-                        }
+                                        </Formik>
+                                    }
 
-                    </div>
-                </div>
-            </nav>
-            <div className="container mb-5 justify-content-center d-flex">
-                <div className="row">
+                                </div>
+                            </div>
+                        </nav>
 
-                    {typeList == '' ?
-                        <>
-                            {cardProduct.length === 0 ?
-                                <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn tại</h3> :
-                                <>
-                                    {cardProduct.map((list, index) => (
-                                        <div key={index}
-                                             className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                                            <div className="card mt-4" style={{width: "auto", borderRadius: "10px"}}>
-                                                <Link to={`/detail/${list.id}/product`}>
-                                                    <Image className="img-fluid"
-                                                           style={{borderRadius: " 10px 10px 0 0"}}
-                                                           src={list.image}/>
-                                                </Link>
-                                                <div className="card-body">
-                                                    <div className=" mb-2 d-flex justify-content-between">
+                        <div className="container mb-5 justify-content-center d-flex">
+                            <div className="row">
+
+                                {typeList == '' ?
+                                    <>
+                                        {cardProduct.length === 0 ?
+                                            <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn
+                                                tại</h3> :
+                                            <>
+                                                {cardProduct.map((list, index) => (
+                                                    <div key={index}
+                                                         className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+                                                        <div className="card mt-4"
+                                                             style={{width: "auto", borderRadius: "10px"}}>
+                                                            <Link to={`/detail/${list.id}/product`}>
+                                                                <Image className="img-fluid"
+                                                                       style={{borderRadius: " 10px 10px 0 0"}}
+                                                                       src={list.image}/>
+                                                            </Link>
+                                                            <div className="card-body">
+                                                                <div className=" mb-2 d-flex justify-content-between">
                                 <span className=""
                                       style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
-                                                        <span style={{fontWeight: "bold"}}>
+                                                                    <span style={{fontWeight: "bold"}}>
                                                     <FormattedNumber
                                                         value={list.price} disabled
                                                         thousandSeparator={true} currency="VND"
                                                         minimumFractionDigits={0}
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
+                                                                </div>
+                                                                <div className="d-flex justify-content-between">
+
+                                                                    <button className="btn btn-success"
+                                                                            onClick={() => addCart(quantity, list.id)}>Thêm
+                                                                        vào
+                                                                        giỏ
+                                                                    </button>
+
+
+                                                                    {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="d-flex justify-content-between">
-
-                                                        <button className="btn btn-success"
-                                                                onClick={() => addCart(quantity, list.id)}>Thêm vào
-                                                            giỏ
-                                                        </button>
-
-
-                                                        {/*<button className="btn btn-success">Mua ngay</button>*/}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {page === totalPage - 1 ? ('') :
-                                        (
-                                            <div className="btn btn-success mb-4 mt-5"
-                                                 style={{borderRadius: "30px", width: "21%", marginLeft: "38%"}}>
+                                                ))}
+                                                {page === totalPage - 1 ? ('') :
+                                                    (
+                                                        <div className="btn btn-success mb-4 mt-5"
+                                                             style={{
+                                                                 borderRadius: "30px",
+                                                                 width: "21%",
+                                                                 marginLeft: "38%"
+                                                             }}>
                 <span className="" onClick={() => loadMore(page + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                                            </div>
-                                        )
-                                    }
-                                </>
-                            }
-                        </>
-                        :
-                        <>
-                            {typeList.length === 0 ?
-                                <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn tại</h3> :
-                                <>
-                                    {typeList.map((list, index) => (
-                                        <div key={index}
-                                             className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                                            <div className="card mt-4" style={{width: "92%", borderRadius: "10px"}}>
-                                                <Link to={`/detail/${list.id}/product`}>
-                                                    <Image className="img-fluid"
-                                                           style={{borderRadius: " 10px 10px 0 0"}}
-                                                           src={list.image}/>
-                                                </Link>
-                                                <div className="card-body">
-                                                    <div className=" mb-2 d-flex justify-content-between">
+                                                        </div>
+                                                    )
+                                                }
+                                            </>
+                                        }
+                                    </>
+                                    :
+                                    <>
+                                        {typeList.length === 0 ?
+                                            <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn
+                                                tại</h3> :
+                                            <>
+                                                {typeList.map((list, index) => (
+                                                    <div key={index}
+                                                         className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
+                                                        <div className="card mt-4"
+                                                             style={{width: "92%", borderRadius: "10px"}}>
+                                                            <Link to={`/detail/${list.id}/product`}>
+                                                                <Image className="img-fluid"
+                                                                       style={{borderRadius: " 10px 10px 0 0"}}
+                                                                       src={list.image}/>
+                                                            </Link>
+                                                            <div className="card-body">
+                                                                <div className=" mb-2 d-flex justify-content-between">
                                 <span className=""
                                       style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
-                                                        <span style={{fontWeight: "bold"}}>
+                                                                    <span style={{fontWeight: "bold"}}>
                                                     <FormattedNumber
                                                         value={list.price} disabled
                                                         thousandSeparator={true} currency="VND"
                                                         minimumFractionDigits={0}
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
+                                                                </div>
+                                                                <div className="d-flex justify-content-between">
+                                                                    <button className="btn btn-success"
+                                                                            onClick={() => addCart()}>Thêm vào
+                                                                        giỏ
+                                                                    </button>
+                                                                    {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div className="d-flex justify-content-between">
-                                                        <button className="btn btn-success"
-                                                                onClick={() => addCart()}>Thêm vào
-                                                            giỏ
-                                                        </button>
-                                                        {/*<button className="btn btn-success">Mua ngay</button>*/}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {pages === totalPages - 1 ? ('') :
-                                        <>
-                                            {id === 1 ? <div className="btn btn-success mb-4 mt-5"
-                                                             style={{
-                                                                 borderRadius: "30px",
-                                                                 width: "21%",
-                                                                 marginLeft: "38%"
-                                                             }}>
+                                                ))}
+                                                {pages === totalPages - 1 ? ('') :
+                                                    <>
+                                                        {id === 1 ? <div className="btn btn-success mb-4 mt-5"
+                                                                         style={{
+                                                                             borderRadius: "30px",
+                                                                             width: "21%",
+                                                                             marginLeft: "38%"
+                                                                         }}>
                 <span className="" onClick={() => productType1(1, pages + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                                            </div> : ""
-                                            }
-                                        </>
-                                    }
-                                    {pageType === totalPages - 1 ? ('') :
-                                        <>
-                                            {id === 2 ? <div className="btn btn-success mb-4 mt-5"
-                                                             style={{
-                                                                 borderRadius: "30px",
-                                                                 width: "21%",
-                                                                 marginLeft: "38%"
-                                                             }}>
+                                                        </div> : ""
+                                                        }
+                                                    </>
+                                                }
+                                                {pageType === totalPages - 1 ? ('') :
+                                                    <>
+                                                        {id === 2 ? <div className="btn btn-success mb-4 mt-5"
+                                                                         style={{
+                                                                             borderRadius: "30px",
+                                                                             width: "21%",
+                                                                             marginLeft: "38%"
+                                                                         }}>
                 <span className="" onClick={() => productType1(2, pageType + 1)}>Xem thêm các sản phẩm khác &nbsp;
                     <i className="fa-solid fa-angle-up fa-rotate-180"></i></span>
-                                            </div> : ""
-                                            }
-                                        </>
-                                    }
-                                </>
-                            }
+                                                        </div> : ""
+                                                        }
+                                                    </>
+                                                }
+                                            </>
+                                        }
 
-                        </>
-                    }
-                </div>
+                                    </>
+                                }
+                            </div>
+                        </div>
+
+                {/*    </>*/}
+                {/*}*/}
             </div>
         </>
     )
