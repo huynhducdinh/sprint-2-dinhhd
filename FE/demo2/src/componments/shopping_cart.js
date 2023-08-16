@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {PayPalButton} from "react-paypal-button-v2";
-
+import * as ordersAndOrderDetail from '../service/OrderAndOrderDetail'
 
 export function Shopping_cart() {
     const [totalPrice, setTotalPrice] = useState(0)
@@ -75,6 +75,9 @@ export function Shopping_cart() {
                 await deleteShoppingCart(id)
             }
         })
+    }
+    const save =async (shopping) => {
+     await ordersAndOrderDetail.saveOrderAndOrderDetail(shopping)
     }
 
     useEffect(() => {
@@ -227,6 +230,8 @@ export function Shopping_cart() {
                                         amount={totalPrice}
                                         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                         onSuccess={(details, data) => {
+                                            save()
+                                            getAll()
                                             toast.success("Đã thanh toán thành công " + details.payer.name.given_name);
 
                                             // OPTIONAL: Call your server to save the transaction
