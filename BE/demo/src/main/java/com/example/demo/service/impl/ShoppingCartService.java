@@ -5,8 +5,10 @@ import com.example.demo.model.Customers;
 import com.example.demo.model.Orders;
 import com.example.demo.model.ProductFruit;
 import com.example.demo.model.ShoppingCart;
+import com.example.demo.repository.ICustomerRepository;
 import com.example.demo.repository.IProductRepository;
 import com.example.demo.repository.IShoppingCartRepository;
+import com.example.demo.service.ICustomerService;
 import com.example.demo.service.IProductService;
 import com.example.demo.service.IShoppingCartService;
 
@@ -27,6 +29,8 @@ public class ShoppingCartService implements IShoppingCartService {
     private IShoppingCartRepository iShoppingCartRepository;
     @Autowired
     private IProductRepository iProductRepository;
+    @Autowired
+    private ICustomerRepository iCustomerRepository;
 
     @Override
     public void add(ShoppingCart shoppingCart) {
@@ -36,6 +40,14 @@ public class ShoppingCartService implements IShoppingCartService {
     @Override
     public void remove(Long id) {
         iShoppingCartRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteCustomerShoppingCart(Long idCustomer,Long id) {
+//        Customers customers = iCustomerRepository.findUsersName(username);
+//        ProductFruit productFruit = iProductRepository.findById(id).get();
+        iShoppingCartRepository.deleteByCustomersAndProductFruit(idCustomer, id);
+
     }
 
     @Transactional
@@ -58,7 +70,7 @@ public class ShoppingCartService implements IShoppingCartService {
             shoppingCart.setQuantity(shoppingCart.getQuantity() - 1);
             iShoppingCartRepository.save(shoppingCart);
         } else {
-            shoppingCart.setQuantity(shoppingCart.getQuantity()+1);
+            shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
             if (shoppingCart.getQuantity() > shoppingCart.getProductFruit().getQuantity()) {
                 return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
             }

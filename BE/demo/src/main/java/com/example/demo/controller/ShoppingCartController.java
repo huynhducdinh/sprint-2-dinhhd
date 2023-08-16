@@ -77,6 +77,8 @@ public class ShoppingCartController {
             if (shoppingCart != null) {
                 Integer amount = shoppingCart.getQuantity() + quantity;
                 shoppingCart.setQuantity(amount);
+                Long price= productFruit.getPrice()*amount;
+                System.out.println("gai tien : ------>"+price);
                 if (shoppingCart.getQuantity()> productFruit.getQuantity()) {
                     return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
                 }
@@ -84,6 +86,7 @@ public class ShoppingCartController {
                 return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
             }
         }
+
         ShoppingCart shoppingCartNew = new ShoppingCart(quantity, customers, productFruit);
         ishoppingCartService.add(shoppingCartNew);
         return new ResponseEntity<>(shoppingCartNew, HttpStatus.CREATED);

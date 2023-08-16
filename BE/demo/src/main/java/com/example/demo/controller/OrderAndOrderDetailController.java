@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -43,15 +44,21 @@ public class OrderAndOrderDetailController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         Customers customers = iCustomerService.findUsersName(username);
         List<ShoppingCart> shoppingCartList = ishoppingCartService.finAllByShopping(customers.getId());
-        Orders orders = new Orders(customers);
+        Long totalPrice = 0L;
+        for (int i = 0; i < shoppingCartList.size(); i++) {
+            totalPrice += shoppingCartList.get(i).getProductFruit().getPrice() * shoppingCartList.get(i).getQuantity();
+        }
+        Orders orders = new Orders(totalPrice, customers);
         iOrdersService.save(orders);
         for (int i = 0; i < shoppingCartList.size(); i++) {
             OrdersDetail ordersDetail = new OrdersDetail(
                     shoppingCartList.get(i).getQuantity(),
                     shoppingCartList.get(i).getProductFruit().getPrice(),
-                    shoppingCartList.get(i).getProductFruit()
+                    shoppingCartList.get(i).getProductFruit(),
+                    orders
             );
             iOrdersDetailService.save(ordersDetail);
+
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
