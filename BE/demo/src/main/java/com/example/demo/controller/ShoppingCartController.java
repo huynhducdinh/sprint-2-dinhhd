@@ -16,10 +16,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,9 +44,21 @@ public class ShoppingCartController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Transactional
     @GetMapping()
-    public ResponseEntity<List<ShoppingCart>> getAll() {
-        List<ShoppingCart> shoppingCarts = ishoppingCartService.findAll();
+    public ResponseEntity<List<ShoppingCart>> getAll(HttpServletRequest httpServletRequest) {
+        String header = httpServletRequest.getHeader("Authorization");
+        String token = header.substring(7);
+        if (token.equals("null")) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Customers customers = iCustomerService.findUsersName(username);
+        if (customers == null) {
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        }
+        List<ShoppingCart> shoppingCarts = ishoppingCartService.finAllByShopping(customers.getId());
+
         return new ResponseEntity<>(shoppingCarts, HttpStatus.OK);
     }
 
@@ -53,15 +67,19 @@ public class ShoppingCartController {
                                  @RequestParam(value = "quantity") Integer quantity,
                                  @RequestParam(value = "idFruit") Long idFruit) {
         ProductFruit productFruit = iProductService.findById(idFruit);
+
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        Customers customers = iCustomerService.findUsersId(username);
+        Customers customers = iCustomerService.findUsersName(username);
         if (quantity > 0) {
             ShoppingCart shoppingCart = ishoppingCartService.findByCustomersAndProductFruit(customers, productFruit);
             if (shoppingCart != null) {
                 Integer amount = shoppingCart.getQuantity() + quantity;
                 shoppingCart.setQuantity(amount);
+                if (shoppingCart.getQuantity()> productFruit.getQuantity()) {
+                    return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
+                }
                 ishoppingCartService.add(shoppingCart);
                 return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
             }
@@ -76,13 +94,10 @@ public class ShoppingCartController {
         ishoppingCartService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PatchMapping("/{setQuantity}/{id}")
-    public ResponseEntity<?> setQuantityCart(@PathVariable Integer setQuantity, @PathVariable Long id) {
-        try {
-            ishoppingCartService.setQuantityShoppingCart(setQuantity, id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public void setQuantityCart(@PathVariable Integer setQuantity, @PathVariable Long id) {
+          ishoppingCartService.setQuantityShoppingCart(setQuantity, id);
+
     }
 }

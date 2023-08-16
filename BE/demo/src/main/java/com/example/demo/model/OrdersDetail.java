@@ -26,6 +26,19 @@ public class OrdersDetail {
     public OrdersDetail() {
     }
 
+    public OrdersDetail(Integer quantity, Long price, ProductFruit productFruit, Orders orders) {
+        this.quantity = quantity;
+        this.price = price;
+        this.productFruit = productFruit;
+        this.orders = orders;
+    }
+
+    public OrdersDetail(Integer quantity, Long price, ProductFruit productFruit) {
+        this.quantity = quantity;
+        this.price = price;
+        this.productFruit = productFruit;
+    }
+
     public OrdersDetail(Long id) {
         this.id = id;
     }

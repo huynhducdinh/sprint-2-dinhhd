@@ -28,6 +28,10 @@ public class Orders {
         this.id = id;
     }
 
+    public Orders(Customers customers) {
+        this.customers = customers;
+    }
+
     public Orders(Long id, Long totalPrice, String codeOrders, Customers customers, LocalDateTime createDate) {
         this.id = id;
         this.totalPrice = totalPrice;

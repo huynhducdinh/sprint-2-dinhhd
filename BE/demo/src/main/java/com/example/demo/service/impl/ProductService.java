@@ -48,7 +48,6 @@ public class ProductService implements IProductService {
     public List<ProductFruit> getAllList(Long id) {
         return iProductRepository.getAllList(id);
     }
-
     @Override
     public Page<ProductFruit> getAllFruitProduct(Long id, Integer page, String name, String price) {
 

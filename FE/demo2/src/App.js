@@ -22,7 +22,6 @@ function App() {
             <HeadersPhu/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                <Route path="/login" element={<Login/>}/>
                 <Route path="/slide" element={<ImageSlide/>}/>
                 <Route path="/cart" element={<Shopping_cart/>}/>
                 <Route path="/detail" element={<ProductDetail/>}/>
@@ -30,6 +29,7 @@ function App() {
                 <Route path="/detail/:id/product" element={<ProductDetail/>}/>
                 <Route path="/:id/product" element={<CardProduct/>}/>
                 <Route path="/homeAdmin" element={<HomePageAdmin/>}/>
+                <Route path="/login" element={<Login/>}/>
             </Routes>
             <ToastContainer/>
             <Footer/>

@@ -47,4 +47,5 @@ public interface IProductRepository extends JpaRepository<ProductFruit, Long> {
     @Query(value = "SELECT * FROM product_fruit as p\n" +
             "           WHERE p.is_delete=false",nativeQuery = true)
     Page<ProductFruit> getAllPageFruitAdmin( Pageable page);
+    List<ProductFruit> findAll();
 }

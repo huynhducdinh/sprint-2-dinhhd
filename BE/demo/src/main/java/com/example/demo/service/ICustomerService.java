@@ -6,5 +6,5 @@ import com.example.demo.model.Users;
 import org.springframework.data.repository.query.Param;
 
 public interface ICustomerService {
-    Customers findUsersId(String username);
+    Customers findUsersName(String username);
 }

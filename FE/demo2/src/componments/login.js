@@ -18,7 +18,7 @@ export function Login() {
             <div className=" d-flex justify-content-center align-items-center min-vh-100"
                  style={{backgroundImage: "url(/img/login.jpg)", backgroundSize: "100vw"}}>
                 <div className="row border rounded-5 p-3  shadow box-area"
-                     style={{backgroundColor: "rgba(236,230,230,0.5)", marginTop: "-5%",width:"60%"}}>
+                     style={{backgroundColor: "rgba(236,230,230,0.5)", marginTop: "-5%", width: "60%"}}>
                     <div
                         className="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box"
                     >
@@ -36,20 +36,16 @@ export function Login() {
                                 username: '',
                                 password: ''
                             }}
-                                    onSubmit={async (value, {setSubmitting}) => {
-                                        try {
+                                    onSubmit={async (value, {resetForm}) => {
+
                                             const res = await userService.login(value)
-                                              if (res.token) {
-                                                localStorage.setItem("token", res.token)
-                                                localStorage.setItem("username", res.username)
-                                                localStorage.setItem("role", res.role)
-                                            }
+                                            if (res.token) {
+                                                await localStorage.setItem("token", res.token)
+                                                await localStorage.setItem("username", res.username)
+                                                await localStorage.setItem("role", res.role)
                                             nav("/")
-                                            toast.success('Đăng nhập thành công')
-                                        } catch (e) {
-                                            toast.error(e.res.data);
-                                        }finally {
-                                            setSubmitting(false)
+                                            await toast.success('Đăng nhập thành công')
+
                                         }
 
                                     }}>
@@ -95,7 +91,8 @@ export function Login() {
                                         <button
                                             className="btn btn-success  w-100 fs-6"
                                             type="submit"
-                                        >Đăng nhập ngay</button>
+                                        >Đăng nhập ngay
+                                        </button>
                                     </div>
 
                                 </Form>

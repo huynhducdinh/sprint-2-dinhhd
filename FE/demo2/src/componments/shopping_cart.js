@@ -4,37 +4,54 @@ import React, {useEffect, useState} from "react";
 import * as shoppingCart from "../service/ShoppingCart"
 import {FormattedNumber} from "react-intl";
 import Swal from "sweetalert2";
+import {Link, useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {PayPalButton} from "react-paypal-button-v2";
 
 
 export function Shopping_cart() {
     const [totalPrice, setTotalPrice] = useState(0)
     const [cart, setCart] = useState([])
+    const nav = useNavigate()
+    const role = localStorage.getItem('role');
+    const token = localStorage.getItem('token');
+
 
     // sổ list và tính tổng tiền của sản phẩm
     const getAll = async () => {
-        const res = await shoppingCart.listShoppingCart();
-        setTotalPrice(0)
-        if (res !== null) {
-            {
-                res.map((list) => (
-                    setTotalPrice((prevState) => (prevState + list.productFruit.price * list.quantity))
-                ))
+        try {
+            const res = await shoppingCart.listShoppingCart();
+            setCart(res)
+            setTotalPrice(0)
+            if (res != null) {
+                {
+                    await res.map(async (list) => (
+                        await setTotalPrice((prevState) => (prevState + list.productFruit.price * list.quantity))
+                    ))
+                }
             }
+        } catch (e) {
         }
-        setCart(res)
     }
-    // xoá sản phẩm trong gior hàng
+
+
+    // chỉnh sửa quantity
+    const setQuantity = async (value, id, quantity) => {
+        try {
+            if (quantity > 1 || value === 1) {
+                const res = await shoppingCart.setQuantityShopping(value, id)
+                await getAll()
+            }
+        } catch (e) {
+            return toast.error(e.response.data)
+
+        }
+    }
+    //     // xoá sản phẩm trong gior hàng
     const deleteShoppingCart = async (id) => {
         const res = await shoppingCart.deleteShopping(id);
         getAll();
         await result(res.data);
-    }
-    // chỉnh sửa quantity
-    const setQuantity = async (value, id, quantity) => {
-        if (quantity > 1 || value === 1) {
-            await shoppingCart.setQuantityShopping(value, id)
-            getAll()
-        }
     }
     // xoá sản phẩm
     const result = async () => {
@@ -96,57 +113,72 @@ export function Shopping_cart() {
                                         <th>&ensp;</th>
                                     </tr>
                                     </thead>
-                                    <tbody>
-                                    {cart.map((list, index) => (
+                                    {cart.length == '' ?
                                         <tr>
-                                            <td>
-                                                <img className="pic"
-                                                     src={list.productFruit.image}
-                                                     alt=""/>
-                                            </td>
-                                            <td>{list.productFruit.nameFruit}</td>
-                                            <td><FormattedNumber
-                                                value={list.productFruit.price}>
-                                                thousandSeparator={true} currency="VND"
-                                                minimumFractionDigits={0}
-                                            </FormattedNumber> đ
-                                            </td>
-                                            <td>
-                                                <div className="d-flex">
-                                                    <button type="button"
-                                                            onClick={() => setQuantity(0, list.id, list.quantity)}
-                                                            className="minus" style={{borderRadius: "5px 0 0 5px"}}>
-
-                                                        <span>-</span></button>
-                                                    <input type="number"
-                                                           className="input" step="1" min="0" max
-                                                           value={list.quantity}
-                                                    />
-                                                    <button type="button" value="+"
-                                                            onClick={() => setQuantity(1, list.id, list.quantity)}
-                                                            className="plus" style={{borderRadius: " 0 5px 5px 0"}}>
-                                                        <span>+</span>
-                                                    </button>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <FormattedNumber
-                                                    value={list.productFruit.price * list.quantity}>
-                                                    thousandSeparator={true} currency="VND"
-                                                    minimumFractionDigits={0}
-                                                </FormattedNumber> đ
-                                            </td>
-                                            <td>
-                                                <div
-                                                    onClick={() => deleteShopping(list?.id, list?.productFruit.nameFruit)}
-                                                    className="btn" data-bs-dismiss="alert">
-                                                    <span className="fas fa-times"></span>
+                                            <td colSpan={4}>
+                                                <div style={{marginLeft: "10%"}}><h2 className="text-center mt-4 mb-3"
+                                                                                     style={{color: "red"}}>Giỏ hàng
+                                                    trống rồi hãy đi mua
+                                                    nào!</h2>
+                                                    <Link to="/card" style={{marginLeft: "35%"}}>
+                                                        <span className="btn btn-success">Quay lại trang sản phẩm</span>
+                                                    </Link>
                                                 </div>
                                             </td>
                                         </tr>
-                                    ))}
+                                        :
+                                        <tbody>
 
-                                    </tbody>
+                                        {cart.map((list, index) => (
+                                            <tr key={index}>
+                                                <td>
+                                                    <img className="pic"
+                                                         src={list.productFruit.image}
+                                                         alt=""/>
+                                                </td>
+                                                <td>{list.productFruit.nameFruit}</td>
+                                                <td><FormattedNumber
+                                                    value={list.productFruit.price}>
+                                                    thousandSeparator={true} currency="VND"
+                                                    minimumFractionDigits={0}
+                                                </FormattedNumber> đ
+                                                </td>
+                                                <td>
+                                                    <div className="d-flex">
+                                                        <button type="button"
+                                                                onClick={() => setQuantity(0, list.id, list.quantity)}
+                                                                className="minus" style={{borderRadius: "5px 0 0 5px"}}>
+
+                                                            <span>-</span></button>
+                                                        <input type="text"
+                                                               className="input" step="1" min="0" max
+                                                               value={list.quantity}
+                                                        />
+                                                        <button type="button" value="+"
+                                                                onClick={() => setQuantity(1, list.id, list.quantity)}
+                                                                className="plus" style={{borderRadius: " 0 5px 5px 0"}}>
+                                                            <span>+</span>
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <FormattedNumber
+                                                        value={list.productFruit.price * list.quantity}>
+                                                        thousandSeparator={true} currency="VND"
+                                                        minimumFractionDigits={0}
+                                                    </FormattedNumber> đ
+                                                </td>
+                                                <td>
+                                                    <div
+                                                        onClick={() => deleteShopping(list?.id, list?.productFruit.nameFruit)}
+                                                        className="btn" data-bs-dismiss="alert">
+                                                        <span className="fas fa-times"></span>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+
+                                        </tbody>}
                                 </table>
                             </div>
                         </div>
@@ -186,10 +218,28 @@ export function Shopping_cart() {
                                     </tr>
                                     </tbody>
                                 </table>
-                                <button className="btn btn-success " type="submit" style={{width: "100%"}}> Tiến hành
+                                <button className="btn btn-success mb-3 " type="submit" style={{width: "100%"}}> Tiến
+                                    hành
                                     thanh toán
                                 </button>
-                                <div className="mt-3">
+                                {role == "ADMIN"? '' :
+                                    <PayPalButton
+                                        amount={totalPrice}
+                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                        onSuccess={(details, data) => {
+                                            toast.success("Đã thanh toán thành công " + details.payer.name.given_name);
+
+                                            // OPTIONAL: Call your server to save the transaction
+                                            return fetch("/paypal-transaction-complete", {
+                                                method: "post",
+                                                body: JSON.stringify({
+                                                    orderID: data.orderID
+                                                })
+                                            });
+                                        }}
+                                    />
+                                }
+                                <div className="mt-1">
                                     <h5><i className="fa-solid fa-tag"></i> Phiếu ưu đãi</h5>
                                     <hr/>
                                 </div>
@@ -202,11 +252,11 @@ export function Shopping_cart() {
                                     <button className="btn btn-secondary mt-3 mb-5 " type="submit"
                                             style={{width: "100%"}}> Áp dụng mã ưu đãi
                                     </button>
-
                                 </form>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </>

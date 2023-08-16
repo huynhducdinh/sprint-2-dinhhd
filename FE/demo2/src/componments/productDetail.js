@@ -26,9 +26,15 @@ export function ProductDetail() {
 
     // thêm vào giỏ hàng
     const addCart = async () => {
-        await shoppingCart.addShoppingCart(quantity, productDetail.id);
-        nav("/card")
-        toast.success('Thêm vào giỏ hàng thành công')
+        try {
+            await shoppingCart.addShoppingCart(quantity, productDetail.id);
+            await nav("/card")
+            await toast.success('Thêm vào giỏ hàng thành công')
+        } catch (e) {
+            await nav("/card")
+            return toast.error(e.response.data)
+        }
+
     }
     // 1 sản phẩm
     const detailProduct = async () => {
@@ -44,12 +50,11 @@ export function ProductDetail() {
     // tăng giảm quantity
     const onClickQuantity = async (value) => {
         if (value === 1) {
-            if (quantity<productDetail.quantity){
+            if (quantity < productDetail.quantity) {
                 setQuantity(quantity + 1)
             }
-        }
-        else {
-            if (quantity>0)
+        } else {
+            if (quantity > 0)
                 setQuantity(quantity - 1)
 
         }
@@ -114,9 +119,10 @@ export function ProductDetail() {
                                                             height: "40px",
                                                             borderRadius: "5px 0 0 5px"
                                                         }}
-                                                                onClick={() => onClickQuantity(0)} className="minus"><span
+                                                                onClick={() => onClickQuantity(0)}
+                                                                className="minus"><span
                                                         >-</span></button>
-                                                        <input type="number" style={{height: "40px", width: "20%"}}
+                                                        <input type="text" style={{height: "40px", width: "20%"}}
                                                                className="input" min={1} value={quantity}
                                                         />
                                                         <button onClick={() => onClickQuantity(1)}

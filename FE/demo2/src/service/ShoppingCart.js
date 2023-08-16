@@ -1,21 +1,24 @@
 import axios from "axios";
+import {toast} from "react-toastify";
 
 export const addShoppingCart = async (quantity, idFruit) => {
     const token = localStorage.getItem('token');
+    await axios.post(`http://localhost:8080/api/shoppingCart/add?quantity=${quantity}&idFruit=${idFruit}`, "",
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        })
+}
+export const listShoppingCart = async () => {
+    const token = localStorage.getItem('token');
     try {
-        await axios.post(`http://localhost:8080/api/shoppingCart/add?quantity=${quantity}&idFruit=${idFruit}`, "",
+        const res = (await axios.get('http://localhost:8080/api/shoppingCart',
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 }
-            })
-    } catch (e) {
-        console.log(e)
-    }
-}
-export const listShoppingCart = async () => {
-    try {
-        const res = (await axios.get('http://localhost:8080/api/shoppingCart')).data
+            })).data
         return res
     } catch (e) {
         console.log(e)
@@ -35,11 +38,15 @@ export const deleteShopping = async (id) => {
         console.log(e)
     }
 }
-export const setQuantityShopping = async (setQuantity,id) => {
-    try{
-        const res=(await axios.patch(`http://localhost:8080/api/shoppingCart/${setQuantity}/${id}`)).data
+export const setQuantityShopping = async (setQuantity, id) => {
+    const token = localStorage.getItem('token');
+        const res = (await axios.patch(`http://localhost:8080/api/shoppingCart/${setQuantity}/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            }));
+        return res
 
-    }catch (e){
-        console.log(e)
-    }
+
 }

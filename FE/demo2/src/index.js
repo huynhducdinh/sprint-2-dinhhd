@@ -8,13 +8,13 @@ import {IntlProvider} from "react-intl";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+
       <IntlProvider locale="en">
       <BrowserRouter>
           <App />
       </BrowserRouter>
       </IntlProvider>
-  </React.StrictMode>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -4,6 +4,7 @@ import com.example.demo.model.Customers;
 import com.example.demo.model.ProductFruit;
 import com.example.demo.model.ShoppingCart;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
 
 
 import java.util.List;
@@ -13,9 +14,9 @@ public interface IShoppingCartService {
 
     void remove(Long id);
 
-    List<ShoppingCart> findAll();
+    List<ShoppingCart> finAllByShopping(Long id);
 
     ShoppingCart findByCustomersAndProductFruit(Customers customers, ProductFruit productFruit);
 
-    void setQuantityShoppingCart(Integer quantity, Long id);
+    ResponseEntity<?> setQuantityShoppingCart(Integer quantity, Long id);
 }

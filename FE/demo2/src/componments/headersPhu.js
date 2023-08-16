@@ -39,12 +39,12 @@ export function HeadersPhu() {
         }
     }, [token])
     const handlerLogout = async () => {
-        localStorage.removeItem("token")
-        localStorage.removeItem("username")
-        localStorage.removeItem("role")
-        setIsLogin(false)
-        toast.success("Đăng xuất thành công")
-        nav("/login")
+        await localStorage.removeItem("token")
+        await localStorage.removeItem("username")
+        await localStorage.removeItem("role")
+        await setIsLogin(false)
+        await toast.success("Đăng xuất thành công")
+        await nav("/login")
     }
     return (
         <>
@@ -101,7 +101,7 @@ export function HeadersPhu() {
                                                     <DropdownMenu className="abc">
                                                         <Link className="dropdown-item "
                                                               style={{color: "black"}}>
-                                                            <span>  {currentUserName} <i
+                                                            <span>{currentUserName} <i
                                                                 className="fa-solid fa-user"></i></span>
                                                         </Link>
                                                         {role !== 'CUSTOMER' ?
