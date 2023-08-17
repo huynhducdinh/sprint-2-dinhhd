@@ -13,7 +13,10 @@ public interface IShoppingCartService {
     void add(ShoppingCart shoppingCart);
 
     void remove(Long id);
-    void deleteCustomerShoppingCart(Long idCustomer,Long id);
+    void deleteById(Customers customers);
+
+
+
 
     List<ShoppingCart> finAllByShopping(Long id);
 

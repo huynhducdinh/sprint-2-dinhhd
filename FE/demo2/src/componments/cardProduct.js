@@ -1,15 +1,14 @@
 import '../css/card.css'
-import React, {useEffect, useState, C} from "react";
+import React, {useEffect, useState,  useContext} from "react";
 import * as card from '../service/Product'
-import {DropdownButton, Image} from "react-bootstrap";
+import {Image} from "react-bootstrap";
 import {FormattedNumber} from "react-intl";
-import {Link, NavLink, useNavigate, useParams} from "react-router-dom";
+import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
-
 import * as shoppingCart from "../service/ShoppingCart";
 import {toast} from "react-toastify";
 import {Field, Form, Formik} from "formik";
-import DotLoader from "react-spinners/ClipLoader";
+import {QuantityContext} from "./QuantityContext";
 
 
 export function CardProduct() {
@@ -27,9 +26,11 @@ export function CardProduct() {
     const [price, setPrice] = useState('')
 
     const role = localStorage.getItem('role');
+    const {iconQuantity, setIconQuantity } = useContext(QuantityContext)
 
-    // const [loading, setLoading] = useState(true);
-
+    useEffect(()=>{
+        addCart()
+    },[iconQuantity])
 
     // sổ loại sản phẩm
     const productType = async (id) => {
@@ -80,13 +81,13 @@ export function CardProduct() {
     const addCart = async (quantity, idFruit) => {
         try {
             await shoppingCart.addShoppingCart(quantity, idFruit)
+            await  setIconQuantity(iconQuantity+1);
             await toast.success("Thêm vào giỏ hàng thành công")
-        }catch (e){
+        } catch (e) {
             return toast.error(e.response.data)
         }
-
-
     }
+
     useEffect(() => {
         findAllProduct()
         productType()
@@ -231,8 +232,8 @@ export function CardProduct() {
                         {typeList == '' ?
                             <>
                                 {cardProduct.length === 0 ?
-                                    <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn
-                                        tại</h3> :
+                                    <h3 style={{color: "red"}} className="text-center mt-4">Hiện tại sản phẩm không
+                                        có </h3> :
                                     <>
                                         {cardProduct.map((list, index) => (
                                             <div key={index}
@@ -258,12 +259,10 @@ export function CardProduct() {
                                                         </div>
                                                         {role == "ADMIN" ? '' :
                                                             <div className="d-flex justify-content-between">
-
                                                                 <button className="btn btn-success"
-                                                                        onClick={() => addCart(quantity, list.id)}>Thêm vào giỏ
+                                                                        onClick={() => addCart(quantity, list.id)}>Thêm
+                                                                    vào giỏ
                                                                 </button>
-
-
                                                                 {/*<button className="btn btn-success">Mua ngay</button>*/}
                                                             </div>
                                                         }
@@ -290,8 +289,8 @@ export function CardProduct() {
                             :
                             <>
                                 {typeList.length === 0 ?
-                                    <h3 style={{color: "red"}} className="text-center mt-4">Dữ liệu không tồn
-                                        tại</h3> :
+                                    <h3 style={{color: "red"}} className="text-center mt-4">Hiện tại sản phẩm không
+                                        có </h3> :
                                     <>
                                         {typeList.map((list, index) => (
                                             <div key={index}

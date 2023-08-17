@@ -27,10 +27,7 @@ import java.util.List;
 public class ShoppingCartService implements IShoppingCartService {
     @Autowired
     private IShoppingCartRepository iShoppingCartRepository;
-    @Autowired
-    private IProductRepository iProductRepository;
-    @Autowired
-    private ICustomerRepository iCustomerRepository;
+
 
     @Override
     public void add(ShoppingCart shoppingCart) {
@@ -43,12 +40,11 @@ public class ShoppingCartService implements IShoppingCartService {
     }
 
     @Override
-    public void deleteCustomerShoppingCart(Long idCustomer,Long id) {
-//        Customers customers = iCustomerRepository.findUsersName(username);
-//        ProductFruit productFruit = iProductRepository.findById(id).get();
-        iShoppingCartRepository.deleteByCustomersAndProductFruit(idCustomer, id);
-
+    public void deleteById(Customers customers) {
+        iShoppingCartRepository.deleteShoppingCartByCustomers(customers);
     }
+
+
 
     @Transactional
     @Override

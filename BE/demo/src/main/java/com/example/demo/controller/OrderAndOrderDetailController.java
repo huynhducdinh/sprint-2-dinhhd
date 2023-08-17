@@ -44,7 +44,7 @@ public class OrderAndOrderDetailController {
         String username = jwtTokenUtil.getUsernameFromToken(token);
         Customers customers = iCustomerService.findUsersName(username);
         List<ShoppingCart> shoppingCartList = ishoppingCartService.finAllByShopping(customers.getId());
-        Long totalPrice = 0L;
+            Long totalPrice = 0L;
         for (int i = 0; i < shoppingCartList.size(); i++) {
             totalPrice += shoppingCartList.get(i).getProductFruit().getPrice() * shoppingCartList.get(i).getQuantity();
         }
@@ -55,11 +55,11 @@ public class OrderAndOrderDetailController {
                     shoppingCartList.get(i).getQuantity(),
                     shoppingCartList.get(i).getProductFruit().getPrice(),
                     shoppingCartList.get(i).getProductFruit(),
-                    orders
-            );
+                    orders);
             iOrdersDetailService.save(ordersDetail);
-
+            ishoppingCartService.deleteById(shoppingCartList.get(i).getCustomers());
         }
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

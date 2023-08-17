@@ -1,23 +1,22 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../css/main.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {Dropdown, Image} from "react-bootstrap";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
 import DropdownToggle from "react-bootstrap/DropdownToggle";
 import {toast} from "react-toastify";
-
-
+import {QuantityContext} from "./QuantityContext";
 export function HeadersPhu() {
     const [isLogin, setIsLogin] = useState();
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
     const currentUserName = localStorage.getItem('username');
-    // const [userName, setUserName] = useState(currentUserName);
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const nav = useNavigate();
+    const { iconQuantity, setIconQuantity } = useContext(QuantityContext)
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -74,8 +73,8 @@ export function HeadersPhu() {
                                 <a className="text-white " style={{justifyContent: "center"}} href="#chefs">Liên hệ</a>
                             </li>
                             <li>
-                                <a className="text-white " style={{justifyContent: "center"}} href="#chefs">Câu
-                                    chuyện</a>
+                                <NavLink to="/story" className="text-white " style={{justifyContent: "center"}}
+                                         href="#chefs">Câu chuyện</NavLink>
                             </li>
 
                             <div style={{marginLeft: "20%", borderRadius: "30px"}}>
@@ -133,6 +132,7 @@ export function HeadersPhu() {
                                 <li>
                                     <NavLink to="/cart" className="text-white " style={{justifyContent: "center"}}>
                                         Giỏ hàng <i className='fa fa-shopping-basket'></i>
+                                        <sup className="">({iconQuantity})</sup>
                                     </NavLink>
                                 </li>
                             </div>

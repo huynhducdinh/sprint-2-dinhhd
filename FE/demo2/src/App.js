@@ -13,12 +13,18 @@ import {Footer} from "./componments/footer";
 import {ToastContainer} from "react-toastify";
 import {HeadersPhu} from "./componments/headersPhu";
 import {HomePageAdmin} from "./componments/HomePageAdmin";
+import {Story} from "./componments/story";
+import {QuantityProvider} from "./componments/QuantityContext";
+
+
+// import {createContext} from "react";
 
 
 function App() {
 
     return (
         <>
+            <QuantityProvider>
             <HeadersPhu/>
             <Routes>
                 <Route path="/" element={<Home/>}/>
@@ -30,9 +36,11 @@ function App() {
                 <Route path="/:id/product" element={<CardProduct/>}/>
                 <Route path="/homeAdmin" element={<HomePageAdmin/>}/>
                 <Route path="/login" element={<Login/>}/>
+                <Route path="/story" element={<Story/>}/>
             </Routes>
             <ToastContainer/>
             <Footer/>
+            </QuantityProvider>
         </>
     );
 }

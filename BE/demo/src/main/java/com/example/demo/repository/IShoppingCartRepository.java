@@ -25,7 +25,7 @@ public interface IShoppingCartRepository extends JpaRepository<ShoppingCart, Lon
 
     @Transactional
     @Modifying
-    void deleteByCustomersAndProductFruit(Long idCustomer, Long productFruit);
+    void deleteShoppingCartByCustomers(Customers customers);
 
 
 }

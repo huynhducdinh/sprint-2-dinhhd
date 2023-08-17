@@ -1,6 +1,6 @@
 import '../css/shoping_cart.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import * as shoppingCart from "../service/ShoppingCart"
 import {FormattedNumber} from "react-intl";
 import Swal from "sweetalert2";
@@ -8,6 +8,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {PayPalButton} from "react-paypal-button-v2";
 import * as ordersAndOrderDetail from '../service/OrderAndOrderDetail'
+import {QuantityContext} from "./QuantityContext";
 
 export function Shopping_cart() {
     const [totalPrice, setTotalPrice] = useState(0)
@@ -15,6 +16,7 @@ export function Shopping_cart() {
     const nav = useNavigate()
     const role = localStorage.getItem('role');
     const token = localStorage.getItem('token');
+    const { iconQuantity, setIconQuantity } = useContext(QuantityContext)
 
 
     // sổ list và tính tổng tiền của sản phẩm
@@ -78,6 +80,8 @@ export function Shopping_cart() {
     }
     const save =async (shopping) => {
      await ordersAndOrderDetail.saveOrderAndOrderDetail(shopping)
+        await setIconQuantity(0)
+        getAll()
     }
 
     useEffect(() => {
@@ -210,8 +214,8 @@ export function Shopping_cart() {
                                         <td className="justify-content-end d-flex">Giao hàng tận nơi</td>
                                     </tr>
                                     <tr>
-                                        <th>Tổng tiền</th>
-                                        <td className="justify-content-end d-flex">
+                                        <th >Tổng tiền</th>
+                                        <td style={{color:"red"}} className="justify-content-end d-flex">
                                             <FormattedNumber
                                                 value={totalPrice}>
                                                 thousandSeparator={true} currency="VND"
@@ -227,12 +231,13 @@ export function Shopping_cart() {
                                 </button>
                                 {role == "ADMIN"? '' :
                                     <PayPalButton
-                                        amount={totalPrice}
+                                        amount={Math.ceil(totalPrice/23940)}
                                         // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
                                         onSuccess={(details, data) => {
                                             save()
-                                            getAll()
-                                            toast.success("Đã thanh toán thành công " + details.payer.name.given_name);
+                                            toast.success("Đã thanh toán thành công"
+                                                // + details.payer.name.given_name
+                                            );
 
                                             // OPTIONAL: Call your server to save the transaction
                                             return fetch("/paypal-transaction-complete", {
