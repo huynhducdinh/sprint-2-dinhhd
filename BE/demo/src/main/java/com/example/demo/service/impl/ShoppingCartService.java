@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,10 @@ public class ShoppingCartService implements IShoppingCartService {
         iShoppingCartRepository.deleteShoppingCartByCustomers(customers);
     }
 
+    @Override
+    public ShoppingCart findById(Long id) {
+        return iShoppingCartRepository.findById(id).get();
+    }
 
 
     @Transactional
@@ -60,19 +65,7 @@ public class ShoppingCartService implements IShoppingCartService {
 
 
     @Override
-    public ResponseEntity<?> setQuantityShoppingCart(Integer quantity, Long id) {
-        ShoppingCart shoppingCart = iShoppingCartRepository.findById(id).get();
-        if (quantity == 0) {
-            shoppingCart.setQuantity(shoppingCart.getQuantity() - 1);
-            iShoppingCartRepository.save(shoppingCart);
-        } else {
-            shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
-            if (shoppingCart.getQuantity() > shoppingCart.getProductFruit().getQuantity()) {
-                return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
-            }
-            iShoppingCartRepository.save(shoppingCart);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void setQuantityShoppingCart(ShoppingCart shoppingCart) {
+        iShoppingCartRepository.save(shoppingCart);
     }
-
 }

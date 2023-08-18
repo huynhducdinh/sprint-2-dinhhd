@@ -1,14 +1,17 @@
-import '../css/card.css'
-import React, {useEffect, useState,  useContext} from "react";
-import * as card from '../service/Product'
+import '../../css/card.css'
+import React, {useEffect, useState, useContext, useRef} from "react";
+import * as card from '../../service/Product'
 import {Image} from "react-bootstrap";
 import {FormattedNumber} from "react-intl";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import * as shoppingCart from "../service/ShoppingCart";
+import * as shoppingCart from "../../service/ShoppingCart";
 import {toast} from "react-toastify";
 import {Field, Form, Formik} from "formik";
-import {QuantityContext} from "./QuantityContext";
+import {QuantityContext} from "../context/quantityContext";
+import {useDispatch} from "react-redux";
+import {getAllCart} from "../redux/actions/cart";
+import Swal from "sweetalert2";
 
 
 export function CardProduct() {
@@ -24,14 +27,10 @@ export function CardProduct() {
     const [quantity, setQuantity] = useState(1)
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
-
+    const token =localStorage.getItem('token')
     const role = localStorage.getItem('role');
-    const {iconQuantity, setIconQuantity } = useContext(QuantityContext)
-
-    useEffect(()=>{
-        addCart()
-    },[iconQuantity])
-
+    const dispatch = useDispatch();
+const  nav=useNavigate()
     // sổ loại sản phẩm
     const productType = async (id) => {
         if (id == 1) {
@@ -80,13 +79,25 @@ export function CardProduct() {
     // thêm voà trong giỏ hàng
     const addCart = async (quantity, idFruit) => {
         try {
-            await shoppingCart.addShoppingCart(quantity, idFruit)
-            await  setIconQuantity(iconQuantity+1);
-            await toast.success("Thêm vào giỏ hàng thành công")
+            if (token==null ){
+                await Swal.fire({
+                    icon:"warning",
+                    text:"Bạn phải đăng nhập mới có thể thêm vào giỏ hàng",
+                    timer:1000
+                })
+                nav("/login")
+            }else {
+                await shoppingCart.addShoppingCart(quantity, idFruit)
+
+                await dispatch(getAllCart())
+                await toast.success("Thêm vào giỏ hàng thành công")
+            }
+
         } catch (e) {
             return toast.error(e.response.data)
         }
     }
+
 
     useEffect(() => {
         findAllProduct()
@@ -120,7 +131,7 @@ export function CardProduct() {
                                 <Link onClick={() => {
                                     productType(2)
                                 }}>
-                                    <span className="btn btn-outline-success ">Trái cây nhập khẩu</span>
+                                    <span className="btn btn-outline-success "> Trái cây nhập khẩu</span>
                                 </Link>
                             </div>
                             {/*<div style={{padding: " 0px 15px 0px"}}>*/}
@@ -257,6 +268,7 @@ export function CardProduct() {
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
                                                         </div>
+                                                        <div>
                                                         {role == "ADMIN" ? '' :
                                                             <div className="d-flex justify-content-between">
                                                                 <button className="btn btn-success"
@@ -266,6 +278,7 @@ export function CardProduct() {
                                                                 {/*<button className="btn btn-success">Mua ngay</button>*/}
                                                             </div>
                                                         }
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

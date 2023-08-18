@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../css/main.css'
+import '../../css/main.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useContext, useEffect, useState} from "react";
 import {Link, NavLink, useNavigate} from "react-router-dom";
@@ -7,8 +7,10 @@ import {Dropdown, Image} from "react-bootstrap";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
 import DropdownToggle from "react-bootstrap/DropdownToggle";
 import {toast} from "react-toastify";
-import {QuantityContext} from "./QuantityContext";
-export function HeadersPhu() {
+import {QuantityContext} from "../context/quantityContext";
+import {useDispatch, useSelector} from "react-redux"
+import {getAllCart} from "../redux/actions/cart";
+export function Headers() {
     const [isLogin, setIsLogin] = useState();
     const token = localStorage.getItem('token');
     const role = localStorage.getItem('role');
@@ -16,20 +18,15 @@ export function HeadersPhu() {
 
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const nav = useNavigate();
-    const { iconQuantity, setIconQuantity } = useContext(QuantityContext)
+    const iconQuantity = useSelector(state => state.cart)
+    const  dispatch = useDispatch();
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
     useEffect(() => {
-        if (token) {
-            setIsLogin(true);
-        } else {
-// Xử lý khi không có token trong localStorage
-        }
-    }, [token])
-    useEffect(() => {
+        dispatch(getAllCart())
         if (token) {
             setIsLogin(true)
             // setUserName(currentUserName)
@@ -67,7 +64,7 @@ export function HeadersPhu() {
                             </li>
                             <li>
                                 <a to="" className="text-white " style={{justifyContent: "center"}}
-                                   href="#events">Tin tức</a>
+                                   href="/ok">Tin tức</a>
                             </li>
                             <li>
                                 <a className="text-white " style={{justifyContent: "center"}} href="#chefs">Liên hệ</a>

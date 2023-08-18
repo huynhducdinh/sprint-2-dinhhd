@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.ProductFruit;
 import com.example.demo.service.IProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -26,6 +28,7 @@ public class ProductController {
                                                      @RequestParam(value = "price",defaultValue = "0") String price
     ) {
         Page<ProductFruit> productFruitPage = iProductService.getAllFruit(page, name, price);
+
         if (productFruitPage == null && productFruitPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
@@ -78,6 +81,7 @@ public class ProductController {
 
         }
     }
+
     @GetMapping("/pageFruitAdmin")
     public ResponseEntity<Page<ProductFruit>> getAll(@PageableDefault(size = 8)Pageable pageable) {
         Page<ProductFruit> productFruitPage = iProductService.getAllPageFruitAdmin(pageable);

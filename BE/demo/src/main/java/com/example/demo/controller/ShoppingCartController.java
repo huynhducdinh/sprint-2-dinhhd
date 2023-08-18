@@ -24,8 +24,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -47,6 +49,7 @@ public class ShoppingCartController {
     @Transactional
     @GetMapping()
     public ResponseEntity<List<ShoppingCart>> getAll(HttpServletRequest httpServletRequest) {
+
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
         if (token.equals("null")) {
@@ -66,8 +69,8 @@ public class ShoppingCartController {
     public ResponseEntity<?> add(HttpServletRequest httpServletRequest,
                                  @RequestParam(value = "quantity") Integer quantity,
                                  @RequestParam(value = "idFruit") Long idFruit) {
-        ProductFruit productFruit = iProductService.findById(idFruit);
 
+        ProductFruit productFruit = iProductService.findById(idFruit);
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
@@ -80,7 +83,8 @@ public class ShoppingCartController {
                 Long price= productFruit.getPrice()*amount;
                 System.out.println("gai tien : ------>"+price);
                 if (shoppingCart.getQuantity()> productFruit.getQuantity()) {
-                    return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
+
+                    return new ResponseEntity<>("Sản phẩm không đủ   số lượng", HttpStatus.BAD_REQUEST);
                 }
                 ishoppingCartService.add(shoppingCart);
                 return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
@@ -89,6 +93,7 @@ public class ShoppingCartController {
 
         ShoppingCart shoppingCartNew = new ShoppingCart(quantity, customers, productFruit);
         ishoppingCartService.add(shoppingCartNew);
+
         return new ResponseEntity<>(shoppingCartNew, HttpStatus.CREATED);
     }
 
@@ -99,8 +104,19 @@ public class ShoppingCartController {
     }
 
     @PatchMapping("/{setQuantity}/{id}")
-    public void setQuantityCart(@PathVariable Integer setQuantity, @PathVariable Long id) {
-          ishoppingCartService.setQuantityShoppingCart(setQuantity, id);
+    public ResponseEntity<?> setQuantityCart(@PathVariable Integer setQuantity, @PathVariable Long id) {
+        ShoppingCart shoppingCart = ishoppingCartService.findById(id);
+        if (setQuantity == 0) {
+            shoppingCart.setQuantity(shoppingCart.getQuantity() - 1);
+            ishoppingCartService.setQuantityShoppingCart(shoppingCart);
+        } else {
+            shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
+            if (shoppingCart.getQuantity() > shoppingCart.getProductFruit().getQuantity()) {
+                return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
+            }
+            ishoppingCartService.setQuantityShoppingCart(shoppingCart);
+        }
+        return new ResponseEntity<>(shoppingCart,HttpStatus.OK);
 
     }
 }

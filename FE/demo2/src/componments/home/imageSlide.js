@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../css/main.css'
+import '../../css/main.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useEffect} from "react";
 export  function ImageSlide() {

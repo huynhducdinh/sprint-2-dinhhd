@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import * as product from "../service/Product";
+import * as product from "../../service/Product";
 
 
 export function HomePageAdmin() {

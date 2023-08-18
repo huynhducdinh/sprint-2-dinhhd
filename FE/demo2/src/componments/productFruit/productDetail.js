@@ -1,15 +1,18 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../css/shoping_cart.css'
+import '../../css/shoping_cart.css'
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import React, {useEffect, useState} from "react";
 import {Image} from "react-bootstrap";
-import * as card from "../service/Product";
+import * as card from "../../service/Product";
 import {Link, useNavigate, useParams} from "react-router-dom";
-import * as type from '../service/Type'
+import * as type from '../../service/Type'
 import {FormattedNumber} from "react-intl";
-import * as shoppingCart from "../service/ShoppingCart";
+import * as shoppingCart from "../../service/ShoppingCart";
 import {toast} from "react-toastify";
+import {useDispatch} from "react-redux";
+import {getAllCart} from "../redux/actions/cart";
+import Swal from "sweetalert2";
 
 export function ProductDetail() {
     useEffect(() => {
@@ -22,13 +25,23 @@ export function ProductDetail() {
     const [productList, setProduct] = useState([])
     const [quantity, setQuantity] = useState(1)
     const nav = useNavigate();
-
-
+    const dispatch = useDispatch();
+    const token = localStorage.getItem('token');
     // thêm vào giỏ hàng
     const addCart = async () => {
         try {
-            await shoppingCart.addShoppingCart(quantity, productDetail.id);
-            await nav("/card")
+            if (token == null) {
+                await Swal.fire({
+                    icon: "warning",
+                    text: "Bạn phải đăng nhập mới có thể thêm vào giỏ hàng",
+                    timer: 1000
+                })
+                nav("/login")
+            } else {
+                await shoppingCart.addShoppingCart(quantity, productDetail.id);
+                await dispatch(getAllCart())
+                await nav("/card")
+            }
             await toast.success('Thêm vào giỏ hàng thành công')
         } catch (e) {
             await nav("/card")
@@ -54,7 +67,7 @@ export function ProductDetail() {
                 setQuantity(quantity + 1)
             }
         } else {
-            if (quantity > 0)
+            if (quantity > 1)
                 setQuantity(quantity - 1)
 
         }

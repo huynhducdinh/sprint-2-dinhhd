@@ -1,12 +1,12 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
-import '../css/main.css'
+import '../../css/main.css'
 import '@fortawesome/fontawesome-free/css/fontawesome.css'
-import {ImageSlide} from "./ImageSlide";
+import {ImageSlide} from "./imageSlide";
 import React, {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
 import {Image} from "react-bootstrap";
-import * as card from "../service/Product";
-import {getAllTypeProduct} from "../service/Product";
+import * as card from "../../service/Product";
+import {getAllTypeProduct} from "../../service/Product";
 
 export function Home() {
     const [typeList, setTypeList] = useState([])
