@@ -43,7 +43,7 @@ export function ShoppingCart() {
     // chỉnh sửa quantity
     const setQuantity = async (value, id, quantity) => {
 
-            if (quantity > 1 || value === 1) {
+            if (quantity > 0 || value === 1) {
                 await shoppingCart.setQuantityShopping(value, id)
                 await getAll()
             }

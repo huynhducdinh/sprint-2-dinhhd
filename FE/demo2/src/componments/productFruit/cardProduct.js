@@ -83,7 +83,6 @@ const  nav=useNavigate()
                 await Swal.fire({
                     icon:"warning",
                     text:"Bạn phải đăng nhập mới có thể thêm vào giỏ hàng",
-                    timer:1000
                 })
                 nav("/login")
             }else {

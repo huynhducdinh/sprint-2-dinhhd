@@ -34,15 +34,14 @@ export function ProductDetail() {
                 await Swal.fire({
                     icon: "warning",
                     text: "Bạn phải đăng nhập mới có thể thêm vào giỏ hàng",
-                    timer: 1000
                 })
                 nav("/login")
             } else {
                 await shoppingCart.addShoppingCart(quantity, productDetail.id);
                 await dispatch(getAllCart())
                 await nav("/card")
+                await toast.success('Thêm vào giỏ hàng thành công')
             }
-            await toast.success('Thêm vào giỏ hàng thành công')
         } catch (e) {
             await nav("/card")
             return toast.error(e.response.data)
@@ -65,11 +64,11 @@ export function ProductDetail() {
         if (value === 1) {
             if (quantity < productDetail.quantity) {
                 setQuantity(quantity + 1)
+
             }
         } else {
             if (quantity > 1)
                 setQuantity(quantity - 1)
-
         }
     }
 
@@ -128,6 +127,7 @@ export function ProductDetail() {
                                                     {/*</select>*/}
                                                     <h6>Chọn kg:</h6>
                                                     <div style={{marginLeft: "5%"}}>
+                                                        {}
                                                         <button type="button" style={{
                                                             height: "40px",
                                                             borderRadius: "5px 0 0 5px"

@@ -1,9 +1,12 @@
 import {Image} from "react-bootstrap";
-import React from "react";
+import React, {useEffect} from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 
 export function Story() {
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <>
             <div className="container mb-5">

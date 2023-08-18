@@ -1,14 +1,16 @@
 import {useEffect} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Field, Form, Formik} from "formik";
-import * as userService from '../service/UserService'
+import * as userService from '../../service/UserService'
 import {Image} from "react-bootstrap";
 import {toast, ToastContainer} from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-toastify/dist/ReactToastify.min.css'
+import {getAllCart} from "../redux/actions/cart";
+import {useDispatch} from "react-redux";
 
 export function Login() {
-
+    const dispatch = useDispatch();
     const nav = useNavigate();
     useEffect(() => {
         window.scrollTo(0, 0)
@@ -38,14 +40,13 @@ export function Login() {
                             }}
                                     onSubmit={async (value, {resetForm}) => {
 
-                                            const res = await userService.login(value)
-                                            if (res.token) {
-                                                await localStorage.setItem("token", res.token)
-                                                await localStorage.setItem("username", res.username)
-                                                await localStorage.setItem("role", res.role)
+                                        const res = await userService.login(value)
+                                        if (res.token) {
+                                            await localStorage.setItem("token", res.token)
+                                            await localStorage.setItem("username", res.username)
+                                            await localStorage.setItem("role", res.role)
                                             nav("/")
                                             await toast.success('Đăng nhập thành công')
-
                                         }
 
                                     }}>

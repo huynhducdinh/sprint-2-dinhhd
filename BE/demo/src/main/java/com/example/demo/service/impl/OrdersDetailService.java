@@ -6,6 +6,8 @@ import com.example.demo.service.IOrdersDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrdersDetailService  implements IOrdersDetailService {
     @Autowired
@@ -14,5 +16,10 @@ public class OrdersDetailService  implements IOrdersDetailService {
     @Override
     public void save(OrdersDetail ordersDetail) {
         iOrdersDetailRepository.save(ordersDetail);
+    }
+
+    @Override
+    public List<OrdersDetail> findAll(Long id) {
+        return iOrdersDetailRepository.findAll(id);
     }
 }

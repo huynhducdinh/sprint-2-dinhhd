@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css'
 import '../../css/main.css'
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import React, {useContext, useEffect, useState} from "react";
 import {Link, NavLink, useNavigate} from "react-router-dom";
 import {Dropdown, Image} from "react-bootstrap";
 import DropdownMenu from "react-bootstrap/DropdownMenu";
 import DropdownToggle from "react-bootstrap/DropdownToggle";
 import {toast} from "react-toastify";
-import {QuantityContext} from "../context/quantityContext";
 import {useDispatch, useSelector} from "react-redux"
 import {getAllCart} from "../redux/actions/cart";
 export function Headers() {
@@ -41,6 +41,7 @@ export function Headers() {
         await setIsLogin(false)
         await toast.success("Đăng xuất thành công")
         await nav("/login")
+
     }
     return (
         <>
@@ -95,14 +96,27 @@ export function Headers() {
                                                         <i className="fa-solid fa-circle-user"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu className="abc">
-                                                        <Link className="dropdown-item "
+                                                        { role !=="CUSTOMER" ?
+                                                        <Link  className="dropdown-item "
                                                               style={{color: "black"}}>
                                                             <span>{currentUserName} <i
                                                                 className="fa-solid fa-user"></i></span>
-                                                        </Link>
+                                                        </Link>:
+                                                            <Link to="/information" className="dropdown-item "
+                                                                  style={{color: "black"}}>
+                                                            <span>{currentUserName} <i
+                                                                className="fa-solid fa-user"></i></span>
+                                                            </Link>
+                                                        }
                                                         {role !== 'CUSTOMER' ?
                                                             <Link to="/homeAdmin" className="dropdown-item "
                                                                   style={{color: "black"}}>Quản lý cửa hàng<i
+                                                                className="fa-solid fa-list-check"></i></Link>
+                                                            : ''
+                                                        }
+                                                        {role !== 'ADMIN' ?
+                                                            <Link to="/history" className="dropdown-item "
+                                                                  style={{color: "black"}}>Lịch sử giao dịch<i
                                                                 className="fa-solid fa-list-check"></i></Link>
                                                             : ''
                                                         }

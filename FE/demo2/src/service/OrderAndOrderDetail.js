@@ -11,6 +11,18 @@ export const saveOrderAndOrderDetail =async (shopping) => {
               }
           })
   }catch (e){
-
   }
+}
+export const listHistory = async () => {
+    const token = localStorage.getItem('token');
+    try {
+        const res = (await axios.get('http://localhost:8080/api/order/orderDetail/history',
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })).data
+        return res
+    }catch (e) {
+    }
 }

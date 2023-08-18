@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -28,8 +25,6 @@ public class OrderAndOrderDetailController {
     private IShoppingCartService ishoppingCartService;
     @Autowired
     private ICustomerService iCustomerService;
-    @Autowired
-    private IProductService iProductService;
     @Autowired
     private IOrdersDetailService iOrdersDetailService;
     @Autowired
@@ -61,5 +56,15 @@ public class OrderAndOrderDetailController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/history")
+    public ResponseEntity<List<OrdersDetail>>getAll(HttpServletRequest httpServletRequest){
+        String header = httpServletRequest.getHeader("Authorization");
+        String token = header.substring(7);
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        Customers customers = iCustomerService.findUsersName(username);
+        List<OrdersDetail>ordersDetailList=iOrdersDetailService.findAll(customers.getId());
+        return new ResponseEntity<>(ordersDetailList,HttpStatus.OK);
     }
 }

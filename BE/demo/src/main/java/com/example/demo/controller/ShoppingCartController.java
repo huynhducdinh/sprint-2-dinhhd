@@ -108,6 +108,9 @@ public class ShoppingCartController {
         ShoppingCart shoppingCart = ishoppingCartService.findById(id);
         if (setQuantity == 0) {
             shoppingCart.setQuantity(shoppingCart.getQuantity() - 1);
+            if (shoppingCart.getQuantity()<1){
+                return new ResponseEntity<>("Sản phẩm thêm vào giỏ hàng phải là 1", HttpStatus.BAD_REQUEST);
+            }
             ishoppingCartService.setQuantityShoppingCart(shoppingCart);
         } else {
             shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
