@@ -49,7 +49,6 @@ public class ShoppingCartController {
     @Transactional
     @GetMapping()
     public ResponseEntity<List<ShoppingCart>> getAll(HttpServletRequest httpServletRequest) {
-
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
         if (token.equals("null")) {
@@ -61,7 +60,6 @@ public class ShoppingCartController {
             return new ResponseEntity<>(null, HttpStatus.OK);
         }
         List<ShoppingCart> shoppingCarts = ishoppingCartService.finAllByShopping(customers.getId());
-
         return new ResponseEntity<>(shoppingCarts, HttpStatus.OK);
     }
 
@@ -79,21 +77,25 @@ public class ShoppingCartController {
             ShoppingCart shoppingCart = ishoppingCartService.findByCustomersAndProductFruit(customers, productFruit);
             if (shoppingCart != null) {
                 Integer amount = shoppingCart.getQuantity() + quantity;
-                shoppingCart.setQuantity(amount);
-                Long price= productFruit.getPrice()*amount;
-                System.out.println("gai tien : ------>"+price);
-                if (shoppingCart.getQuantity()> productFruit.getQuantity()) {
-
-                    return new ResponseEntity<>("Sản phẩm không đủ   số lượng", HttpStatus.BAD_REQUEST);
+                if (productFruit.getQuantity() < quantity) {
+                    return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
                 }
+                shoppingCart.setQuantity(amount);
+                Integer amount1 = productFruit.getQuantity() - quantity;
+                productFruit.setQuantity(amount1);
+
                 ishoppingCartService.add(shoppingCart);
                 return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
             }
         }
 
         ShoppingCart shoppingCartNew = new ShoppingCart(quantity, customers, productFruit);
+        if (productFruit.getQuantity()==0){
+            return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
+        }
+        Integer amount1 = productFruit.getQuantity() - shoppingCartNew.getQuantity();
+        productFruit.setQuantity(amount1);
         ishoppingCartService.add(shoppingCartNew);
-
         return new ResponseEntity<>(shoppingCartNew, HttpStatus.CREATED);
     }
 
@@ -108,18 +110,22 @@ public class ShoppingCartController {
         ShoppingCart shoppingCart = ishoppingCartService.findById(id);
         if (setQuantity == 0) {
             shoppingCart.setQuantity(shoppingCart.getQuantity() - 1);
-            if (shoppingCart.getQuantity()<1){
+            if (shoppingCart.getQuantity() < 1) {
                 return new ResponseEntity<>("Sản phẩm thêm vào giỏ hàng phải là 1", HttpStatus.BAD_REQUEST);
             }
+            Integer amount = shoppingCart.getProductFruit().getQuantity() + 1;
+            shoppingCart.getProductFruit().setQuantity(amount);
             ishoppingCartService.setQuantityShoppingCart(shoppingCart);
         } else {
             shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
-            if (shoppingCart.getQuantity() > shoppingCart.getProductFruit().getQuantity()) {
+            if (shoppingCart.getProductFruit().getQuantity()==0) {
                 return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
             }
+            Integer amount = shoppingCart.getProductFruit().getQuantity() - 1;
+            shoppingCart.getProductFruit().setQuantity(amount);
             ishoppingCartService.setQuantityShoppingCart(shoppingCart);
         }
-        return new ResponseEntity<>(shoppingCart,HttpStatus.OK);
+        return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
 
     }
 }

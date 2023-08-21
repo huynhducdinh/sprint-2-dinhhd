@@ -26,3 +26,16 @@ export const listHistory = async () => {
     }catch (e) {
     }
 }
+export const historyDetail =async (id) => {
+    const token = localStorage.getItem('token');
+    try {
+        const res = (await axios.get(`http://localhost:8080/api/order/orderDetail/history/detail/?id=${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            })).data
+        return res
+    }catch (e) {
+    }
+}

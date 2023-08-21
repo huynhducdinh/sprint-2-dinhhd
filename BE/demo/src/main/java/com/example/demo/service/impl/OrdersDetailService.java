@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.Orders;
 import com.example.demo.model.OrdersDetail;
 import com.example.demo.repository.IOrdersDetailRepository;
 import com.example.demo.service.IOrdersDetailService;
@@ -19,7 +20,7 @@ public class OrdersDetailService  implements IOrdersDetailService {
     }
 
     @Override
-    public List<OrdersDetail> findAll(Long id) {
-        return iOrdersDetailRepository.findAll(id);
+    public List<OrdersDetail>  findAllOrders(Long id) {
+        return iOrdersDetailRepository.findAllOrders(id);
     }
 }

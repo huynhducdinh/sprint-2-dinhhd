@@ -10,10 +10,9 @@ import {getAllCart} from "../redux/actions/cart";
 import {useDispatch} from "react-redux";
 
 export function Login() {
-    const dispatch = useDispatch();
     const nav = useNavigate();
     useEffect(() => {
-        window.scrollTo(0, 0)
+        window.scrollTo(100,0)
     }, [])
     return (
         <>
@@ -46,7 +45,9 @@ export function Login() {
                                             await localStorage.setItem("username", res.username)
                                             await localStorage.setItem("role", res.role)
                                             nav("/")
+                                            window.location.reload()
                                             await toast.success('Đăng nhập thành công')
+
                                         }
 
                                     }}>

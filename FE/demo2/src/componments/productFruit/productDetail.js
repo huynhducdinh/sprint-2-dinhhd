@@ -71,6 +71,9 @@ export function ProductDetail() {
                 setQuantity(quantity - 1)
         }
     }
+    const outOfStock =async () => {
+        await  toast.error("Sản phẩm hết hàng")
+    }
 
     useEffect(() => {
         detailProduct()
@@ -127,7 +130,6 @@ export function ProductDetail() {
                                                     {/*</select>*/}
                                                     <h6>Chọn kg:</h6>
                                                     <div style={{marginLeft: "5%"}}>
-                                                        {}
                                                         <button type="button" style={{
                                                             height: "40px",
                                                             borderRadius: "5px 0 0 5px"
@@ -148,11 +150,17 @@ export function ProductDetail() {
                                                         >+</span></button>
                                                     </div>
                                                 </div>
-                                                <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
-                                                        style={{width: "100%"}}><span style={{fontWeight: "bold"}}
-                                                                                      onClick={() => addCart()}>
+                                                {productDetail.quantity == 0 ?
+                                                    <button className="btn btn-outline-danger mt-3 mb-5 " type="submit"
+                                                            style={{width: "100%"}} onClick={()=>outOfStock()}><span style={{fontWeight: "bold"}}>
+                                                  <i className='fa fa-shopping-basket'></i> Hết hàng</span>
+                                                    </button> :
+                                                    <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
+                                                            style={{width: "100%"}}><span style={{fontWeight: "bold"}}
+                                                                                          onClick={() => addCart()}>
                                                   <i className='fa fa-shopping-basket'></i> Thêm vào giỏ hàng</span>
-                                                </button>
+                                                    </button>
+                                                }
                                             </div>
                                         </div>
                                     </div>

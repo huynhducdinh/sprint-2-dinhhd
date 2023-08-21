@@ -10,6 +10,7 @@ import DropdownToggle from "react-bootstrap/DropdownToggle";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux"
 import {getAllCart} from "../redux/actions/cart";
+
 export function Headers() {
     const [isLogin, setIsLogin] = useState();
     const token = localStorage.getItem('token');
@@ -19,7 +20,7 @@ export function Headers() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const nav = useNavigate();
     const iconQuantity = useSelector(state => state.cart)
-    const  dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -39,8 +40,11 @@ export function Headers() {
         await localStorage.removeItem("username")
         await localStorage.removeItem("role")
         await setIsLogin(false)
-        await toast.success("Đăng xuất thành công")
+
         await nav("/login")
+        window.location.reload()
+        await toast.success("Đăng xuất thành công")
+
 
     }
     return (
@@ -62,13 +66,6 @@ export function Headers() {
                             <li>
                                 <NavLink to="/card" style={{justifyContent: "center"}} className="text-white "
                                          href="#about">Sản phẩm </NavLink>
-                            </li>
-                            <li>
-                                <a to="" className="text-white " style={{justifyContent: "center"}}
-                                   href="/ok">Tin tức</a>
-                            </li>
-                            <li>
-                                <a className="text-white " style={{justifyContent: "center"}} href="#chefs">Liên hệ</a>
                             </li>
                             <li>
                                 <NavLink to="/story" className="text-white " style={{justifyContent: "center"}}
@@ -96,12 +93,12 @@ export function Headers() {
                                                         <i className="fa-solid fa-circle-user"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu className="abc">
-                                                        { role !=="CUSTOMER" ?
-                                                        <Link  className="dropdown-item "
-                                                              style={{color: "black"}}>
+                                                        {role !== "CUSTOMER" ?
+                                                            <Link className="dropdown-item "
+                                                                  style={{color: "black"}}>
                                                             <span>{currentUserName} <i
                                                                 className="fa-solid fa-user"></i></span>
-                                                        </Link>:
+                                                            </Link> :
                                                             <Link to="/information" className="dropdown-item "
                                                                   style={{color: "black"}}>
                                                             <span>{currentUserName} <i

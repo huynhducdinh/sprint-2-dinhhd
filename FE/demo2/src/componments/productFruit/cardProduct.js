@@ -27,10 +27,10 @@ export function CardProduct() {
     const [quantity, setQuantity] = useState(1)
     const [name, setName] = useState('')
     const [price, setPrice] = useState('')
-    const token =localStorage.getItem('token')
+    const token = localStorage.getItem('token')
     const role = localStorage.getItem('role');
     const dispatch = useDispatch();
-const  nav=useNavigate()
+    const nav = useNavigate()
     // sổ loại sản phẩm
     const productType = async (id) => {
         if (id == 1) {
@@ -79,13 +79,13 @@ const  nav=useNavigate()
     // thêm voà trong giỏ hàng
     const addCart = async (quantity, idFruit) => {
         try {
-            if (token==null ){
+            if (token == null) {
                 await Swal.fire({
-                    icon:"warning",
-                    text:"Bạn phải đăng nhập mới có thể thêm vào giỏ hàng",
+                    icon: "warning",
+                    text: "Bạn phải đăng nhập mới có thể thêm vào giỏ hàng",
                 })
                 nav("/login")
-            }else {
+            } else {
                 await shoppingCart.addShoppingCart(quantity, idFruit)
 
                 await dispatch(getAllCart())
@@ -97,7 +97,9 @@ const  nav=useNavigate()
         }
     }
 
-
+const outOfStock =async () => {
+  await  toast.error("Sản phẩm hết hàng")
+}
     useEffect(() => {
         findAllProduct()
         productType()
@@ -267,17 +269,24 @@ const  nav=useNavigate()
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
                                                         </div>
-                                                        <div>
-                                                        {role == "ADMIN" ? '' :
+                                                        {list.quantity == 0 ?
                                                             <div className="d-flex justify-content-between">
-                                                                <button className="btn btn-success"
-                                                                        onClick={() => addCart(quantity, list.id)}>Thêm
-                                                                    vào giỏ
+                                                                <button className="btn btn-danger"
+                                                                        onClick={() => outOfStock()}>Hết hàng
                                                                 </button>
-                                                                {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                            </div> :
+                                                            <div>
+                                                                {role == "ADMIN" ? '' :
+                                                                    <div className="d-flex justify-content-between">
+                                                                        <button className="btn btn-success"
+                                                                                onClick={() => addCart(quantity, list.id)}>Thêm
+                                                                            vào giỏ hàng
+                                                                        </button>
+                                                                        {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         }
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -326,14 +335,23 @@ const  nav=useNavigate()
                                                     >
                                                     </FormattedNumber>&nbsp;đ</span>
                                                         </div>
-                                                        {role == "ADMIN" ? '' :
-
+                                                        {list.quantity == 0 ?
                                                             <div className="d-flex justify-content-between">
-                                                                <button className="btn btn-success"
-                                                                        onClick={() => addCart()}>Thêm vào
-                                                                    giỏ
+                                                                <button className="btn btn-danger"
+                                                                        onClick={() => outOfStock()}>Hết hàng
                                                                 </button>
-                                                                {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                            </div> :
+                                                            <div>
+                                                                {role == "ADMIN" ? '' :
+
+                                                                    <div className="d-flex justify-content-between">
+                                                                        <button className="btn btn-success"
+                                                                                onClick={() => addCart()}>Thêm vào
+                                                                            giỏ hàng
+                                                                        </button>
+                                                                        {/*<button className="btn btn-success">Mua ngay</button>*/}
+                                                                    </div>
+                                                                }
                                                             </div>
                                                         }
                                                     </div>

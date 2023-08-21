@@ -36,6 +36,9 @@ export function Home() {
     useEffect(() => {
         window.scrollTo(0, 0)
     }, [])
+    if (!typeList){
+        return null
+    }
     return (
         <>
             <ImageSlide/>
