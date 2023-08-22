@@ -68,8 +68,15 @@ export const getAllTypeProduct = async (id) => {
     }
 }
 export const homePageAdmin =async () => {
+    const token = localStorage.getItem('token');
+
   try {
-      const res=(await axios.get(`http://localhost:8080/api/pageFruitAdmin`)).data
+      const res=(await axios.get(`http://localhost:8080/api/pageFruitAdmin`,
+          {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              }
+          })).data
       return res
   }catch (e) {
       console.log(e)

@@ -7,10 +7,13 @@ import com.example.demo.model.Orders;
 import com.example.demo.model.OrdersDetail;
 import com.example.demo.model.ShoppingCart;
 import com.example.demo.service.*;
+import com.example.demo.service.impl.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,8 +34,13 @@ public class OrderAndOrderDetailController {
     private IOrdersService iOrdersService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private EmailService emailService;
+    private String body;
 
+    @Transactional
     @PostMapping()
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> saveOrderAndOrderDetail(HttpServletRequest httpServletRequest) {
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
@@ -45,6 +53,7 @@ public class OrderAndOrderDetailController {
         }
         Orders orders = new Orders(totalPrice, customers);
         iOrdersService.save(orders);
+        Integer amount = 0;
         for (int i = 0; i < shoppingCartList.size(); i++) {
             OrdersDetail ordersDetail = new OrdersDetail(
                     shoppingCartList.get(i).getQuantity(),
@@ -52,12 +61,56 @@ public class OrderAndOrderDetailController {
                     shoppingCartList.get(i).getProductFruit(),
                     orders);
             iOrdersDetailService.save(ordersDetail);
+            amount = (ordersDetail.getProductFruit().getQuantity() - ordersDetail.getQuantity());
+            System.out.println(amount);
+            ordersDetail.getProductFruit().setQuantity(amount);
             ishoppingCartService.deleteById(shoppingCartList.get(i).getCustomers());
         }
+        List<OrdersDetail> ordersDetailList = iOrdersDetailService.findAllOrdersDetail(orders.getId());
+
+        String to = customers.getEmail();
+        String subject = "Bạn có đơn hàng từ Fruit Shop";
+        String body = "<h4>Chào " + customers.getNameCustomer() + ",</p>\n" +
+                "\n" +
+                "<p>Chúng tôi gửi mail này để xác nhận rằng bạn vừa thanh toán một đơn hàng thành công từ Fruit Shop </p>\n" +
+                "\n" +
+                "<p>Dưới đây là chi tiết hóa đơn của bạn:</p>\n";
+        String table = "<table>";
+        table += "<tr>" +
+                "<th>Sản phẩm</th>" + "<th>Số lượng</th>" + "<th>Giá tiền</th>" +
+                "</tr>";
+        for (int i = 0; i < ordersDetailList.size(); i++) {
+            table += "<tr>" +
+                    "<td>" + ordersDetailList.get(i).getProductFruit().getNameFruit() + "</td>" +
+                    "<td>" + ordersDetailList.get(i).getQuantity() + "</td>" +
+                    "<td>" + ordersDetailList.get(i).getProductFruit().getPrice() + "</td>" +
+                    "</tr>";
+        }
+        table += "</table>";
+        body += table;
+        body += "\n<p>Chúng tôi xin cảm ơn quý khách đã tin tường và sử dụng dịch vụ của chúng tôi.</p>\n" +
+                "</br>" +
+                "\n" +
+                "</br>" +
+                "</br>" +
+                "\n" +
+                "</br>" +
+                "</br>" +
+                "\n" +
+                "<p>---------------------------------------</p>" + "\n" +
+                "<p>Name: Fruit Shop</p>\n" +
+                "<p>Mobile: (+84) 0555-777-666</p>\n" +
+                "<p>Email: heeyeon09082002@gmail.com</p>\n" +
+                "<p>Address: Thị Trấn Ái Nghĩa, Đại Lộc, Quảng Nam</p>";
+        System.out.println(body);
+        emailService.sendMail(to, subject, body);
+
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/history")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER','ROLE_ADMIN')")
     public ResponseEntity<List<Orders>> getAll(HttpServletRequest httpServletRequest) {
         String header = httpServletRequest.getHeader("Authorization");
         String token = header.substring(7);
@@ -68,6 +121,7 @@ public class OrderAndOrderDetailController {
     }
 
     @GetMapping("/history/detail")
+    @PreAuthorize("hasAnyRole('ROLE_CUSTOMER')")
     public ResponseEntity<List<OrdersDetail>> historyDetail(@RequestParam("id") Long id) {
         List<OrdersDetail> orders = iOrdersDetailService.findAllOrders(id);
         if (orders.isEmpty() && orders == null) {

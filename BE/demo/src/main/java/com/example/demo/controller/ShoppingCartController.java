@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.jaas.JaasAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -64,6 +65,7 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> add(HttpServletRequest httpServletRequest,
                                  @RequestParam(value = "quantity") Integer quantity,
                                  @RequestParam(value = "idFruit") Long idFruit) {
@@ -77,12 +79,13 @@ public class ShoppingCartController {
             ShoppingCart shoppingCart = ishoppingCartService.findByCustomersAndProductFruit(customers, productFruit);
             if (shoppingCart != null) {
                 Integer amount = shoppingCart.getQuantity() + quantity;
-                if (productFruit.getQuantity() < quantity) {
-                    return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
-                }
                 shoppingCart.setQuantity(amount);
-                Integer amount1 = productFruit.getQuantity() - quantity;
-                productFruit.setQuantity(amount1);
+//                if (productFruit.getQuantity() < quantity) {
+//                    return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
+//                }
+
+//                Integer amount1 = productFruit.getQuantity() - quantity;
+//                productFruit.setQuantity(amount1);
 
                 ishoppingCartService.add(shoppingCart);
                 return new ResponseEntity<>(shoppingCart, HttpStatus.OK);
@@ -93,13 +96,14 @@ public class ShoppingCartController {
         if (productFruit.getQuantity()==0){
             return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
         }
-        Integer amount1 = productFruit.getQuantity() - shoppingCartNew.getQuantity();
-        productFruit.setQuantity(amount1);
+//        Integer amount1 = productFruit.getQuantity() - shoppingCartNew.getQuantity();
+//        productFruit.setQuantity(amount1);
         ishoppingCartService.add(shoppingCartNew);
         return new ResponseEntity<>(shoppingCartNew, HttpStatus.CREATED);
     }
 
     @DeleteMapping("delete/{id}")
+    @PreAuthorize("hasRole('ROLE_CUSTOMER')")
     public ResponseEntity<?> deleteShopping(@PathVariable("id") Long id) {
         ishoppingCartService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -113,16 +117,16 @@ public class ShoppingCartController {
             if (shoppingCart.getQuantity() < 1) {
                 return new ResponseEntity<>("Sản phẩm thêm vào giỏ hàng phải là 1", HttpStatus.BAD_REQUEST);
             }
-            Integer amount = shoppingCart.getProductFruit().getQuantity() + 1;
-            shoppingCart.getProductFruit().setQuantity(amount);
+//            Integer amount = shoppingCart.getProductFruit().getQuantity() + 1;
+//            shoppingCart.getProductFruit().setQuantity(amount);
             ishoppingCartService.setQuantityShoppingCart(shoppingCart);
         } else {
             shoppingCart.setQuantity(shoppingCart.getQuantity() + 1);
             if (shoppingCart.getProductFruit().getQuantity()==0) {
                 return new ResponseEntity<>("Sản phẩm không đủ số lượng", HttpStatus.BAD_REQUEST);
             }
-            Integer amount = shoppingCart.getProductFruit().getQuantity() - 1;
-            shoppingCart.getProductFruit().setQuantity(amount);
+//            Integer amount = shoppingCart.getProductFruit().getQuantity() - 1;
+//            shoppingCart.getProductFruit().setQuantity(amount);
             ishoppingCartService.setQuantityShoppingCart(shoppingCart);
         }
         return new ResponseEntity<>(shoppingCart, HttpStatus.OK);

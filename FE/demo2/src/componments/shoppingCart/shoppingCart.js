@@ -42,11 +42,10 @@ export function ShoppingCart() {
 
     // chỉnh sửa quantity
     const setQuantity = async (value, id, quantity) => {
-
-            if (quantity > 0 || value === 1) {
-                await shoppingCart.setQuantityShopping(value, id)
-                await getAll()
-            }
+        if (quantity > 0 || value === 1) {
+            await shoppingCart.setQuantityShopping(value, id)
+            await getAll()
+        }
 
     }
     //     // xoá sản phẩm trong gior hàng
@@ -123,7 +122,7 @@ export function ShoppingCart() {
                                     </thead>
                                     {cart.length == '' ?
                                         <tr>
-                                            <td colSpan={4}>
+                                            <th colSpan={4}>
                                                 <div style={{marginLeft: "10%"}}><h2 className="text-center mt-4 mb-3"
                                                                                      style={{color: "red"}}>Giỏ hàng
                                                     trống rồi hãy đi mua
@@ -132,7 +131,7 @@ export function ShoppingCart() {
                                                         <span className="btn btn-success">Quay lại trang sản phẩm</span>
                                                     </Link>
                                                 </div>
-                                            </td>
+                                            </th>
                                         </tr>
                                         :
                                         <tbody>
@@ -226,29 +225,29 @@ export function ShoppingCart() {
                                     </tr>
                                     </tbody>
                                 </table>
-                                {/*<button className="btn btn-success mb-3 " type="submit" style={{width: "100%"}}> Tiến*/}
-                                {/*    hành*/}
-                                {/*    thanh toán*/}
-                                {/*</button>*/}
-                                {role == "ADMIN" ? '' :
-                                    <PayPalButton
-                                        amount={Math.ceil(totalPrice / 23940)}
-                                        // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
-                                        onSuccess={(details, data) => {
-                                            save()
-                                            toast.success("Đã thanh toán thành công"
-                                                // + details.payer.name.given_name
-                                            );
+                                {cart.length == '' ? '' :
+                                    <div>
+                                        {role == "ROLE_ADMIN" ? '' :
+                                            <PayPalButton
+                                                amount={Math.ceil(totalPrice / 23940)}
+                                                // shippingPreference="NO_SHIPPING" // default is "GET_FROM_FILE"
+                                                onSuccess={(details, data) => {
+                                                    save()
+                                                    toast.success("Đã thanh toán thành công"
+                                                        // + details.payer.name.given_name
+                                                    );
 
-                                            // OPTIONAL: Call your server to save the transaction
-                                            return fetch("/paypal-transaction-complete", {
-                                                method: "post",
-                                                body: JSON.stringify({
-                                                    orderID: data.orderID
-                                                })
-                                            });
-                                        }}
-                                    />
+                                                    // OPTIONAL: Call your server to save the transaction
+                                                    return fetch("/paypal-transaction-complete", {
+                                                        method: "post",
+                                                        body: JSON.stringify({
+                                                            orderID: data.orderID
+                                                        })
+                                                    });
+                                                }}
+                                            />
+                                        }
+                                    </div>
                                 }
                                 {/*<div className="mt-1">*/}
                                 {/*    <h5><i className="fa-solid fa-tag"></i> Phiếu ưu đãi</h5>*/}

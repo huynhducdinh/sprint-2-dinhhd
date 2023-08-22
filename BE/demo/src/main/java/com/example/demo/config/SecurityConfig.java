@@ -32,7 +32,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter  {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/api/user/authenticate",
+                        "/api","/api/list/top4",
+                        "/api/list/{id}/type",
+                        "/api/detail/{id}/product",
+                        "/api/shoppingCart",
+                        "/api/shoppingCart/{setQuantity}/{id}").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)

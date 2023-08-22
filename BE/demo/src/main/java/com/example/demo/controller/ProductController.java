@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -83,6 +84,7 @@ public class ProductController {
     }
 
     @GetMapping("/pageFruitAdmin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Page<ProductFruit>> getAll(@PageableDefault(size = 8)Pageable pageable) {
         Page<ProductFruit> productFruitPage = iProductService.getAllPageFruitAdmin(pageable);
         if (productFruitPage == null && productFruitPage.isEmpty()) {

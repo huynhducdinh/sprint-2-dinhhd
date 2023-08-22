@@ -23,4 +23,9 @@ public class OrdersDetailService  implements IOrdersDetailService {
     public List<OrdersDetail>  findAllOrders(Long id) {
         return iOrdersDetailRepository.findAllOrders(id);
     }
+
+    @Override
+    public List<OrdersDetail> findAllOrdersDetail(Long id) {
+        return iOrdersDetailRepository.findAllOrdersDetail(id);
+    }
 }

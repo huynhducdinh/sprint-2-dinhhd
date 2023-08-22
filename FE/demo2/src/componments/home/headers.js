@@ -93,7 +93,7 @@ export function Headers() {
                                                         <i className="fa-solid fa-circle-user"></i>
                                                     </DropdownToggle>
                                                     <DropdownMenu className="abc">
-                                                        {role !== "CUSTOMER" ?
+                                                        {role !== "ROLE_CUSTOMER" ?
                                                             <Link className="dropdown-item "
                                                                   style={{color: "black"}}>
                                                             <span>{currentUserName} <i
@@ -105,13 +105,13 @@ export function Headers() {
                                                                 className="fa-solid fa-user"></i></span>
                                                             </Link>
                                                         }
-                                                        {role !== 'CUSTOMER' ?
+                                                        {role !== 'ROLE_CUSTOMER' ?
                                                             <Link to="/homeAdmin" className="dropdown-item "
                                                                   style={{color: "black"}}>Quản lý cửa hàng<i
                                                                 className="fa-solid fa-list-check"></i></Link>
                                                             : ''
                                                         }
-                                                        {role !== 'ADMIN' ?
+                                                        {role !== 'ROLE_ADMIN' ?
                                                             <Link to="/history" className="dropdown-item "
                                                                   style={{color: "black"}}>Lịch sử giao dịch<i
                                                                 className="fa-solid fa-list-check"></i></Link>

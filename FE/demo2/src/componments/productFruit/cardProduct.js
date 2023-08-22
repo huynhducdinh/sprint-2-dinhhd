@@ -272,11 +272,11 @@ const outOfStock =async () => {
                                                         {list.quantity == 0 ?
                                                             <div className="d-flex justify-content-between">
                                                                 <button className="btn btn-danger"
-                                                                        onClick={() => outOfStock()}>Hết hàng
+                                                                        onClick={() => outOfStock()}>Tạm thời hết hàng
                                                                 </button>
                                                             </div> :
                                                             <div>
-                                                                {role == "ADMIN" ? '' :
+                                                                {role == "ROLE_ADMIN" ? '' :
                                                                     <div className="d-flex justify-content-between">
                                                                         <button className="btn btn-success"
                                                                                 onClick={() => addCart(quantity, list.id)}>Thêm
@@ -338,11 +338,11 @@ const outOfStock =async () => {
                                                         {list.quantity == 0 ?
                                                             <div className="d-flex justify-content-between">
                                                                 <button className="btn btn-danger"
-                                                                        onClick={() => outOfStock()}>Hết hàng
+                                                                        onClick={() => outOfStock()}> Tạm thời hết hàng
                                                                 </button>
                                                             </div> :
                                                             <div>
-                                                                {role == "ADMIN" ? '' :
+                                                                {role == "ROLE_ADMIN" ? '' :
 
                                                                     <div className="d-flex justify-content-between">
                                                                         <button className="btn btn-success"

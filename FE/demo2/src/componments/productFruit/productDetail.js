@@ -27,6 +27,7 @@ export function ProductDetail() {
     const nav = useNavigate();
     const dispatch = useDispatch();
     const token = localStorage.getItem('token');
+
     // thêm vào giỏ hàng
     const addCart = async () => {
         try {
@@ -153,7 +154,7 @@ export function ProductDetail() {
                                                 {productDetail.quantity == 0 ?
                                                     <button className="btn btn-outline-danger mt-3 mb-5 " type="submit"
                                                             style={{width: "100%"}} onClick={()=>outOfStock()}><span style={{fontWeight: "bold"}}>
-                                                  <i className='fa fa-shopping-basket'></i> Hết hàng</span>
+                                                  <i className='fa fa-shopping-basket'></i> Tạm thời hết hàng</span>
                                                     </button> :
                                                     <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
                                                             style={{width: "100%"}}><span style={{fontWeight: "bold"}}

@@ -14,4 +14,9 @@ public interface IOrdersDetailRepository extends JpaRepository<OrdersDetail,Long
             "    left join orders o on o.id = od.id_orders\n" +
             "            WHERE o.id=:id\n",nativeQuery = true)
     List<OrdersDetail> findAllOrders(@Param("id")Long id);
+    @Query(value = "SELECT * FROM  orders_detail as od\n" +
+            "    left join orders o on o.id = od.id_orders\n" +
+            "    left join customers c on c.id = o.id_customers\n" +
+            "            WHERE o.id=:id\n",nativeQuery = true)
+    List<OrdersDetail> findAllOrdersDetail(@Param("id")Long id);
 }

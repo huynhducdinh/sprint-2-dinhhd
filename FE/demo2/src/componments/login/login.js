@@ -11,6 +11,12 @@ import {useDispatch} from "react-redux";
 
 export function Login() {
     const nav = useNavigate();
+    useEffect(()=>{
+        const token=localStorage.getItem('token');
+        if (token){
+            nav("/")
+        }
+    })
     useEffect(() => {
         window.scrollTo(100,0)
     }, [])

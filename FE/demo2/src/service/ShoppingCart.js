@@ -39,14 +39,9 @@ export const deleteShopping = async (id) => {
     }
 }
 export const setQuantityShopping = async (setQuantity, id) => {
-    const token = localStorage.getItem('token');
+
     try {
-        const res = (await axios.patch(`http://localhost:8080/api/shoppingCart/${setQuantity}/${id}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                }
-            }));
+        const res = (await axios.patch(`http://localhost:8080/api/shoppingCart/${setQuantity}/${id}`));
         return res
     }catch (e) {
         return toast.error(e.response.data)
