@@ -57,11 +57,7 @@ export function ShoppingCart() {
     }
     // xoá sản phẩm
     const result = async () => {
-        await Swal.fire({
-            icon: "success",
-            timer: "2000",
-            text: "Xoá sản phẩm thành công"
-        })
+      toast.success("Xoá thành công")
     }
     const deleteShopping = async (id, name) => {
         await Swal.fire({

@@ -27,6 +27,7 @@ export function ProductDetail() {
     const nav = useNavigate();
     const dispatch = useDispatch();
     const token = localStorage.getItem('token');
+    const role = localStorage.getItem('role');
 
     // thêm vào giỏ hàng
     const addCart = async () => {
@@ -72,8 +73,8 @@ export function ProductDetail() {
                 setQuantity(quantity - 1)
         }
     }
-    const outOfStock =async () => {
-        await  toast.error("Sản phẩm hết hàng")
+    const outOfStock = async () => {
+        await toast.error("Sản phẩm hết hàng")
     }
 
     useEffect(() => {
@@ -151,16 +152,26 @@ export function ProductDetail() {
                                                         >+</span></button>
                                                     </div>
                                                 </div>
-                                                {productDetail.quantity == 0 ?
-                                                    <button className="btn btn-outline-danger mt-3 mb-5 " type="submit"
-                                                            style={{width: "100%"}} onClick={()=>outOfStock()}><span style={{fontWeight: "bold"}}>
+                                                {role=="ROLE_ADMIN"?'':
+
+                                                <div>
+                                                    {productDetail.quantity == 0 ?
+                                                        <button className="btn btn-outline-danger mt-3 mb-5 "
+                                                                type="submit"
+                                                                style={{width: "100%"}}
+                                                                onClick={() => outOfStock()}><span
+                                                            style={{fontWeight: "bold"}}>
                                                   <i className='fa fa-shopping-basket'></i> Tạm thời hết hàng</span>
-                                                    </button> :
-                                                    <button className="btn btn-outline-success mt-3 mb-5 " type="submit"
-                                                            style={{width: "100%"}}><span style={{fontWeight: "bold"}}
-                                                                                          onClick={() => addCart()}>
+                                                        </button> :
+                                                        <button className="btn btn-outline-success mt-3 mb-5 "
+                                                                type="submit"
+                                                                style={{width: "100%"}}><span
+                                                            style={{fontWeight: "bold"}}
+                                                            onClick={() => addCart()}>
                                                   <i className='fa fa-shopping-basket'></i> Thêm vào giỏ hàng</span>
-                                                    </button>
+                                                        </button>
+                                                    }
+                                                </div>
                                                 }
                                             </div>
                                         </div>

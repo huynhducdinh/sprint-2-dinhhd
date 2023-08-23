@@ -25,7 +25,7 @@ export function Information() {
                                 <div className="col-md-7 border-right no-gutters">
                                     <div className="py-3">
                                         <img
-                                            src="https://i.imgur.com/hczKIze.jpg"
+                                            src="/img/hinhanh.jpg"
                                             width={100}
                                             className="rounded-circle"
                                         />
