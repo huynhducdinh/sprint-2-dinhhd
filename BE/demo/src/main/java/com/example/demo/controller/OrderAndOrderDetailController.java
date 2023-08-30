@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 
 @CrossOrigin("*")
 @RestController
@@ -51,7 +53,24 @@ public class OrderAndOrderDetailController {
         for (int i = 0; i < shoppingCartList.size(); i++) {
             totalPrice += shoppingCartList.get(i).getProductFruit().getPrice() * shoppingCartList.get(i).getQuantity();
         }
-        Orders orders = new Orders(totalPrice, customers);
+        List<Orders> ordersList=new ArrayList<>();
+        long code;
+        Random random = new Random();
+        long min = 10000; // Số nhỏ nhất có 5 chữ số
+        long max = 99999; // Số lớn nhất có 5 chữ số
+        boolean flag;
+        String orderCode;
+        do {
+            flag = true;
+            code = random.nextLong() % (max - min + 1) + min;
+            orderCode = "OD" + code;
+            for (int i = 0; i < ordersList.size(); i++) {
+                if (Objects.equals(ordersList.get(i).getCodeOrders(), orderCode)) {
+                    flag = false;
+                }
+            }
+        } while (!flag);
+        Orders orders = new Orders(totalPrice,orderCode, customers);
         iOrdersService.save(orders);
         Integer amount = 0;
         for (int i = 0; i < shoppingCartList.size(); i++) {

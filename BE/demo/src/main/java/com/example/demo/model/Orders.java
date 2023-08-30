@@ -12,6 +12,7 @@ public class Orders {
     private Long id;
     @Column(name = "total_price")
     private Long totalPrice;
+    private String codeOrders;
     @ManyToOne
     @JoinColumn(name = "id_customers")
     private Customers customers;
@@ -35,12 +36,34 @@ public class Orders {
         this.customers = customers;
     }
 
+    public Orders(Long totalPrice, String codeOrders, Customers customers) {
+        this.totalPrice = totalPrice;
+        this.codeOrders = codeOrders;
+        this.customers = customers;
+    }
+
     public Orders(Long id, Long totalPrice, Customers customers, LocalDateTime createDate) {
         this.id = id;
         this.totalPrice = totalPrice;
 
         this.customers = customers;
         this.createDate = createDate;
+    }
+
+    public Orders(Long id, Long totalPrice, String codeOrders, Customers customers, LocalDateTime createDate) {
+        this.id = id;
+        this.totalPrice = totalPrice;
+        this.codeOrders = codeOrders;
+        this.customers = customers;
+        this.createDate = createDate;
+    }
+
+    public String getCodeOrders() {
+        return codeOrders;
+    }
+
+    public void setCodeOrders(String codeOrders) {
+        this.codeOrders = codeOrders;
     }
 
     public Long getId() {

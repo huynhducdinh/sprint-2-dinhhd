@@ -19,10 +19,7 @@ import store from "./componments/redux/store";
 import {Provider} from "react-redux";
 import {History} from "./componments/customer/history";
 import {Information} from "./componments/customer/information";
-
-
-// import {createContext} from "react";
-
+import {CreateProductFruit} from "./componments/admin/CreateProductFruit";
 
 function App() {
 
@@ -39,6 +36,7 @@ function App() {
                         <Route path="/detail/:id/product" element={<ProductDetail/>}/>
                         <Route path="/:id/product" element={<CardProduct/>}/>
                         <Route path="/homeAdmin" element={<HomePageAdmin/>}/>
+                        <Route path="/createFruit" element={<CreateProductFruit/>}/>
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/story" element={<Story/>}/>
                         <Route path="/history" element={<History/>}/>

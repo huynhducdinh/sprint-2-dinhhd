@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import * as product from "../../service/Product";
+import {Link} from "react-router-dom";
 
 
 export function HomePageAdmin() {
@@ -14,6 +15,7 @@ export function HomePageAdmin() {
     return (
         <>
             <div><h1 className="text-center mt-5">DANH SÁCH TRÁI CÂY</h1></div>
+            <div><Link to="/createFruit"><span className="btn btn-success">Thêm mới</span></Link></div>
             <div className="table-responsive mt-5 mb-5" style={{width: '80%',marginLeft:"10%",border:"1px solid black "}}>
             <table className="table  table-striped" >
                 <thead>

@@ -250,7 +250,7 @@ const outOfStock =async () => {
                                         {cardProduct.map((list, index) => (
                                             <div key={index}
                                                  className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                                                <div className="card mt-4"
+                                                <div className="card-ok mt-4"
                                                      style={{width: "auto", borderRadius: "10px"}}>
                                                     <Link to={`/detail/${list.id}/product`}>
                                                         <Image className="img-fluid"

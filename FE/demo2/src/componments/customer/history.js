@@ -48,6 +48,7 @@ export function History() {
                                 <thead>
                                 <tr>
                                     <th>STT</th>
+                                    <th>Mã Giao dịch</th>
                                     <th>Tên khách hàng</th>
                                     <th>Ngày giao dịch</th>
                                     <th>Tổng tiền</th>
@@ -65,6 +66,7 @@ export function History() {
                                     {historyList.map((list, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
+                                            <td>{list.codeOrders}</td>
                                             <td>{list.customers.nameCustomer}</td>
                                             <td>{list.createDate === "" ? "" :
                                                 moment(list.createDate, 'YYYY/MM/DD').format('DD/MM/YYYY')
