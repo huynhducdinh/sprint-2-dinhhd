@@ -51,7 +51,7 @@ export function Login() {
                                             await localStorage.setItem("username", res.username)
                                             await localStorage.setItem("role", res.role)
                                             nav("/")
-                                            window.location.reload()
+                                            // window.location.reload()
                                             await toast.success('Đăng nhập thành công')
 
                                         }

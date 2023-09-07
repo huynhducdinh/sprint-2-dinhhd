@@ -40,10 +40,9 @@ export function Headers() {
         await localStorage.removeItem("username")
         await localStorage.removeItem("role")
         await setIsLogin(false)
-
-        await nav("/login")
-        window.location.reload()
         await toast.success("Đăng xuất thành công")
+        await nav("/login")
+
 
 
     }

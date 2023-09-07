@@ -53,7 +53,7 @@ public class OrderAndOrderDetailController {
         for (int i = 0; i < shoppingCartList.size(); i++) {
             totalPrice += shoppingCartList.get(i).getProductFruit().getPrice() * shoppingCartList.get(i).getQuantity();
         }
-        List<Orders> ordersList=new ArrayList<>();
+        List<Orders> ordersList = new ArrayList<>();
         long code;
         Random random = new Random();
         long min = 10000; // Số nhỏ nhất có 5 chữ số
@@ -70,7 +70,7 @@ public class OrderAndOrderDetailController {
                 }
             }
         } while (!flag);
-        Orders orders = new Orders(totalPrice,orderCode, customers);
+        Orders orders = new Orders(totalPrice, orderCode, customers);
         iOrdersService.save(orders);
         Integer amount = 0;
         for (int i = 0; i < shoppingCartList.size(); i++) {
@@ -94,13 +94,14 @@ public class OrderAndOrderDetailController {
                 "<p>Chúng tôi gửi mail này để xác nhận rằng bạn vừa thanh toán một đơn hàng thành công từ Fruit Shop </p>\n" +
                 "\n" +
                 "<p>Dưới đây là chi tiết hóa đơn của bạn:</p>\n";
-        String table = "<table>";
+        String table = "<table border={1}  style=\"border: 1px solid #DDDDDD;\">";
         table += "<tr>" +
-                "<th>Sản phẩm</th>" + "<th>Số lượng</th>" + "<th>Giá tiền</th>" +
+                "<th>Sản phẩm</th>" + "<th>Hình Ảnh</th>" + "<th>Số lượng</th>" + "<th>Giá tiền</th>" +
                 "</tr>";
         for (int i = 0; i < ordersDetailList.size(); i++) {
             table += "<tr>" +
                     "<td>" + ordersDetailList.get(i).getProductFruit().getNameFruit() + "</td>" +
+                    "<td>"+"<img style=\"width: 20%;\" "+"src="+ordersDetailList.get(i).getProductFruit().getImage()+">"+"</td>"+
                     "<td>" + ordersDetailList.get(i).getQuantity() + "</td>" +
                     "<td>" + ordersDetailList.get(i).getProductFruit().getPrice() + "</td>" +
                     "</tr>";
@@ -123,8 +124,6 @@ public class OrderAndOrderDetailController {
                 "<p>Address: Thị Trấn Ái Nghĩa, Đại Lộc, Quảng Nam</p>";
         System.out.println(body);
         emailService.sendMail(to, subject, body);
-
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

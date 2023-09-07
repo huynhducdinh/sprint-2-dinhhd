@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.parameters.P;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,8 +46,14 @@ public interface IProductRepository extends JpaRepository<ProductFruit, Long> {
             "order by p.create_date desc\n" +
             "limit 4", nativeQuery = true)
     List<ProductFruit> getAllList(@Param("id") Long id);
+
     @Query(value = "SELECT * FROM product_fruit as p\n" +
-            "           WHERE p.is_delete=false",nativeQuery = true)
-    Page<ProductFruit> getAllPageFruitAdmin( Pageable page);
+            "           WHERE p.is_delete=false", nativeQuery = true)
+    Page<ProductFruit> getAllPageFruitAdmin(Pageable page);
+
     List<ProductFruit> findAll();
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE product_fruit AS p SET  p.is_delete=true WHERE p.id=:id", nativeQuery = true)
+    void deleteByIdFruit(@Param("id") Long id);
 }

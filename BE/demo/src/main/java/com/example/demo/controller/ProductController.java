@@ -24,9 +24,9 @@ public class ProductController {
     private IProductService iProductService;
 
     @GetMapping()
-    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page",defaultValue = "0") Integer page,
-                                                     @RequestParam(value = "name",defaultValue = "") String name,
-                                                     @RequestParam(value = "price",defaultValue = "0") String price
+    public ResponseEntity<Page<ProductFruit>> getAll(@RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                     @RequestParam(value = "name", defaultValue = "") String name,
+                                                     @RequestParam(value = "price", defaultValue = "0") String price
     ) {
         Page<ProductFruit> productFruitPage = iProductService.getAllFruit(page, name, price);
 
@@ -40,8 +40,8 @@ public class ProductController {
     @GetMapping("/{id}/fruit")
     public ResponseEntity<Page<ProductFruit>> findAll(@RequestParam(value = "page", defaultValue = "0") Integer pageable,
                                                       @PathVariable("id") Long id,
-                                                      @RequestParam(value = "name",defaultValue = "") String name,
-                                                      @RequestParam(value = "price",defaultValue = "0") String price) {
+                                                      @RequestParam(value = "name", defaultValue = "") String name,
+                                                      @RequestParam(value = "price", defaultValue = "0") String price) {
         Page<ProductFruit> productFruitPage = iProductService.getAllFruitProduct(id, pageable, name, price);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -85,7 +85,7 @@ public class ProductController {
 
     @GetMapping("/pageFruitAdmin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<Page<ProductFruit>> getAll(@PageableDefault(size = 8)Pageable pageable) {
+    public ResponseEntity<Page<ProductFruit>> getAll(@PageableDefault(size = 8) Pageable pageable) {
         Page<ProductFruit> productFruitPage = iProductService.getAllPageFruitAdmin(pageable);
         if (productFruitPage == null && productFruitPage.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -94,4 +94,10 @@ public class ProductController {
         }
     }
 
+    @GetMapping("/deleteFruit")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<?> deleteIdFruit(@RequestParam("id") Long id) {
+        iProductService.deleteByIdFruit(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

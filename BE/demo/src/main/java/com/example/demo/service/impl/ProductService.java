@@ -69,4 +69,14 @@ public class ProductService implements IProductService {
     public Page<ProductFruit> getAllPageFruitAdmin(Pageable page) {
         return iProductRepository.getAllPageFruitAdmin(page);
     }
+
+    @Override
+    public void deleteByIdFruit(Long id) {
+        iProductRepository.deleteByIdFruit(id);
+    }
+
+    @Override
+    public void save(ProductFruit productFruit) {
+        iProductRepository.save(productFruit);
+    }
 }

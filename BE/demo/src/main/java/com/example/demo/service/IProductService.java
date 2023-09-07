@@ -20,4 +20,9 @@ public interface IProductService {
     Page<ProductFruit> getAllFruitProduct(Long id, Integer page, String name, String price);
 
     Page<ProductFruit> getAllPageFruitAdmin( Pageable page);
+
+    void deleteByIdFruit(Long id);
+    void save(ProductFruit productFruit);
+
+
 }

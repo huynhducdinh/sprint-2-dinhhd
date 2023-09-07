@@ -43,7 +43,7 @@ function App() {
                         <Route path="/information" element={<Information/>}/>
 
                     </Routes>
-                <ToastContainer/>
+                <ToastContainer style={{marginTop:"4.7%"}}/>
                 <Footer/>
             </Provider>
 

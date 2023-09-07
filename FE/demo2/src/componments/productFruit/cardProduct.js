@@ -87,7 +87,6 @@ export function CardProduct() {
                 nav("/login")
             } else {
                 await shoppingCart.addShoppingCart(quantity, idFruit)
-
                 await dispatch(getAllCart())
                 await toast.success("Thêm vào giỏ hàng thành công")
             }
@@ -97,9 +96,9 @@ export function CardProduct() {
         }
     }
 
-const outOfStock =async () => {
-  await  toast.error("Sản phẩm hết hàng")
-}
+    const outOfStock = async () => {
+        await toast.error("Sản phẩm hết hàng")
+    }
     useEffect(() => {
         findAllProduct()
         productType()
@@ -170,8 +169,8 @@ const outOfStock =async () => {
                                             <option>Chọn giá (đ)</option>
                                             <option name="price" value={1}>50 nghìn đến 2 trăm</option>
                                             <option name="price" value={2}>2 trăm đến 5 trăm</option>
-                                            <option name="price" value={3}>5 trăm đến 1 triệu</option>
-                                            <option name="price" value={4}>Trên 1 triệu</option>
+                                            {/*<option name="price" value={3}>5 trăm đến 1 triệu</option>*/}
+                                            {/*<option name="price" value={4}>Trên 1 triệu</option>*/}
                                         </Field>
                                         <Field
                                             style={{border: "1px solid #03964c"}}
@@ -215,8 +214,8 @@ const outOfStock =async () => {
                                             <option>Chọn giá (đ)</option>
                                             <option name="price" value={1}>50 nghìn đến 2 trăm</option>
                                             <option name="price" value={2}>2 trăm đến 5 trăm</option>
-                                            <option name="price" value={3}>5 trăm đến 1 triệu</option>
-                                            <option name="price" value={4}>Trên 1 triệu</option>
+                                            {/*<option name="price" value={3}>5 trăm đến 1 triệu</option>*/}
+                                            {/*<option name="price" value={4}>Trên 1 triệu</option>*/}
                                         </Field>
                                         <Field
                                             style={{border: "1px solid #03964c"}}
@@ -250,7 +249,7 @@ const outOfStock =async () => {
                                         {cardProduct.map((list, index) => (
                                             <div key={index}
                                                  className=" col-lg-3 col-md-6 offset-md-0 offset-sm-1 col-sm-10 offset-sm-1 my-lg-0 my-2">
-                                                <div className="card-ok mt-4"
+                                                <div className="card mt-4"
                                                      style={{width: "auto", borderRadius: "10px"}}>
                                                     <Link to={`/detail/${list.id}/product`}>
                                                         <Image className="img-fluid"
@@ -258,7 +257,7 @@ const outOfStock =async () => {
                                                                src={list.image}/>
                                                     </Link>
                                                     <div className="card-body">
-                                                        <div className=" mb-2 d-flex justify-content-between">
+                                                        <div className=" mb-2 d-flex     justify-content-between">
                                 <span className=""
                                       style={{color: "#131817", fontSize: "1.05em"}}>{list.nameFruit}</span>
                                                             <span style={{fontWeight: "bold"}}>
